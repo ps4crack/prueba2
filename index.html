@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conformidad Sanitaria - Content Controls (Texto Enriquecido)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b3d 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        /* Contenedor principal con dos columnas */
+        .main-container {
+            max-width: 1400px;
+            width: 100%;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Columna izquierda: Formulario */
+        .form-container {
+            flex: 1.2;
+            min-width: 450px;
+        }
+
+        /* Columna derecha: Imagen destacada */
+        .image-container {
+            flex: 0.8;
+            min-width: 350px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            color: #1e3a5f;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #2c5282;
+            font-size: 0.85rem;
+        }
+
+        /* Estilos para la imagen destacada en columna derecha */
+        .imagen-destacada {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 28px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            transition: all 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            position: sticky;
+            top: 20px;
+        }
+
+        .imagen-destacada h3 {
+            color: #1e3a5f;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            background: #1e3a5f20;
+            padding: 8px 20px;
+            border-radius: 30px;
+        }
+
+        .imagen-destacada .imagen-wrapper {
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff50;
+            border-radius: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .imagen-destacada img {
+            max-width: 100%;
+            max-height: 450px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, opacity 0.2s ease;
+            cursor: pointer;
+        }
+
+        .imagen-destacada img:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .imagen-destacada .no-img {
+            padding: 80px 20px;
+            color: #64748b;
+            font-size: 1rem;
+            text-align: center;
+            cursor: default;
+        }
+
+        .imagen-destacada .no-img-icon {
+            font-size: 5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .imagen-info {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #cbd5e1;
+            font-size: 0.75rem;
+            color: #64748b;
+            background: #ffffff80;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        /* MODAL PARA IMAGEN GRANDE */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: zoomIn 0.2s ease;
+        }
+
+        .modal-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10000;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.6);
+            padding: 8px;
+            margin: 0 auto;
+            width: fit-content;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .campo {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #1e293b;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-family: 'Segoe UI', monospace;
+        }
+
+        textarea {
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+            background-color: white;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+
+        input.empty-field, textarea.empty-field {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(98deg, #1e4a6b 0%, #0f3b55 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: scale(1.02);
+            background: linear-gradient(98deg, #0f3b55 0%, #092c40 100%);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: linear-gradient(98deg, #94a3b8 0%, #64748b 100%);
+        }
+
+        .info {
+            background: #f0f9ff;
+            padding: 14px;
+            border-radius: 16px;
+            margin: 20px 0;
+            font-size: 0.75rem;
+            text-align: center;
+            border-left: 4px solid #2c7da0;
+        }
+
+        .status {
+            margin-top: 16px;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .status-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-loading {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .plantilla-selection {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .badge {
+            background: #1e4a6b20;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: normal;
+            margin-left: 6px;
+        }
+
+        .mapping-info {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 15px 0;
+            font-size: 0.8rem;
+        }
+
+        .row-2cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.8rem;
+        }
+
+        .required {
+            color: #dc2626;
+            font-size: 0.7rem;
+            margin-left: 4px;
+        }
+
+        @media (max-width: 950px) {
+            .main-container {
+                flex-direction: column;
+            }
+            .image-container {
+                position: static;
+            }
+            .imagen-destacada {
+                position: static;
+            }
+            .form-container {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <!-- COLUMNA IZQUIERDA: TODO EL CONTENIDO DEL FORMULARIO -->
+    <div class="form-container">
+        <div class="card">
+            <div class="header">
+                <h1>📄 Conformidad Sanitaria</h1>
+                <p>Generador para Word | CONTENT CONTROLS (Texto Enriquecido)</p>
+            </div>
+
+            <div class="plantilla-selection">
+                <label>📁 SELECCIONAR PLANTILLA WORD (.docx)</label>
+                <select id="plantillaSelect" disabled>
+                    <option value="">-- Cargando plantillas... --</option>
+                </select>
+                <small>📂 Plantillas desde: <code>assets/plantilla/</code></small>
+            </div>
+
+            <div class="warning">
+                ⚠️ <strong>Importante:</strong> Los Content Controls en tu plantilla Word deben tener como TÍTULO o ETIQUETA exactamente:<br>
+                <code>REPRESENTANTE LEGAL</code>, <code>CEDULA</code>, <code>EMPRESA</code>, <code>RIF</code>, <code>DIRECCION</code>, <code>SOLICITUD</code>
+            </div>
+
+            <div class="campo">
+                <label>📝 SOLICITUD / MOTIVO <span class="badge">Máx. 10 caracteres</span><span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="solicitud" value="RENOVACIÓN" maxlength="10" placeholder="Máximo 10 caracteres">
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="badge">Máx. 36 caracteres</span><span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="representante" value="RUBEN DARIO BALZA ARAUJO" maxlength="36">
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>🆔 CÉDULA DE IDENTIDAD <span class="badge">Máx. 13 caracteres</span><span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="cedula" value="V-9.497.299" maxlength="13">
+                </div>
+            </div>
+
+            <div class="row-2cols">
+                <div>
+                    <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="badge">Máx. 68 caracteres</span><span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <textarea id="empresa" rows="2" maxlength="68">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
+                    </div>
+                </div>
+                <div>
+                    <label>📑 RIF <span class="badge">Máx. 12 caracteres</span><span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" id="rif" value="J-50375341-2" maxlength="12">
+                    </div>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>📍 DIRECCIÓN DEL LOCAL <span class="badge">Máx. 199 caracteres</span><span class="required">*</span></label>
+                <div class="input-wrapper">
+                    <textarea id="direccion" rows="3" maxlength="199" placeholder="Ingrese la dirección completa...">CALLE 21 CON AVENIDA 20 Y CARRERA 21 EDIF SEVERINO</textarea>
+                </div>
+            </div>
+
+            <div class="mapping-info">
+                ✅ <strong>Cómo funciona:</strong><br>
+                • El sistema busca Content Controls por TÍTULO o ETIQUETA<br>
+                • Reemplaza SOLO el contenido, manteniendo el control y su formato<br>
+                • <strong>Límites de caracteres:</strong> SOLICITUD (10), REPRESENTANTE LEGAL (36), CÉDULA (13), EMPRESA (68), RIF (12), DIRECCIÓN (199)<br>
+                • <strong>Todos los campos son obligatorios</strong> para habilitar el botón de generar<br>
+                • 🖼️ <strong>Haz clic en la imagen</strong> para verla en tamaño completo
+            </div>
+
+            <button id="generarBtn" disabled>
+                🔄 GENERAR WORD (CONTENT CONTROLS)
+            </button>
+
+            <div class="info">
+                ⭐ <strong>Instrucciones para la plantilla Word:</strong><br>
+                1. Inserta un "Control de contenido de texto enriquecido"<br>
+                2. En Propiedades → Título o Etiqueta, coloca el nombre exacto<br>
+                3. Ejemplo: Título = "REPRESENTANTE LEGAL"<br>
+                4. Guarda la plantilla y úsala en este sistema<br>
+                5. Para vista previa: coloca un JPG con el MISMO NOMBRE en <code>assets/img/</code>
+            </div>
+
+            <div id="statusMsg" class="status status-loading">
+                ⏳ Cargando librerías y lista de plantillas...
+            </div>
+        </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: SOLO LA IMAGEN DESTACADA -->
+    <div class="image-container">
+        <div class="imagen-destacada">
+            <h3>🖼️ VISTA PREVIA</h3>
+            <div class="imagen-wrapper" id="imgContainer">
+                <div class="no-img">
+                    <span class="no-img-icon">📷</span>
+                    <br>Selecciona una plantilla<br>para ver su imagen
+                </div>
+            </div>
+            <div class="imagen-info">
+                💡 Las imágenes deben estar en:<br>
+                <code>assets/img/</code> con el mismo nombre que la plantilla<br>
+                <small>Formatos: JPG, JPEG | Haz clic para ampliar</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA IMAGEN GRANDE -->
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="modalImage" src="" alt="Vista ampliada">
+    </div>
+    <div class="modal-caption" id="modalCaption"></div>
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/pizzip.min.js"></script>
+<script src="assets/js/FileSaver.min.js"></script>
+
+<script>
+    (function() {
+        // Elementos de entrada
+        const solicitudInput = document.getElementById('solicitud');
+        const repInput = document.getElementById('representante');
+        const cedInput = document.getElementById('cedula');
+        const empresaInput = document.getElementById('empresa');
+        const rifInput = document.getElementById('rif');
+        const direccionInput = document.getElementById('direccion');
+        const generarBtn = document.getElementById('generarBtn');
+        const statusDiv = document.getElementById('statusMsg');
+        const plantillaSelect = document.getElementById('plantillaSelect');
+        const imgContainer = document.getElementById('imgContainer');
+        
+        // Elementos del modal
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+
+        // Límites de caracteres
+        const LIMITS = {
+            solicitud: 10,
+            representante: 36,
+            cedula: 13,
+            empresa: 68,
+            rif: 12,
+            direccion: 199
+        };
+
+        let plantillasDisponibles = [];
+        let plantillaBuffer = null;
+        let plantillaCargada = false;
+        let imagenActual = null;
+        let currentImageUrl = null;
+
+        // Función para abrir el modal con la imagen grande
+        window.openModal = function(imageUrl, plantillaNombre) {
+            if (!imageUrl) return;
+            modalImage.src = imageUrl;
+            modalCaption.textContent = plantillaNombre || 'Vista previa de plantilla';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar el modal
+        window.closeModal = function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            modalImage.src = '';
+            modalCaption.textContent = '';
+        }
+
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Función para cargar y mostrar la imagen de vista previa
+        async function cargarImagenPreview(nombrePlantilla) {
+            if (imagenActual === nombrePlantilla) return;
+            
+            if (!nombrePlantilla) {
+                imgContainer.innerHTML = `
+                    <div class="no-img">
+                        <span class="no-img-icon">📷</span>
+                        <br>Selecciona una plantilla<br>para ver su imagen
+                    </div>
+                `;
+                imagenActual = null;
+                currentImageUrl = null;
+                return;
+            }
+            
+            const nombreSinExtension = nombrePlantilla.replace(/\.docx$/i, '');
+            const extensiones = ['jpg', 'jpeg', 'JPG', 'JPEG'];
+            let imagenEncontrada = false;
+            
+            for (const ext of extensiones) {
+                const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
+                try {
+                    const response = await fetch(urlImg, { method: 'HEAD' });
+                    if (response.ok) {
+                        currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
+                        imgContainer.innerHTML = `
+                            <img src="${urlImg}" alt="${nombreSinExtension}" 
+                                 style="max-width:100%; max-height:450px; border-radius:16px; cursor:pointer;"
+                                 onclick="openModal('${currentImageUrl}', '${nombreSinExtension}')"
+                                 onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-img\'><span class=\'no-img-icon\'>❌</span><br>Error al cargar imagen</div>'">
+                        `;
+                        imagenEncontrada = true;
+                        imagenActual = nombrePlantilla;
+                        break;
+                    }
+                } catch (error) {
+                    // Continuar buscando
+                }
+            }
+            
+            if (!imagenEncontrada) {
+                imgContainer.innerHTML = `
+                    <div class="no-img">
+                        <span class="no-img-icon">📷</span>
+                        <br>No se encontró imagen para:<br>
+                        <strong>${nombreSinExtension}.jpg</strong>
+                    </div>
+                `;
+                imagenActual = nombrePlantilla;
+                currentImageUrl = null;
+            }
+        }
+
+        function checkAllFieldsFilled() {
+            const solicitud = solicitudInput.value.trim();
+            const representante = repInput.value.trim();
+            const cedula = cedInput.value.trim();
+            const empresa = empresaInput.value.trim();
+            const rif = rifInput.value.trim();
+            const direccion = direccionInput.value.trim();
+            
+            const allFilled = solicitud !== '' && 
+                              representante !== '' && 
+                              cedula !== '' && 
+                              empresa !== '' && 
+                              rif !== '' && 
+                              direccion !== '';
+            
+            generarBtn.disabled = !(allFilled && plantillaCargada);
+            markEmptyFields();
+            return allFilled;
+        }
+        
+        function markEmptyFields() {
+            const fields = [
+                { element: solicitudInput, value: solicitudInput.value.trim() },
+                { element: repInput, value: repInput.value.trim() },
+                { element: cedInput, value: cedInput.value.trim() },
+                { element: empresaInput, value: empresaInput.value.trim() },
+                { element: rifInput, value: rifInput.value.trim() },
+                { element: direccionInput, value: direccionInput.value.trim() }
+            ];
+            
+            fields.forEach(field => {
+                if (field.value === '') {
+                    field.element.classList.add('empty-field');
+                } else {
+                    field.element.classList.remove('empty-field');
+                }
+            });
+        }
+
+        function enforceLimit(input, limit) {
+            if (input.value.length > limit) {
+                input.value = input.value.substring(0, limit);
+            }
+        }
+
+        function setupListeners() {
+            const inputs = [solicitudInput, repInput, cedInput, empresaInput, rifInput, direccionInput];
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    if (input.id === 'solicitud') enforceLimit(input, LIMITS.solicitud);
+                    else if (input.id === 'representante') enforceLimit(input, LIMITS.representante);
+                    else if (input.id === 'cedula') enforceLimit(input, LIMITS.cedula);
+                    else if (input.id === 'empresa') enforceLimit(input, LIMITS.empresa);
+                    else if (input.id === 'rif') enforceLimit(input, LIMITS.rif);
+                    else if (input.id === 'direccion') enforceLimit(input, LIMITS.direccion);
+                    
+                    checkAllFieldsFilled();
+                });
+            });
+        }
+
+        function setStatus(message, type) {
+            statusDiv.innerHTML = message;
+            statusDiv.className = 'status';
+            if (type === 'success') statusDiv.classList.add('status-success');
+            else if (type === 'error') statusDiv.classList.add('status-error');
+            else if (type === 'loading') statusDiv.classList.add('status-loading');
+        }
+
+        async function cargarListaPlantillas() {
+            try {
+                const response = await fetch('assets/plantilla/lista.json');
+                if (!response.ok) {
+                    plantillasDisponibles = ["PROBANDO1.docx"];
+                    return true;
+                }
+                const data = await response.json();
+                if (data.plantillas && Array.isArray(data.plantillas)) {
+                    plantillasDisponibles = data.plantillas;
+                } else {
+                    plantillasDisponibles = ["PROBANDO1.docx"];
+                }
+                return true;
+            } catch (error) {
+                plantillasDisponibles = ["PROBANDO1.docx"];
+                return true;
+            }
+        }
+
+        function actualizarSelect() {
+            plantillaSelect.innerHTML = '';
+            if (plantillasDisponibles.length === 0) {
+                plantillaSelect.innerHTML = '<option value="">-- Sin plantillas --</option>';
+                plantillaSelect.disabled = true;
+                return;
+            }
+            for (const nombre of plantillasDisponibles) {
+                const option = document.createElement('option');
+                option.value = nombre;
+                option.textContent = nombre;
+                plantillaSelect.appendChild(option);
+            }
+            plantillaSelect.disabled = false;
+            plantillaSelect.selectedIndex = 0;
+            
+            if (plantillasDisponibles.length > 0) {
+                cargarImagenPreview(plantillasDisponibles[0]);
+            }
+        }
+
+        async function cargarPlantilla(nombre) {
+            if (!nombre) return false;
+            const url = `assets/plantilla/${nombre}`;
+            try {
+                setStatus(`📂 Cargando plantilla "${nombre}"...`, 'loading');
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const buffer = await response.arrayBuffer();
+                if (!buffer || buffer.byteLength < 100) throw new Error('Archivo vacío');
+                plantillaBuffer = buffer;
+                plantillaCargada = true;
+                setStatus(`✅ Plantilla "${nombre}" cargada.`, 'success');
+                checkAllFieldsFilled();
+                return true;
+            } catch (error) {
+                plantillaBuffer = null;
+                plantillaCargada = false;
+                setStatus(`❌ Error cargando "${nombre}"`, 'error');
+                generarBtn.disabled = true;
+                return false;
+            }
+        }
+
+        function escapeXmlText(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&apos;');
+        }
+
+        async function reemplazarContentControls(buffer, replacements) {
+            const zip = new window.PizZip(buffer);
+            const documentXmlPath = 'word/document.xml';
+            
+            if (!zip.files[documentXmlPath]) {
+                throw new Error('No se encontró document.xml en la plantilla');
+            }
+            
+            let documentXml = zip.files[documentXmlPath].asText();
+            
+            for (const [controlName, newValue] of Object.entries(replacements)) {
+                const escapedName = controlName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const escapedValue = escapeXmlText(newValue);
+                
+                const patterns = [
+                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"(?:\\s+w:autoTag[^>]*)?/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi')
+                ];
+                
+                let replaced = false;
+                
+                for (const pattern of patterns) {
+                    if (pattern.test(documentXml)) {
+                        documentXml = documentXml.replace(pattern, (match, before, oldContent, after) => {
+                            replaced = true;
+                            return before + escapedValue + after;
+                        });
+                        if (replaced) break;
+                    }
+                }
+                
+                if (!replaced) {
+                    console.warn(`⚠️ No se encontró Content Control: "${controlName}"`);
+                }
+            }
+            
+            zip.file(documentXmlPath, documentXml);
+            
+            return zip.generate({
+                type: "blob",
+                mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                compression: "DEFLATE"
+            });
+        }
+        
+        async function generarWord() {
+            let solicitud = solicitudInput.value.trim();
+            let representante = repInput.value.trim();
+            let cedula = cedInput.value.trim();
+            let empresa = empresaInput.value.trim();
+            let rif = rifInput.value.trim();
+            let direccion = direccionInput.value.trim();
+            
+            if (solicitud.length > LIMITS.solicitud) solicitud = solicitud.substring(0, LIMITS.solicitud);
+            if (representante.length > LIMITS.representante) representante = representante.substring(0, LIMITS.representante);
+            if (cedula.length > LIMITS.cedula) cedula = cedula.substring(0, LIMITS.cedula);
+            if (empresa.length > LIMITS.empresa) empresa = empresa.substring(0, LIMITS.empresa);
+            if (rif.length > LIMITS.rif) rif = rif.substring(0, LIMITS.rif);
+            if (direccion.length > LIMITS.direccion) direccion = direccion.substring(0, LIMITS.direccion);
+            
+            if (!solicitud) solicitud = "SOLICITUD";
+            if (!representante) representante = "REPRESENTANTE";
+            if (!cedula) cedula = "V-00000000";
+            if (!empresa) empresa = "EMPRESA S.A";
+            if (!rif) rif = "J-00000000-0";
+            if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
+            
+            const plantillaSeleccionada = plantillaSelect.value;
+            if (!plantillaSeleccionada) {
+                setStatus('❌ Selecciona una plantilla', 'error');
+                return;
+            }
+            
+            if (!plantillaBuffer) {
+                setStatus('❌ Plantilla no cargada', 'error');
+                return;
+            }
+            
+            setStatus('⚙️ Procesando Content Controls...', 'loading');
+            generarBtn.disabled = true;
+            
+            try {
+                const replacements = {
+                    'SOLICITUD': solicitud,
+                    'REPRESENTANTE LEGAL': representante,
+                    'CEDULA': cedula,
+                    'EMPRESA': empresa,
+                    'RIF': rif,
+                    'DIRECCION': direccion
+                };
+                
+                const nuevoBlob = await reemplazarContentControls(plantillaBuffer, replacements);
+                
+                if (!nuevoBlob || nuevoBlob.size < 1000) {
+                    throw new Error('El archivo generado es demasiado pequeño');
+                }
+                
+                const fecha = new Date().toISOString().slice(0,19).replace(/:/g, '-');
+                const nombreBase = representante.replace(/\s+/g, '_').substring(0, 30);
+                const nombreArchivo = `CONFORMIDAD_${plantillaSeleccionada.replace('.docx','')}_${nombreBase}_${fecha}.docx`;
+                
+                window.saveAs(nuevoBlob, nombreArchivo);
+                setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, 'success');
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                setStatus(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                generarBtn.disabled = false;
+                checkAllFieldsFilled();
+            }
+        }
+        
+        async function inicializar() {
+            const pizzipOk = typeof window.PizZip !== 'undefined';
+            const saveAsOk = typeof window.saveAs !== 'undefined';
+            
+            if (!pizzipOk || !saveAsOk) {
+                setStatus('❌ Error: Librerías no cargadas', 'error');
+                generarBtn.disabled = true;
+                return;
+            }
+            
+            setupListeners();
+            
+            setStatus('📋 Cargando lista de plantillas...', 'loading');
+            await cargarListaPlantillas();
+            
+            if (plantillasDisponibles.length === 0) {
+                setStatus('❌ No hay plantillas disponibles', 'error');
+                generarBtn.disabled = true;
+                return;
+            }
+            
+            actualizarSelect();
+            const primeraPlantilla = plantillasDisponibles[0];
+            await cargarPlantilla(primeraPlantilla);
+            
+            if (plantillaCargada) {
+                checkAllFieldsFilled();
+                setStatus('✅ Listo. Completa todos los campos.', 'success');
+            }
+        }
+        
+        plantillaSelect.addEventListener('change', async function() {
+            const nombre = plantillaSelect.value;
+            if (!nombre) return;
+            
+            await cargarImagenPreview(nombre);
+            
+            generarBtn.disabled = true;
+            await cargarPlantilla(nombre);
+            if (plantillaCargada) {
+                checkAllFieldsFilled();
+            }
+        });
+        
+        generarBtn.addEventListener('click', generarWord);
+        inicializar();
+    })();
+</script>
+</body>
+</html>
