@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conformidad Sanitaria - Content Controls (Texto Enriquecido)</title>
+    <title>Conformidad Sanitaria - Content Controls</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,6 @@
             padding: 20px;
         }
 
-        /* Contenedor principal con dos columnas */
         .main-container {
             max-width: 1400px;
             width: 100%;
@@ -30,13 +29,11 @@
             flex-wrap: wrap;
         }
 
-        /* Columna izquierda: Formulario */
         .form-container {
             flex: 1.2;
             min-width: 450px;
         }
 
-        /* Columna derecha: Imagen destacada */
         .image-container {
             flex: 0.8;
             min-width: 350px;
@@ -71,7 +68,6 @@
             font-size: 0.85rem;
         }
 
-        /* Estilos para la imagen destacada en columna derecha */
         .imagen-destacada {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             border-radius: 28px;
@@ -149,7 +145,6 @@
             padding: 12px;
         }
 
-        /* MODAL PARA IMAGEN GRANDE */
         .modal {
             display: none;
             position: fixed;
@@ -315,16 +310,6 @@
             background: linear-gradient(98deg, #94a3b8 0%, #64748b 100%);
         }
 
-        .info {
-            background: #f0f9ff;
-            padding: 14px;
-            border-radius: 16px;
-            margin: 20px 0;
-            font-size: 0.75rem;
-            text-align: center;
-            border-left: 4px solid #2c7da0;
-        }
-
         .status {
             margin-top: 16px;
             font-size: 0.8rem;
@@ -356,44 +341,11 @@
             border: 1px solid #e2e8f0;
         }
 
-        .badge {
-            background: #1e4a6b20;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: normal;
-            margin-left: 6px;
-        }
-
-        .mapping-info {
-            background: #dcfce7;
-            border-left: 4px solid #22c55e;
-            padding: 12px;
-            border-radius: 12px;
-            margin: 15px 0;
-            font-size: 0.8rem;
-        }
-
         .row-2cols {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
             margin-bottom: 1.2rem;
-        }
-
-        .warning {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 0.8rem;
-        }
-
-        .required {
-            color: #dc2626;
-            font-size: 0.7rem;
-            margin-left: 4px;
         }
 
         @media (max-width: 950px) {
@@ -414,12 +366,11 @@
 </head>
 <body>
 <div class="main-container">
-    <!-- COLUMNA IZQUIERDA: TODO EL CONTENIDO DEL FORMULARIO -->
     <div class="form-container">
         <div class="card">
             <div class="header">
                 <h1>📄 Conformidad Sanitaria</h1>
-                <p>Generador para Word | CONTENT CONTROLS (Texto Enriquecido)</p>
+                <p>Generador para Word | Content Controls</p>
             </div>
 
             <div class="plantilla-selection">
@@ -430,27 +381,22 @@
                 <small>📂 Plantillas desde: <code>assets/plantilla/</code></small>
             </div>
 
-            <div class="warning">
-                ⚠️ <strong>Importante:</strong> Los Content Controls en tu plantilla Word deben tener como TÍTULO o ETIQUETA exactamente:<br>
-                <code>REPRESENTANTE LEGAL</code>, <code>CEDULA</code>, <code>EMPRESA</code>, <code>RIF</code>, <code>DIRECCION</code>, <code>SOLICITUD</code>
-            </div>
-
             <div class="campo">
-                <label>📝 SOLICITUD / MOTIVO <span class="badge">Máx. 10 caracteres</span><span class="required">*</span></label>
+                <label>📝 SOLICITUD / MOTIVO <span class="required">*</span></label>
                 <div class="input-wrapper">
-                    <input type="text" id="solicitud" value="RENOVACIÓN" maxlength="10" placeholder="Máximo 10 caracteres">
+                    <input type="text" id="solicitud" value="RENOVACIÓN" maxlength="10" placeholder="Ej: RENOVACIÓN">
                 </div>
             </div>
 
             <div class="campo">
-                <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="badge">Máx. 36 caracteres</span><span class="required">*</span></label>
+                <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label>
                 <div class="input-wrapper">
                     <input type="text" id="representante" value="RUBEN DARIO BALZA ARAUJO" maxlength="36">
                 </div>
             </div>
 
             <div class="campo">
-                <label>🆔 CÉDULA DE IDENTIDAD <span class="badge">Máx. 13 caracteres</span><span class="required">*</span></label>
+                <label>🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label>
                 <div class="input-wrapper">
                     <input type="text" id="cedula" value="V-9.497.299" maxlength="13">
                 </div>
@@ -458,13 +404,13 @@
 
             <div class="row-2cols">
                 <div>
-                    <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="badge">Máx. 68 caracteres</span><span class="required">*</span></label>
+                    <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <textarea id="empresa" rows="2" maxlength="68">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
                     </div>
                 </div>
                 <div>
-                    <label>📑 RIF <span class="badge">Máx. 12 caracteres</span><span class="required">*</span></label>
+                    <label>📑 RIF <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <input type="text" id="rif" value="J-50375341-2" maxlength="12">
                     </div>
@@ -472,33 +418,15 @@
             </div>
 
             <div class="campo">
-                <label>📍 DIRECCIÓN DEL LOCAL <span class="badge">Máx. 199 caracteres</span><span class="required">*</span></label>
+                <label>📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
                 <div class="input-wrapper">
                     <textarea id="direccion" rows="3" maxlength="199" placeholder="Ingrese la dirección completa...">CALLE 21 CON AVENIDA 20 Y CARRERA 21 EDIF SEVERINO</textarea>
                 </div>
             </div>
 
-            <div class="mapping-info">
-                ✅ <strong>Cómo funciona:</strong><br>
-                • El sistema busca Content Controls por TÍTULO o ETIQUETA<br>
-                • Reemplaza SOLO el contenido, manteniendo el control y su formato<br>
-                • <strong>Límites de caracteres:</strong> SOLICITUD (10), REPRESENTANTE LEGAL (36), CÉDULA (13), EMPRESA (68), RIF (12), DIRECCIÓN (199)<br>
-                • <strong>Todos los campos son obligatorios</strong> para habilitar el botón de generar<br>
-                • 🖼️ <strong>Haz clic en la imagen</strong> para verla en tamaño completo
-            </div>
-
             <button id="generarBtn" disabled>
                 🔄 GENERAR WORD (CONTENT CONTROLS)
             </button>
-
-            <div class="info">
-                ⭐ <strong>Instrucciones para la plantilla Word:</strong><br>
-                1. Inserta un "Control de contenido de texto enriquecido"<br>
-                2. En Propiedades → Título o Etiqueta, coloca el nombre exacto<br>
-                3. Ejemplo: Título = "REPRESENTANTE LEGAL"<br>
-                4. Guarda la plantilla y úsala en este sistema<br>
-                5. Para vista previa: coloca un JPG con el MISMO NOMBRE en <code>assets/img/</code>
-            </div>
 
             <div id="statusMsg" class="status status-loading">
                 ⏳ Cargando librerías y lista de plantillas...
@@ -506,7 +434,6 @@
         </div>
     </div>
 
-    <!-- COLUMNA DERECHA: SOLO LA IMAGEN DESTACADA -->
     <div class="image-container">
         <div class="imagen-destacada">
             <h3>🖼️ VISTA PREVIA</h3>
@@ -525,7 +452,6 @@
     </div>
 </div>
 
-<!-- MODAL PARA IMAGEN GRANDE -->
 <div id="imageModal" class="modal" onclick="closeModal()">
     <div class="modal-close" onclick="closeModal()">✕</div>
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -534,13 +460,11 @@
     <div class="modal-caption" id="modalCaption"></div>
 </div>
 
-<!-- Scripts -->
 <script src="assets/js/pizzip.min.js"></script>
 <script src="assets/js/FileSaver.min.js"></script>
 
 <script>
     (function() {
-        // Elementos de entrada
         const solicitudInput = document.getElementById('solicitud');
         const repInput = document.getElementById('representante');
         const cedInput = document.getElementById('cedula');
@@ -552,12 +476,10 @@
         const plantillaSelect = document.getElementById('plantillaSelect');
         const imgContainer = document.getElementById('imgContainer');
         
-        // Elementos del modal
         const modal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const modalCaption = document.getElementById('modalCaption');
 
-        // Límites de caracteres
         const LIMITS = {
             solicitud: 10,
             representante: 36,
@@ -573,7 +495,6 @@
         let imagenActual = null;
         let currentImageUrl = null;
 
-        // Función para abrir el modal con la imagen grande
         window.openModal = function(imageUrl, plantillaNombre) {
             if (!imageUrl) return;
             modalImage.src = imageUrl;
@@ -582,7 +503,6 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // Función para cerrar el modal
         window.closeModal = function() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
@@ -590,14 +510,12 @@
             modalCaption.textContent = '';
         }
 
-        // Cerrar con tecla ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && modal.classList.contains('active')) {
                 closeModal();
             }
         });
 
-        // Función para cargar y mostrar la imagen de vista previa
         async function cargarImagenPreview(nombrePlantilla) {
             if (imagenActual === nombrePlantilla) return;
             
@@ -634,7 +552,7 @@
                         break;
                     }
                 } catch (error) {
-                    // Continuar buscando
+                    // continue searching
                 }
             }
             
