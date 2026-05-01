@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,7 +48,7 @@
             border-radius: 28px;
             padding: 2rem;
             width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
         }
 
         .header {
@@ -75,7 +76,7 @@
             text-align: center;
             border: 2px solid #cbd5e1;
             transition: all 0.3s ease;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             position: sticky;
             top: 20px;
         }
@@ -110,7 +111,7 @@
             height: auto;
             object-fit: contain;
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, opacity 0.2s ease;
             cursor: pointer;
         }
@@ -179,7 +180,7 @@
             max-height: 90vh;
             object-fit: contain;
             border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
         .modal-close {
@@ -190,7 +191,7 @@
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -202,7 +203,7 @@
         }
 
         .modal-close:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
 
@@ -214,7 +215,7 @@
             text-align: center;
             color: white;
             font-size: 0.9rem;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             padding: 8px;
             margin: 0 auto;
             width: fit-content;
@@ -223,13 +224,25 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes zoomIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .campo {
@@ -250,7 +263,9 @@
             position: relative;
         }
 
-        input, textarea, select {
+        input,
+        textarea,
+        select {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #e2e8f0;
@@ -270,13 +285,16 @@
             background-color: white;
         }
 
-        input:focus, textarea:focus, select:focus {
+        input:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
             border-color: #2c7da0;
-            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+            box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.2);
         }
 
-        input.empty-field, textarea.empty-field {
+        input.empty-field,
+        textarea.empty-field {
             border-color: #dc2626;
             background-color: #fef2f2;
         }
@@ -352,529 +370,535 @@
             .main-container {
                 flex-direction: column;
             }
+
             .image-container {
                 position: static;
             }
+
             .imagen-destacada {
                 position: static;
             }
+
             .form-container {
                 min-width: auto;
             }
         }
     </style>
 </head>
+
 <body>
-<div class="main-container">
-    <div class="form-container">
-        <div class="card">
-            <div class="header">
-                <h1>📄 Conformidad Sanitaria</h1>
-                <p>Generador para Word | Content Controls</p>
-            </div>
-
-            <div class="plantilla-selection">
-                <label>📁 SELECCIONAR PLANTILLA WORD (.docx)</label>
-                <select id="plantillaSelect" disabled>
-                    <option value="">-- Cargando plantillas... --</option>
-                </select>
-                <small>📂 Plantillas desde: <code>assets/plantilla/</code></small>
-            </div>
-
-            <div class="campo">
-                <label>📝 SOLICITUD / MOTIVO <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="text" id="solicitud" value="RENOVACIÓN" maxlength="10" placeholder="Ej: RENOVACIÓN">
+    <div class="main-container">
+        <div class="form-container">
+            <div class="card">
+                <div class="header">
+                    <h1>📄 Solicitud de Conformidad Sanitaria</h1>
                 </div>
-            </div>
 
-            <div class="campo">
-                <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="text" id="representante" value="RUBEN DARIO BALZA ARAUJO" maxlength="36">
+                <div class="plantilla-selection">
+                    <label>📁 SELECCIONAR CONFORMIDAD A SOLICITAR</label>
+                    <select id="plantillaSelect" disabled>
+                        <option value="">-- Cargando plantillas... --</option>
+                    </select>
                 </div>
-            </div>
 
-            <div class="campo">
-                <label>🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <input type="text" id="cedula" value="V-9.497.299" maxlength="13">
-                </div>
-            </div>
-
-            <div class="row-2cols">
-                <div>
-                    <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
+                <div class="campo">
+                    <label>📝 SOLICITUD / RENOVACION <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <textarea id="empresa" rows="2" maxlength="68">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
+                        <input type="text" id="solicitud" value="RENOVACIÓN" maxlength="10"
+                            placeholder="Ej: RENOVACIÓN">
                     </div>
                 </div>
-                <div>
-                    <label>📑 RIF <span class="required">*</span></label>
+
+                <div class="campo">
+                    <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="rif" value="J-50375341-2" maxlength="12">
+                        <input type="text" id="representante" value="RUBEN DARIO BALZA ARAUJO" maxlength="36">
                     </div>
                 </div>
-            </div>
 
-            <div class="campo">
-                <label>📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <textarea id="direccion" rows="3" maxlength="199" placeholder="Ingrese la dirección completa...">CALLE 21 CON AVENIDA 20 Y CARRERA 21 EDIF SEVERINO</textarea>
+                <div class="campo">
+                    <label>🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <input type="text" id="cedula" value="V-9.497.299" maxlength="13">
+                    </div>
+                </div>
+
+                <div class="row-2cols">
+                    <div>
+                        <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <textarea id="empresa" rows="2"
+                                maxlength="68">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label>📑 RIF <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" id="rif" value="J-50375341-2" maxlength="12">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label>📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <textarea id="direccion" rows="3" maxlength="199"
+                            placeholder="Ingrese la dirección completa...">CALLE 21 CON AVENIDA 20 Y CARRERA 21 EDIF SEVERINO</textarea>
+                    </div>
+                </div>
+
+                <button id="generarBtn" disabled>
+                    🔄 GENERAR WORD (CONTENT CONTROLS)
+                </button>
+
+                <div id="statusMsg" class="status status-loading">
+                    ⏳ Cargando librerías y lista de plantillas...
                 </div>
             </div>
+        </div>
 
-            <button id="generarBtn" disabled>
-                🔄 GENERAR WORD (CONTENT CONTROLS)
-            </button>
-
-            <div id="statusMsg" class="status status-loading">
-                ⏳ Cargando librerías y lista de plantillas...
+        <div class="image-container">
+            <div class="imagen-destacada">
+                <h3>🖼️ VISTA PREVIA</h3>
+                <div class="imagen-wrapper" id="imgContainer">
+                    <div class="no-img">
+                        <span class="no-img-icon">📷</span>
+                        <br>Selecciona una plantilla<br>para ver su imagen
+                    </div>
+                </div>
+                <div class="imagen-info">
+                    💡 Las imágenes deben estar en:<br>
+                    <code>assets/img/</code> con el mismo nombre que la plantilla<br>
+                    <small>Formatos: JPG, JPEG | Haz clic para ampliar</small>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="image-container">
-        <div class="imagen-destacada">
-            <h3>🖼️ VISTA PREVIA</h3>
-            <div class="imagen-wrapper" id="imgContainer">
-                <div class="no-img">
-                    <span class="no-img-icon">📷</span>
-                    <br>Selecciona una plantilla<br>para ver su imagen
-                </div>
-            </div>
-            <div class="imagen-info">
-                💡 Las imágenes deben estar en:<br>
-                <code>assets/img/</code> con el mismo nombre que la plantilla<br>
-                <small>Formatos: JPG, JPEG | Haz clic para ampliar</small>
-            </div>
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="modal-close" onclick="closeModal()">✕</div>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalImage" src="" alt="Vista ampliada">
         </div>
+        <div class="modal-caption" id="modalCaption"></div>
     </div>
-</div>
 
-<div id="imageModal" class="modal" onclick="closeModal()">
-    <div class="modal-close" onclick="closeModal()">✕</div>
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <img id="modalImage" src="" alt="Vista ampliada">
-    </div>
-    <div class="modal-caption" id="modalCaption"></div>
-</div>
+    <script src="assets/js/pizzip.min.js"></script>
+    <script src="assets/js/FileSaver.min.js"></script>
 
-<script src="assets/js/pizzip.min.js"></script>
-<script src="assets/js/FileSaver.min.js"></script>
+    <script>
+        (function () {
+            const solicitudInput = document.getElementById('solicitud');
+            const repInput = document.getElementById('representante');
+            const cedInput = document.getElementById('cedula');
+            const empresaInput = document.getElementById('empresa');
+            const rifInput = document.getElementById('rif');
+            const direccionInput = document.getElementById('direccion');
+            const generarBtn = document.getElementById('generarBtn');
+            const statusDiv = document.getElementById('statusMsg');
+            const plantillaSelect = document.getElementById('plantillaSelect');
+            const imgContainer = document.getElementById('imgContainer');
 
-<script>
-    (function() {
-        const solicitudInput = document.getElementById('solicitud');
-        const repInput = document.getElementById('representante');
-        const cedInput = document.getElementById('cedula');
-        const empresaInput = document.getElementById('empresa');
-        const rifInput = document.getElementById('rif');
-        const direccionInput = document.getElementById('direccion');
-        const generarBtn = document.getElementById('generarBtn');
-        const statusDiv = document.getElementById('statusMsg');
-        const plantillaSelect = document.getElementById('plantillaSelect');
-        const imgContainer = document.getElementById('imgContainer');
-        
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        const modalCaption = document.getElementById('modalCaption');
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
 
-        const LIMITS = {
-            solicitud: 10,
-            representante: 36,
-            cedula: 13,
-            empresa: 68,
-            rif: 12,
-            direccion: 199
-        };
+            const LIMITS = {
+                solicitud: 10,
+                representante: 36,
+                cedula: 13,
+                empresa: 68,
+                rif: 12,
+                direccion: 199
+            };
 
-        let plantillasDisponibles = [];
-        let plantillaBuffer = null;
-        let plantillaCargada = false;
-        let imagenActual = null;
-        let currentImageUrl = null;
+            let plantillasDisponibles = [];
+            let plantillaBuffer = null;
+            let plantillaCargada = false;
+            let imagenActual = null;
+            let currentImageUrl = null;
 
-        window.openModal = function(imageUrl, plantillaNombre) {
-            if (!imageUrl) return;
-            modalImage.src = imageUrl;
-            modalCaption.textContent = plantillaNombre || 'Vista previa de plantilla';
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        window.closeModal = function() {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            modalImage.src = '';
-            modalCaption.textContent = '';
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
+            window.openModal = function (imageUrl, plantillaNombre) {
+                if (!imageUrl) return;
+                modalImage.src = imageUrl;
+                modalCaption.textContent = plantillaNombre || 'Vista previa de plantilla';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
             }
-        });
 
-        async function cargarImagenPreview(nombrePlantilla) {
-            if (imagenActual === nombrePlantilla) return;
-            
-            if (!nombrePlantilla) {
-                imgContainer.innerHTML = `
+            window.closeModal = function () {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                modalImage.src = '';
+                modalCaption.textContent = '';
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            async function cargarImagenPreview(nombrePlantilla) {
+                if (imagenActual === nombrePlantilla) return;
+
+                if (!nombrePlantilla) {
+                    imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
                         <br>Selecciona una plantilla<br>para ver su imagen
                     </div>
                 `;
-                imagenActual = null;
-                currentImageUrl = null;
-                return;
-            }
-            
-            const nombreSinExtension = nombrePlantilla.replace(/\.docx$/i, '');
-            const extensiones = ['jpg', 'jpeg', 'JPG', 'JPEG'];
-            let imagenEncontrada = false;
-            
-            for (const ext of extensiones) {
-                const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
-                try {
-                    const response = await fetch(urlImg, { method: 'HEAD' });
-                    if (response.ok) {
-                        currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
-                        imgContainer.innerHTML = `
+                    imagenActual = null;
+                    currentImageUrl = null;
+                    return;
+                }
+
+                const nombreSinExtension = nombrePlantilla.replace(/\.docx$/i, '');
+                const extensiones = ['jpg', 'jpeg', 'JPG', 'JPEG'];
+                let imagenEncontrada = false;
+
+                for (const ext of extensiones) {
+                    const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
+                    try {
+                        const response = await fetch(urlImg, { method: 'HEAD' });
+                        if (response.ok) {
+                            currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
+                            imgContainer.innerHTML = `
                             <img src="${urlImg}" alt="${nombreSinExtension}" 
                                  style="max-width:100%; max-height:450px; border-radius:16px; cursor:pointer;"
                                  onclick="openModal('${currentImageUrl}', '${nombreSinExtension}')"
                                  onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-img\'><span class=\'no-img-icon\'>❌</span><br>Error al cargar imagen</div>'">
                         `;
-                        imagenEncontrada = true;
-                        imagenActual = nombrePlantilla;
-                        break;
+                            imagenEncontrada = true;
+                            imagenActual = nombrePlantilla;
+                            break;
+                        }
+                    } catch (error) {
+                        // continue searching
                     }
-                } catch (error) {
-                    // continue searching
                 }
-            }
-            
-            if (!imagenEncontrada) {
-                imgContainer.innerHTML = `
+
+                if (!imagenEncontrada) {
+                    imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
                         <br>No se encontró imagen para:<br>
                         <strong>${nombreSinExtension}.jpg</strong>
                     </div>
                 `;
-                imagenActual = nombrePlantilla;
-                currentImageUrl = null;
-            }
-        }
-
-        function checkAllFieldsFilled() {
-            const solicitud = solicitudInput.value.trim();
-            const representante = repInput.value.trim();
-            const cedula = cedInput.value.trim();
-            const empresa = empresaInput.value.trim();
-            const rif = rifInput.value.trim();
-            const direccion = direccionInput.value.trim();
-            
-            const allFilled = solicitud !== '' && 
-                              representante !== '' && 
-                              cedula !== '' && 
-                              empresa !== '' && 
-                              rif !== '' && 
-                              direccion !== '';
-            
-            generarBtn.disabled = !(allFilled && plantillaCargada);
-            markEmptyFields();
-            return allFilled;
-        }
-        
-        function markEmptyFields() {
-            const fields = [
-                { element: solicitudInput, value: solicitudInput.value.trim() },
-                { element: repInput, value: repInput.value.trim() },
-                { element: cedInput, value: cedInput.value.trim() },
-                { element: empresaInput, value: empresaInput.value.trim() },
-                { element: rifInput, value: rifInput.value.trim() },
-                { element: direccionInput, value: direccionInput.value.trim() }
-            ];
-            
-            fields.forEach(field => {
-                if (field.value === '') {
-                    field.element.classList.add('empty-field');
-                } else {
-                    field.element.classList.remove('empty-field');
+                    imagenActual = nombrePlantilla;
+                    currentImageUrl = null;
                 }
-            });
-        }
-
-        function enforceLimit(input, limit) {
-            if (input.value.length > limit) {
-                input.value = input.value.substring(0, limit);
             }
-        }
 
-        function setupListeners() {
-            const inputs = [solicitudInput, repInput, cedInput, empresaInput, rifInput, direccionInput];
-            
-            inputs.forEach(input => {
-                input.addEventListener('input', () => {
-                    if (input.id === 'solicitud') enforceLimit(input, LIMITS.solicitud);
-                    else if (input.id === 'representante') enforceLimit(input, LIMITS.representante);
-                    else if (input.id === 'cedula') enforceLimit(input, LIMITS.cedula);
-                    else if (input.id === 'empresa') enforceLimit(input, LIMITS.empresa);
-                    else if (input.id === 'rif') enforceLimit(input, LIMITS.rif);
-                    else if (input.id === 'direccion') enforceLimit(input, LIMITS.direccion);
-                    
-                    checkAllFieldsFilled();
+            function checkAllFieldsFilled() {
+                const solicitud = solicitudInput.value.trim();
+                const representante = repInput.value.trim();
+                const cedula = cedInput.value.trim();
+                const empresa = empresaInput.value.trim();
+                const rif = rifInput.value.trim();
+                const direccion = direccionInput.value.trim();
+
+                const allFilled = solicitud !== '' &&
+                    representante !== '' &&
+                    cedula !== '' &&
+                    empresa !== '' &&
+                    rif !== '' &&
+                    direccion !== '';
+
+                generarBtn.disabled = !(allFilled && plantillaCargada);
+                markEmptyFields();
+                return allFilled;
+            }
+
+            function markEmptyFields() {
+                const fields = [
+                    { element: solicitudInput, value: solicitudInput.value.trim() },
+                    { element: repInput, value: repInput.value.trim() },
+                    { element: cedInput, value: cedInput.value.trim() },
+                    { element: empresaInput, value: empresaInput.value.trim() },
+                    { element: rifInput, value: rifInput.value.trim() },
+                    { element: direccionInput, value: direccionInput.value.trim() }
+                ];
+
+                fields.forEach(field => {
+                    if (field.value === '') {
+                        field.element.classList.add('empty-field');
+                    } else {
+                        field.element.classList.remove('empty-field');
+                    }
                 });
-            });
-        }
+            }
 
-        function setStatus(message, type) {
-            statusDiv.innerHTML = message;
-            statusDiv.className = 'status';
-            if (type === 'success') statusDiv.classList.add('status-success');
-            else if (type === 'error') statusDiv.classList.add('status-error');
-            else if (type === 'loading') statusDiv.classList.add('status-loading');
-        }
+            function enforceLimit(input, limit) {
+                if (input.value.length > limit) {
+                    input.value = input.value.substring(0, limit);
+                }
+            }
 
-        async function cargarListaPlantillas() {
-            try {
-                const response = await fetch('assets/plantilla/lista.json');
-                if (!response.ok) {
+            function setupListeners() {
+                const inputs = [solicitudInput, repInput, cedInput, empresaInput, rifInput, direccionInput];
+
+                inputs.forEach(input => {
+                    input.addEventListener('input', () => {
+                        if (input.id === 'solicitud') enforceLimit(input, LIMITS.solicitud);
+                        else if (input.id === 'representante') enforceLimit(input, LIMITS.representante);
+                        else if (input.id === 'cedula') enforceLimit(input, LIMITS.cedula);
+                        else if (input.id === 'empresa') enforceLimit(input, LIMITS.empresa);
+                        else if (input.id === 'rif') enforceLimit(input, LIMITS.rif);
+                        else if (input.id === 'direccion') enforceLimit(input, LIMITS.direccion);
+
+                        checkAllFieldsFilled();
+                    });
+                });
+            }
+
+            function setStatus(message, type) {
+                statusDiv.innerHTML = message;
+                statusDiv.className = 'status';
+                if (type === 'success') statusDiv.classList.add('status-success');
+                else if (type === 'error') statusDiv.classList.add('status-error');
+                else if (type === 'loading') statusDiv.classList.add('status-loading');
+            }
+
+            async function cargarListaPlantillas() {
+                try {
+                    const response = await fetch('assets/plantilla/lista.json');
+                    if (!response.ok) {
+                        plantillasDisponibles = ["PROBANDO1.docx"];
+                        return true;
+                    }
+                    const data = await response.json();
+                    if (data.plantillas && Array.isArray(data.plantillas)) {
+                        plantillasDisponibles = data.plantillas;
+                    } else {
+                        plantillasDisponibles = ["PROBANDO1.docx"];
+                    }
+                    return true;
+                } catch (error) {
                     plantillasDisponibles = ["PROBANDO1.docx"];
                     return true;
                 }
-                const data = await response.json();
-                if (data.plantillas && Array.isArray(data.plantillas)) {
-                    plantillasDisponibles = data.plantillas;
-                } else {
-                    plantillasDisponibles = ["PROBANDO1.docx"];
+            }
+
+            function actualizarSelect() {
+                plantillaSelect.innerHTML = '';
+                if (plantillasDisponibles.length === 0) {
+                    plantillaSelect.innerHTML = '<option value="">-- Sin plantillas --</option>';
+                    plantillaSelect.disabled = true;
+                    return;
                 }
-                return true;
-            } catch (error) {
-                plantillasDisponibles = ["PROBANDO1.docx"];
-                return true;
-            }
-        }
+                for (const nombre of plantillasDisponibles) {
+                    const option = document.createElement('option');
+                    option.value = nombre;
+                    option.textContent = nombre;
+                    plantillaSelect.appendChild(option);
+                }
+                plantillaSelect.disabled = false;
+                plantillaSelect.selectedIndex = 0;
 
-        function actualizarSelect() {
-            plantillaSelect.innerHTML = '';
-            if (plantillasDisponibles.length === 0) {
-                plantillaSelect.innerHTML = '<option value="">-- Sin plantillas --</option>';
-                plantillaSelect.disabled = true;
-                return;
+                if (plantillasDisponibles.length > 0) {
+                    cargarImagenPreview(plantillasDisponibles[0]);
+                }
             }
-            for (const nombre of plantillasDisponibles) {
-                const option = document.createElement('option');
-                option.value = nombre;
-                option.textContent = nombre;
-                plantillaSelect.appendChild(option);
-            }
-            plantillaSelect.disabled = false;
-            plantillaSelect.selectedIndex = 0;
-            
-            if (plantillasDisponibles.length > 0) {
-                cargarImagenPreview(plantillasDisponibles[0]);
-            }
-        }
 
-        async function cargarPlantilla(nombre) {
-            if (!nombre) return false;
-            const url = `assets/plantilla/${nombre}`;
-            try {
-                setStatus(`📂 Cargando plantilla "${nombre}"...`, 'loading');
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const buffer = await response.arrayBuffer();
-                if (!buffer || buffer.byteLength < 100) throw new Error('Archivo vacío');
-                plantillaBuffer = buffer;
-                plantillaCargada = true;
-                setStatus(`✅ Plantilla "${nombre}" cargada.`, 'success');
-                checkAllFieldsFilled();
-                return true;
-            } catch (error) {
-                plantillaBuffer = null;
-                plantillaCargada = false;
-                setStatus(`❌ Error cargando "${nombre}"`, 'error');
-                generarBtn.disabled = true;
-                return false;
+            async function cargarPlantilla(nombre) {
+                if (!nombre) return false;
+                const url = `assets/plantilla/${nombre}`;
+                try {
+                    setStatus(`📂 Cargando plantilla "${nombre}"...`, 'loading');
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const buffer = await response.arrayBuffer();
+                    if (!buffer || buffer.byteLength < 100) throw new Error('Archivo vacío');
+                    plantillaBuffer = buffer;
+                    plantillaCargada = true;
+                    setStatus(`✅ Plantilla "${nombre}" cargada.`, 'success');
+                    checkAllFieldsFilled();
+                    return true;
+                } catch (error) {
+                    plantillaBuffer = null;
+                    plantillaCargada = false;
+                    setStatus(`❌ Error cargando "${nombre}"`, 'error');
+                    generarBtn.disabled = true;
+                    return false;
+                }
             }
-        }
 
-        function escapeXmlText(text) {
-            if (!text) return '';
-            return text
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&apos;');
-        }
-
-        async function reemplazarContentControls(buffer, replacements) {
-            const zip = new window.PizZip(buffer);
-            const documentXmlPath = 'word/document.xml';
-            
-            if (!zip.files[documentXmlPath]) {
-                throw new Error('No se encontró document.xml en la plantilla');
+            function escapeXmlText(text) {
+                if (!text) return '';
+                return text
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&apos;');
             }
-            
-            let documentXml = zip.files[documentXmlPath].asText();
-            
-            for (const [controlName, newValue] of Object.entries(replacements)) {
-                const escapedName = controlName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const escapedValue = escapeXmlText(newValue);
-                
-                const patterns = [
-                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"(?:\\s+w:autoTag[^>]*)?/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
-                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
-                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
-                    new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi')
-                ];
-                
-                let replaced = false;
-                
-                for (const pattern of patterns) {
-                    if (pattern.test(documentXml)) {
-                        documentXml = documentXml.replace(pattern, (match, before, oldContent, after) => {
-                            replaced = true;
-                            return before + escapedValue + after;
-                        });
-                        if (replaced) break;
+
+            async function reemplazarContentControls(buffer, replacements) {
+                const zip = new window.PizZip(buffer);
+                const documentXmlPath = 'word/document.xml';
+
+                if (!zip.files[documentXmlPath]) {
+                    throw new Error('No se encontró document.xml en la plantilla');
+                }
+
+                let documentXml = zip.files[documentXmlPath].asText();
+
+                for (const [controlName, newValue] of Object.entries(replacements)) {
+                    const escapedName = controlName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const escapedValue = escapeXmlText(newValue);
+
+                    const patterns = [
+                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"(?:\\s+w:autoTag[^>]*)?/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi')
+                    ];
+
+                    let replaced = false;
+
+                    for (const pattern of patterns) {
+                        if (pattern.test(documentXml)) {
+                            documentXml = documentXml.replace(pattern, (match, before, oldContent, after) => {
+                                replaced = true;
+                                return before + escapedValue + after;
+                            });
+                            if (replaced) break;
+                        }
+                    }
+
+                    if (!replaced) {
+                        console.warn(`⚠️ No se encontró Content Control: "${controlName}"`);
                     }
                 }
-                
-                if (!replaced) {
-                    console.warn(`⚠️ No se encontró Content Control: "${controlName}"`);
+
+                zip.file(documentXmlPath, documentXml);
+
+                return zip.generate({
+                    type: "blob",
+                    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    compression: "DEFLATE"
+                });
+            }
+
+            async function generarWord() {
+                let solicitud = solicitudInput.value.trim();
+                let representante = repInput.value.trim();
+                let cedula = cedInput.value.trim();
+                let empresa = empresaInput.value.trim();
+                let rif = rifInput.value.trim();
+                let direccion = direccionInput.value.trim();
+
+                if (solicitud.length > LIMITS.solicitud) solicitud = solicitud.substring(0, LIMITS.solicitud);
+                if (representante.length > LIMITS.representante) representante = representante.substring(0, LIMITS.representante);
+                if (cedula.length > LIMITS.cedula) cedula = cedula.substring(0, LIMITS.cedula);
+                if (empresa.length > LIMITS.empresa) empresa = empresa.substring(0, LIMITS.empresa);
+                if (rif.length > LIMITS.rif) rif = rif.substring(0, LIMITS.rif);
+                if (direccion.length > LIMITS.direccion) direccion = direccion.substring(0, LIMITS.direccion);
+
+                if (!solicitud) solicitud = "SOLICITUD";
+                if (!representante) representante = "REPRESENTANTE";
+                if (!cedula) cedula = "V-00000000";
+                if (!empresa) empresa = "EMPRESA S.A";
+                if (!rif) rif = "J-00000000-0";
+                if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
+
+                const plantillaSeleccionada = plantillaSelect.value;
+                if (!plantillaSeleccionada) {
+                    setStatus('❌ Selecciona una plantilla', 'error');
+                    return;
+                }
+
+                if (!plantillaBuffer) {
+                    setStatus('❌ Plantilla no cargada', 'error');
+                    return;
+                }
+
+                setStatus('⚙️ Procesando Content Controls...', 'loading');
+                generarBtn.disabled = true;
+
+                try {
+                    const replacements = {
+                        'SOLICITUD': solicitud,
+                        'REPRESENTANTE LEGAL': representante,
+                        'CEDULA': cedula,
+                        'EMPRESA': empresa,
+                        'RIF': rif,
+                        'DIRECCION': direccion
+                    };
+
+                    const nuevoBlob = await reemplazarContentControls(plantillaBuffer, replacements);
+
+                    if (!nuevoBlob || nuevoBlob.size < 1000) {
+                        throw new Error('El archivo generado es demasiado pequeño');
+                    }
+
+                    const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                    const nombreBase = representante.replace(/\s+/g, '_').substring(0, 30);
+                    const nombreArchivo = `CONFORMIDAD_${plantillaSeleccionada.replace('.docx', '')}_${nombreBase}_${fecha}.docx`;
+
+                    window.saveAs(nuevoBlob, nombreArchivo);
+                    setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, 'success');
+
+                } catch (error) {
+                    console.error('❌ Error:', error);
+                    setStatus(`❌ Error: ${error.message}`, 'error');
+                } finally {
+                    generarBtn.disabled = false;
+                    checkAllFieldsFilled();
                 }
             }
-            
-            zip.file(documentXmlPath, documentXml);
-            
-            return zip.generate({
-                type: "blob",
-                mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                compression: "DEFLATE"
+
+            async function inicializar() {
+                const pizzipOk = typeof window.PizZip !== 'undefined';
+                const saveAsOk = typeof window.saveAs !== 'undefined';
+
+                if (!pizzipOk || !saveAsOk) {
+                    setStatus('❌ Error: Librerías no cargadas', 'error');
+                    generarBtn.disabled = true;
+                    return;
+                }
+
+                setupListeners();
+
+                setStatus('📋 Cargando lista de plantillas...', 'loading');
+                await cargarListaPlantillas();
+
+                if (plantillasDisponibles.length === 0) {
+                    setStatus('❌ No hay plantillas disponibles', 'error');
+                    generarBtn.disabled = true;
+                    return;
+                }
+
+                actualizarSelect();
+                const primeraPlantilla = plantillasDisponibles[0];
+                await cargarPlantilla(primeraPlantilla);
+
+                if (plantillaCargada) {
+                    checkAllFieldsFilled();
+                    setStatus('✅ Listo. Completa todos los campos.', 'success');
+                }
+            }
+
+            plantillaSelect.addEventListener('change', async function () {
+                const nombre = plantillaSelect.value;
+                if (!nombre) return;
+
+                await cargarImagenPreview(nombre);
+
+                generarBtn.disabled = true;
+                await cargarPlantilla(nombre);
+                if (plantillaCargada) {
+                    checkAllFieldsFilled();
+                }
             });
-        }
-        
-        async function generarWord() {
-            let solicitud = solicitudInput.value.trim();
-            let representante = repInput.value.trim();
-            let cedula = cedInput.value.trim();
-            let empresa = empresaInput.value.trim();
-            let rif = rifInput.value.trim();
-            let direccion = direccionInput.value.trim();
-            
-            if (solicitud.length > LIMITS.solicitud) solicitud = solicitud.substring(0, LIMITS.solicitud);
-            if (representante.length > LIMITS.representante) representante = representante.substring(0, LIMITS.representante);
-            if (cedula.length > LIMITS.cedula) cedula = cedula.substring(0, LIMITS.cedula);
-            if (empresa.length > LIMITS.empresa) empresa = empresa.substring(0, LIMITS.empresa);
-            if (rif.length > LIMITS.rif) rif = rif.substring(0, LIMITS.rif);
-            if (direccion.length > LIMITS.direccion) direccion = direccion.substring(0, LIMITS.direccion);
-            
-            if (!solicitud) solicitud = "SOLICITUD";
-            if (!representante) representante = "REPRESENTANTE";
-            if (!cedula) cedula = "V-00000000";
-            if (!empresa) empresa = "EMPRESA S.A";
-            if (!rif) rif = "J-00000000-0";
-            if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
-            
-            const plantillaSeleccionada = plantillaSelect.value;
-            if (!plantillaSeleccionada) {
-                setStatus('❌ Selecciona una plantilla', 'error');
-                return;
-            }
-            
-            if (!plantillaBuffer) {
-                setStatus('❌ Plantilla no cargada', 'error');
-                return;
-            }
-            
-            setStatus('⚙️ Procesando Content Controls...', 'loading');
-            generarBtn.disabled = true;
-            
-            try {
-                const replacements = {
-                    'SOLICITUD': solicitud,
-                    'REPRESENTANTE LEGAL': representante,
-                    'CEDULA': cedula,
-                    'EMPRESA': empresa,
-                    'RIF': rif,
-                    'DIRECCION': direccion
-                };
-                
-                const nuevoBlob = await reemplazarContentControls(plantillaBuffer, replacements);
-                
-                if (!nuevoBlob || nuevoBlob.size < 1000) {
-                    throw new Error('El archivo generado es demasiado pequeño');
-                }
-                
-                const fecha = new Date().toISOString().slice(0,19).replace(/:/g, '-');
-                const nombreBase = representante.replace(/\s+/g, '_').substring(0, 30);
-                const nombreArchivo = `CONFORMIDAD_${plantillaSeleccionada.replace('.docx','')}_${nombreBase}_${fecha}.docx`;
-                
-                window.saveAs(nuevoBlob, nombreArchivo);
-                setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, 'success');
-                
-            } catch (error) {
-                console.error('❌ Error:', error);
-                setStatus(`❌ Error: ${error.message}`, 'error');
-            } finally {
-                generarBtn.disabled = false;
-                checkAllFieldsFilled();
-            }
-        }
-        
-        async function inicializar() {
-            const pizzipOk = typeof window.PizZip !== 'undefined';
-            const saveAsOk = typeof window.saveAs !== 'undefined';
-            
-            if (!pizzipOk || !saveAsOk) {
-                setStatus('❌ Error: Librerías no cargadas', 'error');
-                generarBtn.disabled = true;
-                return;
-            }
-            
-            setupListeners();
-            
-            setStatus('📋 Cargando lista de plantillas...', 'loading');
-            await cargarListaPlantillas();
-            
-            if (plantillasDisponibles.length === 0) {
-                setStatus('❌ No hay plantillas disponibles', 'error');
-                generarBtn.disabled = true;
-                return;
-            }
-            
-            actualizarSelect();
-            const primeraPlantilla = plantillasDisponibles[0];
-            await cargarPlantilla(primeraPlantilla);
-            
-            if (plantillaCargada) {
-                checkAllFieldsFilled();
-                setStatus('✅ Listo. Completa todos los campos.', 'success');
-            }
-        }
-        
-        plantillaSelect.addEventListener('change', async function() {
-            const nombre = plantillaSelect.value;
-            if (!nombre) return;
-            
-            await cargarImagenPreview(nombre);
-            
-            generarBtn.disabled = true;
-            await cargarPlantilla(nombre);
-            if (plantillaCargada) {
-                checkAllFieldsFilled();
-            }
-        });
-        
-        generarBtn.addEventListener('click', generarWord);
-        inicializar();
-    })();
-</script>
+
+            generarBtn.addEventListener('click', generarWord);
+            inicializar();
+        })();
+    </script>
 </body>
+
 </html>
