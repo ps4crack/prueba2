@@ -69,7 +69,6 @@
             font-size: 0.85rem;
         }
 
-        /* Nuevo cuadro de instrucciones */
         .instrucciones-box {
             background: #f0f7ff;
             border-left: 6px solid #2c7da0;
@@ -313,6 +312,7 @@
             font-size: 0.9rem;
             transition: all 0.2s;
             font-family: 'Segoe UI', monospace;
+            background-color: white;
         }
 
         textarea {
@@ -337,6 +337,14 @@
         textarea.empty-field {
             border-color: #dc2626;
             background-color: #fef2f2;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+            font-size: 0.85rem;
+            opacity: 0.7;
         }
 
         button {
@@ -406,7 +414,6 @@
             margin-bottom: 1.2rem;
         }
 
-        /* contador de caracteres opcional */
         .char-counter {
             text-align: right;
             font-size: 0.7rem;
@@ -442,7 +449,6 @@
                     <h1>📄 Solicitud de Conformidad Sanitaria</h1>
                 </div>
 
-                <!-- NUEVO CUADRO DE INSTRUCCIONES -->
                 <div class="instrucciones-box">
                     <h4>📘 Instrucciones de uso</h4>
                     <p>1. Seleccione la solicitud de conformidad deseada.</p>
@@ -464,22 +470,22 @@
                 <div class="campo">
                     <label>📝 SOLICITUD / RENOVACION <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="solicitud" value="RENOVACIÓN" maxlength="10"
-                            placeholder="Ej: RENOVACIÓN">
+                        <input type="text" id="solicitud" maxlength="10" placeholder="Ej: RENOVACIÓN, SOLICITUD">
                     </div>
                 </div>
 
                 <div class="campo">
                     <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="representante" value="RUBEN DARIO BALZA ARAUJO" maxlength="36">
+                        <input type="text" id="representante" maxlength="36"
+                            placeholder="Nombre completo del representante legal">
                     </div>
                 </div>
 
                 <div class="campo">
                     <label>🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="cedula" value="V-9.497.299" maxlength="13">
+                        <input type="text" id="cedula" maxlength="13" placeholder="Ej: V-12345678, E-123456789">
                     </div>
                 </div>
 
@@ -487,15 +493,15 @@
                     <div>
                         <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
                         <div class="input-wrapper">
-                            <textarea id="empresa" rows="2"
-                                maxlength="100">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
+                            <textarea id="empresa" rows="2" maxlength="100"
+                                placeholder="Razón social completa de la empresa"></textarea>
                         </div>
                         <div class="char-counter" id="empresaCounter">0 / 100 caracteres</div>
                     </div>
                     <div>
                         <label>📑 RIF <span class="required">*</span></label>
                         <div class="input-wrapper">
-                            <input type="text" id="rif" value="J-50375341-2" maxlength="12">
+                            <input type="text" id="rif" maxlength="12" placeholder="Ej: J-12345678-9, V-12345678-9">
                         </div>
                     </div>
                 </div>
@@ -504,7 +510,7 @@
                     <label>📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
                     <div class="input-wrapper">
                         <textarea id="direccion" rows="3" maxlength="199"
-                            placeholder="Ingrese la dirección completa...">CALLE 21 CON AVENIDA 20 Y CARRERA 21 EDIF SEVERINO</textarea>
+                            placeholder="Ingrese la dirección completa del local comercial"></textarea>
                     </div>
                 </div>
 
@@ -564,12 +570,12 @@
                 solicitud: 10,
                 representante: 36,
                 cedula: 13,
-                empresa: 100,      // Aumentado a 100 caracteres
+                empresa: 100,
                 rif: 12,
                 direccion: 199
             };
 
-            let plantillasDisponibles = [];     // almacena nombres de archivos completos (ej: "plantilla1.docx")
+            let plantillasDisponibles = [];
             let plantillaBuffer = null;
             let plantillaCargada = false;
             let imagenActual = null;
@@ -596,13 +602,11 @@
                 }
             });
 
-            // Función helper: extraer nombre sin extensión para mostrar en select
             function getDisplayNameFromFile(fileName) {
                 if (!fileName) return "";
                 return fileName.replace(/\.docx$/i, '');
             }
 
-            // Actualizar contador de caracteres para empresa
             function updateEmpresaCounter() {
                 const len = empresaInput.value.length;
                 if (empresaCounter) {
@@ -710,7 +714,6 @@
             function enforceLimit(input, limit) {
                 if (input.value.length > limit) {
                     input.value = input.value.substring(0, limit);
-                    // Si es textarea empresa, actualizar contador después de truncar
                     if (input.id === 'empresa') updateEmpresaCounter();
                 }
             }
@@ -733,7 +736,6 @@
                         checkAllFieldsFilled();
                     });
                 });
-                // Empresa contador inicial
                 updateEmpresaCounter();
             }
 
@@ -772,18 +774,16 @@
                     plantillaSelect.disabled = true;
                     return;
                 }
-                // Llenar select mostrando SOLO el nombre sin extensión, pero guardando el nombre completo en value
                 for (const nombreCompleto of plantillasDisponibles) {
                     const option = document.createElement('option');
-                    option.value = nombreCompleto;   // valor interno es el nombre real del archivo
-                    option.textContent = getDisplayNameFromFile(nombreCompleto);  // Muestra sin .docx
+                    option.value = nombreCompleto;
+                    option.textContent = getDisplayNameFromFile(nombreCompleto);
                     plantillaSelect.appendChild(option);
                 }
                 plantillaSelect.disabled = false;
                 plantillaSelect.selectedIndex = 0;
 
                 if (plantillasDisponibles.length > 0) {
-                    // Cargar imagen usando el nombre completo (archivo real)
                     cargarImagenPreview(plantillasDisponibles[0]);
                 }
             }
@@ -836,7 +836,7 @@
                     const escapedValue = escapeXmlText(newValue);
 
                     const patterns = [
-                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"(?:\\s+w:autoTag[^>]*)?/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
+                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '(?:\\s+w:autoTag[^>]*)?"/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
                         new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
                         new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
                         new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi')
@@ -972,7 +972,6 @@
                 const nombreCompleto = plantillaSelect.value;
                 if (!nombreCompleto) return;
 
-                // Actualizar vista previa de imagen usando el nombre completo real
                 await cargarImagenPreview(nombreCompleto);
 
                 generarBtn.disabled = true;
