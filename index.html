@@ -69,6 +69,46 @@
             font-size: 0.85rem;
         }
 
+        /* Nuevo cuadro de instrucciones */
+        .instrucciones-box {
+            background: #f0f7ff;
+            border-left: 6px solid #2c7da0;
+            border-radius: 20px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .instrucciones-box h4 {
+            color: #1e3a5f;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instrucciones-box p {
+            color: #2d3748;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .instrucciones-box ul {
+            margin-left: 1.2rem;
+            margin-top: 6px;
+        }
+
+        .instrucciones-box li {
+            color: #2d3748;
+            font-size: 0.8rem;
+            margin: 4px 0;
+        }
+
         .imagen-destacada {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             border-radius: 28px;
@@ -366,6 +406,14 @@
             margin-bottom: 1.2rem;
         }
 
+        /* contador de caracteres opcional */
+        .char-counter {
+            text-align: right;
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
         @media (max-width: 950px) {
             .main-container {
                 flex-direction: column;
@@ -392,6 +440,18 @@
             <div class="card">
                 <div class="header">
                     <h1>📄 Solicitud de Conformidad Sanitaria</h1>
+                </div>
+
+                <!-- NUEVO CUADRO DE INSTRUCCIONES -->
+                <div class="instrucciones-box">
+                    <h4>📘 Instrucciones de uso</h4>
+                    <p>1. Seleccione la solicitud de conformidad deseada.</p>
+                    <p>2. Complete todos los campos obligatorios marcados con <span style="color:#dc2626;">*</span>.</p>
+                    <p>3. Puede visualizar los recaudos en la imagen (click para ampliar).</p>
+                    <p>4. Presione <strong>"GENERAR SOLICITUD"</strong> para descargar el documento con los datos
+                        insertados.</p>
+                    <p>⚠️ Asegúrese de ingresar correctamente los datos para evitar errores en el documento generado.
+                    </p>
                 </div>
 
                 <div class="plantilla-selection">
@@ -428,8 +488,9 @@
                         <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
                         <div class="input-wrapper">
                             <textarea id="empresa" rows="2"
-                                maxlength="68">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
+                                maxlength="100">FARMACIA CLINIFARMA, C.A (SUCURSAL)</textarea>
                         </div>
+                        <div class="char-counter" id="empresaCounter">0 / 100 caracteres</div>
                     </div>
                     <div>
                         <label>📑 RIF <span class="required">*</span></label>
@@ -459,7 +520,7 @@
 
         <div class="image-container">
             <div class="imagen-destacada">
-                <h3>🖼️ VISTA PREVIA</h3>
+                <h3>🖼️ RECAUDOS</h3>
                 <div class="imagen-wrapper" id="imgContainer">
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
@@ -493,6 +554,7 @@
             const statusDiv = document.getElementById('statusMsg');
             const plantillaSelect = document.getElementById('plantillaSelect');
             const imgContainer = document.getElementById('imgContainer');
+            const empresaCounter = document.getElementById('empresaCounter');
 
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
@@ -502,12 +564,12 @@
                 solicitud: 10,
                 representante: 36,
                 cedula: 13,
-                empresa: 68,
+                empresa: 100,      // Aumentado a 100 caracteres
                 rif: 12,
                 direccion: 199
             };
 
-            let plantillasDisponibles = [];
+            let plantillasDisponibles = [];     // almacena nombres de archivos completos (ej: "plantilla1.docx")
             let plantillaBuffer = null;
             let plantillaCargada = false;
             let imagenActual = null;
@@ -534,10 +596,29 @@
                 }
             });
 
-            async function cargarImagenPreview(nombrePlantilla) {
-                if (imagenActual === nombrePlantilla) return;
+            // Función helper: extraer nombre sin extensión para mostrar en select
+            function getDisplayNameFromFile(fileName) {
+                if (!fileName) return "";
+                return fileName.replace(/\.docx$/i, '');
+            }
 
-                if (!nombrePlantilla) {
+            // Actualizar contador de caracteres para empresa
+            function updateEmpresaCounter() {
+                const len = empresaInput.value.length;
+                if (empresaCounter) {
+                    empresaCounter.textContent = `${len} / ${LIMITS.empresa} caracteres`;
+                    if (len > LIMITS.empresa) {
+                        empresaCounter.style.color = "#dc2626";
+                    } else {
+                        empresaCounter.style.color = "#64748b";
+                    }
+                }
+            }
+
+            async function cargarImagenPreview(nombrePlantillaCompleto) {
+                if (imagenActual === nombrePlantillaCompleto) return;
+
+                if (!nombrePlantillaCompleto) {
                     imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
@@ -549,7 +630,7 @@
                     return;
                 }
 
-                const nombreSinExtension = nombrePlantilla.replace(/\.docx$/i, '');
+                const nombreSinExtension = nombrePlantillaCompleto.replace(/\.docx$/i, '');
                 const extensiones = ['jpg', 'jpeg', 'JPG', 'JPEG'];
                 let imagenEncontrada = false;
 
@@ -566,7 +647,7 @@
                                  onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-img\'><span class=\'no-img-icon\'>❌</span><br>Error al cargar imagen</div>'">
                         `;
                             imagenEncontrada = true;
-                            imagenActual = nombrePlantilla;
+                            imagenActual = nombrePlantillaCompleto;
                             break;
                         }
                     } catch (error) {
@@ -582,7 +663,7 @@
                         <strong>${nombreSinExtension}.jpg</strong>
                     </div>
                 `;
-                    imagenActual = nombrePlantilla;
+                    imagenActual = nombrePlantillaCompleto;
                     currentImageUrl = null;
                 }
             }
@@ -629,6 +710,8 @@
             function enforceLimit(input, limit) {
                 if (input.value.length > limit) {
                     input.value = input.value.substring(0, limit);
+                    // Si es textarea empresa, actualizar contador después de truncar
+                    if (input.id === 'empresa') updateEmpresaCounter();
                 }
             }
 
@@ -640,13 +723,18 @@
                         if (input.id === 'solicitud') enforceLimit(input, LIMITS.solicitud);
                         else if (input.id === 'representante') enforceLimit(input, LIMITS.representante);
                         else if (input.id === 'cedula') enforceLimit(input, LIMITS.cedula);
-                        else if (input.id === 'empresa') enforceLimit(input, LIMITS.empresa);
+                        else if (input.id === 'empresa') {
+                            enforceLimit(input, LIMITS.empresa);
+                            updateEmpresaCounter();
+                        }
                         else if (input.id === 'rif') enforceLimit(input, LIMITS.rif);
                         else if (input.id === 'direccion') enforceLimit(input, LIMITS.direccion);
 
                         checkAllFieldsFilled();
                     });
                 });
+                // Empresa contador inicial
+                updateEmpresaCounter();
             }
 
             function setStatus(message, type) {
@@ -684,38 +772,40 @@
                     plantillaSelect.disabled = true;
                     return;
                 }
-                for (const nombre of plantillasDisponibles) {
+                // Llenar select mostrando SOLO el nombre sin extensión, pero guardando el nombre completo en value
+                for (const nombreCompleto of plantillasDisponibles) {
                     const option = document.createElement('option');
-                    option.value = nombre;
-                    option.textContent = nombre;
+                    option.value = nombreCompleto;   // valor interno es el nombre real del archivo
+                    option.textContent = getDisplayNameFromFile(nombreCompleto);  // Muestra sin .docx
                     plantillaSelect.appendChild(option);
                 }
                 plantillaSelect.disabled = false;
                 plantillaSelect.selectedIndex = 0;
 
                 if (plantillasDisponibles.length > 0) {
+                    // Cargar imagen usando el nombre completo (archivo real)
                     cargarImagenPreview(plantillasDisponibles[0]);
                 }
             }
 
-            async function cargarPlantilla(nombre) {
-                if (!nombre) return false;
-                const url = `assets/plantilla/${nombre}`;
+            async function cargarPlantilla(nombreCompleto) {
+                if (!nombreCompleto) return false;
+                const url = `assets/plantilla/${nombreCompleto}`;
                 try {
-                    setStatus(`📂 Cargando plantilla "${nombre}"...`, 'loading');
+                    setStatus(`📂 Cargando plantilla "${getDisplayNameFromFile(nombreCompleto)}"...`, 'loading');
                     const response = await fetch(url);
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
                     const buffer = await response.arrayBuffer();
                     if (!buffer || buffer.byteLength < 100) throw new Error('Archivo vacío');
                     plantillaBuffer = buffer;
                     plantillaCargada = true;
-                    setStatus(`✅ Plantilla "${nombre}" cargada.`, 'success');
+                    setStatus(`✅ Plantilla "${getDisplayNameFromFile(nombreCompleto)}" cargada.`, 'success');
                     checkAllFieldsFilled();
                     return true;
                 } catch (error) {
                     plantillaBuffer = null;
                     plantillaCargada = false;
-                    setStatus(`❌ Error cargando "${nombre}"`, 'error');
+                    setStatus(`❌ Error cargando "${getDisplayNameFromFile(nombreCompleto)}"`, 'error');
                     generarBtn.disabled = true;
                     return false;
                 }
@@ -800,8 +890,8 @@
                 if (!rif) rif = "J-00000000-0";
                 if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
 
-                const plantillaSeleccionada = plantillaSelect.value;
-                if (!plantillaSeleccionada) {
+                const plantillaSeleccionadaCompleta = plantillaSelect.value;
+                if (!plantillaSeleccionadaCompleta) {
                     setStatus('❌ Selecciona una plantilla', 'error');
                     return;
                 }
@@ -832,7 +922,8 @@
 
                     const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
                     const nombreBase = representante.replace(/\s+/g, '_').substring(0, 30);
-                    const nombreArchivo = `CONFORMIDAD_${plantillaSeleccionada.replace('.docx', '')}_${nombreBase}_${fecha}.docx`;
+                    const nombrePlantillaDisplay = getDisplayNameFromFile(plantillaSeleccionadaCompleta);
+                    const nombreArchivo = `CONFORMIDAD_${nombrePlantillaDisplay}_${nombreBase}_${fecha}.docx`;
 
                     window.saveAs(nuevoBlob, nombreArchivo);
                     setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, 'success');
@@ -868,8 +959,8 @@
                 }
 
                 actualizarSelect();
-                const primeraPlantilla = plantillasDisponibles[0];
-                await cargarPlantilla(primeraPlantilla);
+                const primeraPlantillaCompleta = plantillasDisponibles[0];
+                await cargarPlantilla(primeraPlantillaCompleta);
 
                 if (plantillaCargada) {
                     checkAllFieldsFilled();
@@ -878,13 +969,14 @@
             }
 
             plantillaSelect.addEventListener('change', async function () {
-                const nombre = plantillaSelect.value;
-                if (!nombre) return;
+                const nombreCompleto = plantillaSelect.value;
+                if (!nombreCompleto) return;
 
-                await cargarImagenPreview(nombre);
+                // Actualizar vista previa de imagen usando el nombre completo real
+                await cargarImagenPreview(nombreCompleto);
 
                 generarBtn.disabled = true;
-                await cargarPlantilla(nombre);
+                await cargarPlantilla(nombreCompleto);
                 if (plantillaCargada) {
                     checkAllFieldsFilled();
                 }
