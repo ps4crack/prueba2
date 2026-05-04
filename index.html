@@ -477,9 +477,9 @@
                 <div class="campo">
                     <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <input type="text" id="representante" maxlength="36"
-                            placeholder="Nombre completo del representante legal">
+                        <input type="text" id="representante" maxlength="50" placeholder="Nombre completo del representante legal">
                     </div>
+                    <div class="char-counter" id="representanteCounter">0 / 50 caracteres</div>
                 </div>
 
                 <div class="campo">
@@ -509,9 +509,10 @@
                 <div class="campo">
                     <label>📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
                     <div class="input-wrapper">
-                        <textarea id="direccion" rows="3" maxlength="199"
+                        <textarea id="direccion" rows="3" maxlength="250"
                             placeholder="Ingrese la dirección completa del local comercial"></textarea>
                     </div>
+                    <div class="char-counter" id="direccionCounter">0 / 250 caracteres</div>
                 </div>
 
                 <button id="generarBtn" disabled>
@@ -561,6 +562,8 @@
             const plantillaSelect = document.getElementById('plantillaSelect');
             const imgContainer = document.getElementById('imgContainer');
             const empresaCounter = document.getElementById('empresaCounter');
+            const representanteCounter = document.getElementById('representanteCounter');
+            const direccionCounter = document.getElementById('direccionCounter');
 
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
@@ -568,11 +571,11 @@
 
             const LIMITS = {
                 solicitud: 10,
-                representante: 36,
+                representante: 50,
                 cedula: 13,
                 empresa: 100,
                 rif: 12,
-                direccion: 199
+                direccion: 250
             };
 
             let plantillasDisponibles = [];
@@ -611,11 +614,23 @@
                 const len = empresaInput.value.length;
                 if (empresaCounter) {
                     empresaCounter.textContent = `${len} / ${LIMITS.empresa} caracteres`;
-                    if (len > LIMITS.empresa) {
-                        empresaCounter.style.color = "#dc2626";
-                    } else {
-                        empresaCounter.style.color = "#64748b";
-                    }
+                    empresaCounter.style.color = len > LIMITS.empresa ? "#dc2626" : "#64748b";
+                }
+            }
+
+            function updateRepresentanteCounter() {
+                const len = repInput.value.length;
+                if (representanteCounter) {
+                    representanteCounter.textContent = `${len} / ${LIMITS.representante} caracteres`;
+                    representanteCounter.style.color = len > LIMITS.representante ? "#dc2626" : "#64748b";
+                }
+            }
+
+            function updateDireccionCounter() {
+                const len = direccionInput.value.length;
+                if (direccionCounter) {
+                    direccionCounter.textContent = `${len} / ${LIMITS.direccion} caracteres`;
+                    direccionCounter.style.color = len > LIMITS.direccion ? "#dc2626" : "#64748b";
                 }
             }
 
@@ -711,32 +726,33 @@
                 });
             }
 
-            function enforceLimit(input, limit) {
+            function enforceLimit(input, limit, updateCounterFn) {
                 if (input.value.length > limit) {
                     input.value = input.value.substring(0, limit);
-                    if (input.id === 'empresa') updateEmpresaCounter();
+                    if (updateCounterFn) updateCounterFn();
                 }
             }
 
             function setupListeners() {
-                const inputs = [solicitudInput, repInput, cedInput, empresaInput, rifInput, direccionInput];
+                const inputs = [
+                    { element: solicitudInput, limit: LIMITS.solicitud, counter: null },
+                    { element: repInput, limit: LIMITS.representante, counter: updateRepresentanteCounter },
+                    { element: cedInput, limit: LIMITS.cedula, counter: null },
+                    { element: empresaInput, limit: LIMITS.empresa, counter: updateEmpresaCounter },
+                    { element: rifInput, limit: LIMITS.rif, counter: null },
+                    { element: direccionInput, limit: LIMITS.direccion, counter: updateDireccionCounter }
+                ];
 
                 inputs.forEach(input => {
-                    input.addEventListener('input', () => {
-                        if (input.id === 'solicitud') enforceLimit(input, LIMITS.solicitud);
-                        else if (input.id === 'representante') enforceLimit(input, LIMITS.representante);
-                        else if (input.id === 'cedula') enforceLimit(input, LIMITS.cedula);
-                        else if (input.id === 'empresa') {
-                            enforceLimit(input, LIMITS.empresa);
-                            updateEmpresaCounter();
-                        }
-                        else if (input.id === 'rif') enforceLimit(input, LIMITS.rif);
-                        else if (input.id === 'direccion') enforceLimit(input, LIMITS.direccion);
-
+                    input.element.addEventListener('input', () => {
+                        enforceLimit(input.element, input.limit, input.counter);
                         checkAllFieldsFilled();
                     });
                 });
+
                 updateEmpresaCounter();
+                updateRepresentanteCounter();
+                updateDireccionCounter();
             }
 
             function setStatus(message, type) {
