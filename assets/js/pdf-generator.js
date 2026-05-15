@@ -1,70 +1,122 @@
 // ==================== GENERADOR DE CSO EN PDF ====================
 // Este script genera un documento PDF con el formato oficial de CSO
-// basado en el archivo v4s.html
+// basado en los recaudos exactos del archivo act.html
 
 // MAPEO DE NOMBRES DE PLANTILLA (del desplegable) a TIPOS DE CSO
 // Estos nombres deben coincidir con los que aparecen en el select del index.html
+// Basado en los nombres exactos de lista.json
 const mapeoNombresPlantilla = {
-    // Mapeo exacto para nombres comunes que aparecen en el desplegable
-    "GRANJAS": "granjas",
-    "GRANJA": "granjas",
-    "CONFORMIDAD SANITARIA DE OCUPACIÓN PARA GRANJAS": "granjas",
-    "VEHICULOS": "vehiculos",
-    "UNIDADES VEHICULARES": "vehiculos",
-    "TRANSPORTE DE DESECHOS": "vehiculos",
-    "URBANISMOS": "urbanismos",
-    "URBANISMO": "urbanismos",
-    "EDIFICACIONES": "urbanismos",
-    "AGUAS RESIDUALES": "aguas_residuales",
-    "TRATAMIENTO DE AGUAS": "aguas_residuales",
-    "POZO": "pozo",
-    "PERFORADO": "pozo",
-    "CISTERNA": "cisterna",
-    "CAMIONES CISTERNA": "cisterna",
-    "REVISION DE PROYECTOS": "revision_proyectos",
-    "VARIABLES SANITARIAS": "variables_sta",
-    "ATMOSFERICA": "atmosfera",
-    "CONTAMINACION ATMOSFERICA": "atmosfera",
-    "PLAGUICIDAS": "plaguicidas",
-    "APLICADORA": "plaguicidas",
-    "DOTACION": "dotacion",
-    "DOTACIÓN": "dotacion"
+    // Mapeo exacto para nombres completos de lista.json (con extensión .docx)
+    "Conformidad Sanitaria De Ocupación De Empresas, Colegios.docx": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
+    "Conformidad Sanitaria De Perforación De Pozos.docx": "Conformidad Sanitaria De Perforación De Pozos",
+    "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión.docx": "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión",
+    "Conformidad Sanitaria De Contaminación Atmosférica.docx": "Conformidad Sanitaria De Contaminación Atmosférica",
+    "Conformidad Sanitaria Para Camiones Cisterna.docx": "Conformidad Sanitaria Para Camiones Cisterna",
+    "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas.docx": "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas",
+    "Conformidad Sanitaria De Ocupación Para Granjas.docx": "Conformidad Sanitaria De Ocupación Para Granjas",
+    "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones.docx": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
+    "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos.docx": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
+    "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado.docx": "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado",
+    "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales.docx": "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales",
+    "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones.docx": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
+    "Conformidad Sanitaria De Ocupación Para Dotación.docx": "Conformidad Sanitaria De Ocupación Para Dotación",
+    "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud.docx": "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud",
+    "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias.docx": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
+    
+    // Versiones sin extensión .docx para compatibilidad
+    "Conformidad Sanitaria De Ocupación De Empresas, Colegios": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
+    "Conformidad Sanitaria De Perforación De Pozos": "Conformidad Sanitaria De Perforación De Pozos",
+    "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión": "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión",
+    "Conformidad Sanitaria De Contaminación Atmosférica": "Conformidad Sanitaria De Contaminación Atmosférica",
+    "Conformidad Sanitaria Para Camiones Cisterna": "Conformidad Sanitaria Para Camiones Cisterna",
+    "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas": "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas",
+    "Conformidad Sanitaria De Ocupación Para Granjas": "Conformidad Sanitaria De Ocupación Para Granjas",
+    "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
+    "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
+    "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado": "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado",
+    "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales": "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales",
+    "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
+    "Conformidad Sanitaria De Ocupación Para Dotación": "Conformidad Sanitaria De Ocupación Para Dotación",
+    "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud": "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud",
+    "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
+    
+    // Palabras clave para búsqueda general (mantener compatibilidad)
+    "GRANJAS": "Conformidad Sanitaria De Ocupación Para Granjas",
+    "GRANJA": "Conformidad Sanitaria De Ocupación Para Granjas",
+    "VEHICULOS": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
+    "UNIDADES VEHICULARES": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
+    "TRANSPORTE DE DESECHOS": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
+    "URBANISMOS": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
+    "URBANISMO": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
+    "EDIFICACIONES": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
+    "AGUAS RESIDUALES": "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales",
+    "TRATAMIENTO DE AGUAS": "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales",
+    "POZO": "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado",
+    "PERFORADO": "Conformidad Sanitaria De Perforación De Pozos",
+    "PERFORACIÓN": "Conformidad Sanitaria De Perforación De Pozos",
+    "CISTERNA": "Conformidad Sanitaria Para Camiones Cisterna",
+    "CAMIONES CISTERNA": "Conformidad Sanitaria Para Camiones Cisterna",
+    "REVISION DE PROYECTOS": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
+    "REVISIÓN DE PROYECTOS": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
+    "VARIABLES SANITARIAS": "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión",
+    "ATMOSFERICA": "Conformidad Sanitaria De Contaminación Atmosférica",
+    "ATMOSFÉRICA": "Conformidad Sanitaria De Contaminación Atmosférica",
+    "CONTAMINACION ATMOSFERICA": "Conformidad Sanitaria De Contaminación Atmosférica",
+    "PLAGUICIDAS": "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas",
+    "APLICADORA": "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas",
+    "DOTACION": "Conformidad Sanitaria De Ocupación Para Dotación",
+    "DOTACIÓN": "Conformidad Sanitaria De Ocupación Para Dotación",
+    "DENUNCIAS": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
+    "INSPECCIÓN": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
+    "EMPRESAS": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
+    "COLEGIOS": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
+    "INCINERACIÓN": "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud"
 };
 
 // Función para determinar el tipo de CSO basado en el nombre de la plantilla del select
 function determinarTipoCSO(nombrePlantilla) {
-    if (!nombrePlantilla) return "granjas";
+    if (!nombrePlantilla) return "Conformidad Sanitaria De Ocupación Para Granjas";
     
+    const nombreOriginal = nombrePlantilla;
     const nombreUpper = nombrePlantilla.toUpperCase();
     
-    // Buscar coincidencia exacta en el mapeo
+    // 1. Buscar coincidencia exacta con el nombre completo (con o sin .docx)
     for (const [clave, valor] of Object.entries(mapeoNombresPlantilla)) {
-        if (nombreUpper.includes(clave)) {
-            console.log(`✅ Plantilla "${nombrePlantilla}" mapeada a tipo: ${valor}`);
+        if (nombreOriginal === clave) {
+            console.log(`✅ Coincidencia exacta: "${nombrePlantilla}" -> ${valor}`);
             return valor;
         }
     }
     
-    // Si no hay coincidencia, intentar con palabras clave
-    if (nombreUpper.includes("GRANJA")) return "granjas";
-    if (nombreUpper.includes("VEHICULO") || nombreUpper.includes("TRANSPORTE")) return "vehiculos";
-    if (nombreUpper.includes("URBANISMO") || nombreUpper.includes("EDIFICACION")) return "urbanismos";
-    if (nombreUpper.includes("AGUA") || nombreUpper.includes("RESIDUAL")) return "aguas_residuales";
-    if (nombreUpper.includes("POZO")) return "pozo";
-    if (nombreUpper.includes("CISTERNA")) return "cisterna";
-    if (nombreUpper.includes("REVISION") || nombreUpper.includes("PROYECTO")) return "revision_proyectos";
-    if (nombreUpper.includes("VARIABLE")) return "variables_sta";
-    if (nombreUpper.includes("ATMOSFERA")) return "atmosfera";
-    if (nombreUpper.includes("PLAGUICIDA")) return "plaguicidas";
-    if (nombreUpper.includes("DOTACION")) return "dotacion";
+    // 2. Buscar coincidencia por inclusión (para nombres que contengan la clave)
+    for (const [clave, valor] of Object.entries(mapeoNombresPlantilla)) {
+        if (clave.length > 5 && nombreUpper.includes(clave.toUpperCase())) {
+            console.log(`✅ Coincidencia por inclusión: "${nombrePlantilla}" contiene "${clave}" -> ${valor}`);
+            return valor;
+        }
+    }
     
-    console.warn(`⚠️ No se encontró mapeo para: "${nombrePlantilla}", usando tipo por defecto: granjas`);
-    return "granjas"; // Por defecto
+    // 3. Buscar por palabras clave específicas
+    if (nombreUpper.includes("GRANJA") || nombreUpper.includes("EMPRESAS") || nombreUpper.includes("COLEGIOS")) return "Conformidad Sanitaria De Ocupación Para Granjas";
+    if (nombreUpper.includes("VEHICULO") || nombreUpper.includes("TRANSPORTE") || nombreUpper.includes("UNIDADES VEHICULARES")) return "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos";
+    if (nombreUpper.includes("URBANISMO") || nombreUpper.includes("EDIFICACION")) return "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones";
+    if (nombreUpper.includes("AGUA") || nombreUpper.includes("RESIDUAL") || nombreUpper.includes("TRATAMIENTO DE AGUAS")) return "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales";
+    if (nombreUpper.includes("POZO") || nombreUpper.includes("PERFORACIÓN") || nombreUpper.includes("PERFORADO")) return "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado";
+    if (nombreUpper.includes("CISTERNA")) return "Conformidad Sanitaria Para Camiones Cisterna";
+    if (nombreUpper.includes("REVISION") || nombreUpper.includes("REVISIÓN") || nombreUpper.includes("PROYECTO") || nombreUpper.includes("INCINERACIÓN")) return "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones";
+    if (nombreUpper.includes("VARIABLE")) return "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión";
+    if (nombreUpper.includes("ATMOSFERA") || nombreUpper.includes("ATMOSFÉRICA")) return "Conformidad Sanitaria De Contaminación Atmosférica";
+    if (nombreUpper.includes("PLAGUICIDA")) return "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas";
+    if (nombreUpper.includes("DOTACION") || nombreUpper.includes("DOTACIÓN")) return "Conformidad Sanitaria De Ocupación Para Dotación";
+    if (nombreUpper.includes("DENUNCIA") || nombreUpper.includes("INSPECCIÓN")) return "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias";
+    
+    console.warn(`⚠️ No se encontró mapeo para: "${nombrePlantilla}", usando tipo por defecto: Conformidad Sanitaria De Ocupación Para Granjas`);
+    return "Conformidad Sanitaria De Ocupación Para Granjas"; // Por defecto
 }
 
-// ==================== RECAUDOS EXACTOS SEGÚN CADA WORD ORIGINAL ====================
+// ==================== RECAUDOS EXACTOS SEGÚN ACT.HTML ====================
 const recaudosPorTipo = {
-    granjas: {
+    "Conformidad Sanitaria De Ocupación Para Granjas": {
         titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE OCUPACIÓN PARA GRANJAS",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -79,7 +131,7 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
         ]
     },
-    vehiculos: {
+    "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos": {
         titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE OCUPACIÓN PARA UNIDADES VEHICULARES QUE TRANSPORTEN DESECHOS GENERADOS EN ESTABLECIMIENTOS DE SALUD Y DESECHOS CÁRNICOS",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -94,7 +146,7 @@ const recaudosPorTipo = {
             "NOTA: La unidad vehicular deberá ser presentadas previa planificación con la autoridad sanitaria de esta dirección para realizar la correspondiente inspección."
         ]
     },
-    urbanismos: {
+    "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones": {
         titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE OCUPACIÓN PARA URBANISMOS Y EDIFICACIONES",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -109,7 +161,7 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro de la conformidad."
         ]
     },
-    aguas_residuales: {
+    "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales": {
         titulo: "REQUISITOS PARA SOLICITAR EL PERMISO DE OPERACIÓN DE SISTEMAS DE TRATAMIENTO DE AGUAS RESIDUALES",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -126,7 +178,7 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (0,5) U.T, al momento de retiro."
         ]
     },
-    pozo: {
+    "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado": {
         titulo: "REQUISITOS PARA SOLICITAR EL PERMISO DEL USO DEL AGUA PROVENIENTE DE POZO PERFORADO",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -143,7 +195,7 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
         ]
     },
-    cisterna: {
+    "Conformidad Sanitaria Para Camiones Cisterna": {
         titulo: "REQUISITOS PARA SOLICITAR POR PRIMERA VEZ AUTORIZACIÓN SANITARIA PARA CAMIONES CISTERNAS",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -157,7 +209,7 @@ const recaudosPorTipo = {
             "NOTA: La unidad vehicular deberá ser presentadas previa planificación con la autoridad sanitaria de esta dirección para realizar la correspondiente inspección."
         ]
     },
-    revision_proyectos: {
+    "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones": {
         titulo: "REQUISITOS PARA REVISIÓN DE PROYECTOS DE URBANISMO Y EDIFICACIONES (VARIABLES SANITARIAS)",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -174,7 +226,7 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (0,5) U.T, al momento de retiro."
         ]
     },
-    variables_sta: {
+    "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión": {
         titulo: "REQUISITOS PARA SOLICITAR DEL PROYECTO (VARIABLE SANITARIAS) DE SISTEMAS DE TRATAMIENTO DE AGUAS RESIDUALES REVISIÓN",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -184,11 +236,11 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (5) U.T, al momento de retiro."
         ]
     },
-    atmosfera: {
+    "Conformidad Sanitaria De Contaminación Atmosférica": {
         titulo: "AUTORIZACIÓN SANITARIA DE LA CONTAMINACIÓN ATMOSFÉRICA",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
-            "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
+            "Consignar todos los documentos debidamente foliados in carpeta marrón tipo oficio con gancho, separadores.",
             "Copia de cedula de identidad del representante legal de la razón social.",
             "Copia del Rif de la empresa (Vigente).",
             "Copia del Registro mercantil de la empresa.",
@@ -204,7 +256,7 @@ const recaudosPorTipo = {
             "Para retirar, consignar (2) timbres fiscales de 1 U.T."
         ]
     },
-    plaguicidas: {
+    "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas": {
         titulo: "REQUISITOS DE CONFORMIDAD SANITARIA DE OCUPACIÓN PARA APLICADORAS, EXPENDIO Y DEPÓSITOS DE PLAGUICIDAS",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -220,7 +272,7 @@ const recaudosPorTipo = {
             "Consignar timbres fiscales por un valor de (2) U.T, al momento del retiro."
         ]
     },
-    dotacion: {
+    "Conformidad Sanitaria De Ocupación Para Dotación": {
         titulo: "REQUISITOS PARA SOLICITUD DOTACIÓN SANITARIA",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
@@ -233,20 +285,82 @@ const recaudosPorTipo = {
             "Copia de los cálculos.",
             "Consignar el impuesto en timbres fiscales según sea el caso, 10 U.T, por actividad para uso doméstico y comercial 20 U.T para uso industrial, al momento de retirar la dotación sanitaria."
         ]
+    },
+    "Conformidad Sanitaria De Ocupación De Empresas, Colegios": {
+        titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE OCUPACIÓN PARA EMPRESAS Y COLEGIOS",
+        lista: [
+            "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
+            "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
+            "Copia de cedula de identidad del representante legal de la razón social.",
+            "Copia del Rif de la empresa (Vigente).",
+            "Copia del Registro mercantil de la empresa o acta constitutiva.",
+            "Copia de conformidad de uso expedida por la Alcaldía que corresponda.",
+            "Copia de los planos actualizados de arquitectura debidamente acotados, indicando medios de ventilación e iluminación natural, dimensiones de los ambientes.",
+            "Memoria Descriptiva (Datos generales de la empresa, dirección, N° trabajadores por género y por área, horario, objeto de la empresa, descripción de áreas con que cuenta, proceso o actividad, fuente de abastecimiento de agua, disposición final de los desechos).",
+            "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
+        ]
+    },
+    "Conformidad Sanitaria De Perforación De Pozos": {
+        titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE PERFORACIÓN DE POZOS",
+        lista: [
+            "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
+            "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
+            "Copia de cedula de identidad del representante legal.",
+            "Copia del documento de propiedad del terreno donde se realizará la perforación.",
+            "Autorización del Ministerio del Poder Popular para el Ambiente para la perforación del pozo.",
+            "Estudio hidrogeológico de la zona.",
+            "Planos de ubicación y diseño del pozo.",
+            "Especificaciones técnicas del equipo de perforación.",
+            "Medidas de protección ambiental durante la perforación.",
+            "Plan de manejo de lodos y residuos generados.",
+            "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
+        ]
+    },
+    "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud": {
+        titulo: "REQUISITOS PARA REVISIÓN DE PROYECTOS (VARIABLES SANITARIAS) DE EQUIPOS DE INCINERACIÓN PARA DESECHOS GENERADOS EN ESTABLECIMIENTOS DE SALUD",
+        lista: [
+            "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
+            "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
+            "Copia de cedula de identidad del representante legal.",
+            "Copia del Rif de la empresa (Vigente).",
+            "Copia del Registro mercantil de la empresa.",
+            "Memoria descriptiva del equipo de incineración, especificaciones técnicas y capacidad.",
+            "Planos de ubicación y distribución del equipo.",
+            "Caracterización de las emisiones atmosféricas generadas.",
+            "Medidas de control y monitoreo de emisiones.",
+            "Plan de mantenimiento del equipo de incineración.",
+            "Certificación del fabricante del equipo.",
+            "Protocolo de operación segura.",
+            "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
+        ]
+    },
+    "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias": {
+        titulo: "REQUISITOS PARA SOLICITUD DE INSPECCIÓN POR DENUNCIAS",
+        lista: [
+            "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
+            "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
+            "Copia de cédula de identidad del denunciante.",
+            "Descripción detallada de los hechos denunciados, incluyendo dirección exacta, horarios y cualquier información relevante.",
+            "Fotografías, videos o cualquier evidencia que soporte la denuncia (si aplica).",
+            "Nombre y dirección del presunto infractor (si se conoce).",
+            "Relación de posibles testigos con sus datos de contacto (si aplica).",
+            "Cualquier documento adicional que respalde la denuncia.",
+            "Consignar timbres fiscales por un valor de (0,15) U.T, al momento de la solicitud."
+        ]
     }
 };
 
 // Función principal para generar el PDF del CSO
 function generarCSOPDF(datosFormulario, nombrePlantilla) {
     // Determinar el tipo de CSO basado en el nombre de la plantilla seleccionada
-    const tipoCSO = determinarTipoCSO(nombrePlantilla);
-    const data = recaudosPorTipo[tipoCSO];
+    const claveCSO = determinarTipoCSO(nombrePlantilla);
+    const data = recaudosPorTipo[claveCSO];
     
     if (!data) {
-        console.error("Tipo de CSO no encontrado:", tipoCSO);
+        console.error("Tipo de CSO no encontrado:", claveCSO);
         alert(`Error: No se encontraron los requisitos para "${nombrePlantilla}". Se generará con el formato por defecto.`);
-        // Usar formato por defecto (granjas)
-        const dataDefault = recaudosPorTipo.granjas;
+        // Usar formato por defecto (Granjas)
+        const dataDefault = recaudosPorTipo["Conformidad Sanitaria De Ocupación Para Granjas"];
         generarPDFConDatos(datosFormulario, dataDefault, nombrePlantilla);
         return;
     }
