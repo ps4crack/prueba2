@@ -1,10 +1,8 @@
 // ==================== GENERADOR DE CSO EN PDF ====================
 // Este script genera un documento PDF con el formato oficial de CSO
-// basado en los recaudos exactos del archivo act.html
+// basado en los recaudos exactos de los archivos Word
 
 // MAPEO DE NOMBRES DE PLANTILLA (del desplegable) a TIPOS DE CSO
-// Estos nombres deben coincidir con los que aparecen en el select del index.html
-// Basado en los nombres exactos de lista.json
 const mapeoNombresPlantilla = {
     // Mapeo exacto para nombres completos de lista.json (con extensión .docx)
     "Conformidad Sanitaria De Ocupación De Empresas, Colegios.docx": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
@@ -38,39 +36,7 @@ const mapeoNombresPlantilla = {
     "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
     "Conformidad Sanitaria De Ocupación Para Dotación": "Conformidad Sanitaria De Ocupación Para Dotación",
     "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud": "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud",
-    "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
-    
-    // Palabras clave para búsqueda general (mantener compatibilidad)
-    "GRANJAS": "Conformidad Sanitaria De Ocupación Para Granjas",
-    "GRANJA": "Conformidad Sanitaria De Ocupación Para Granjas",
-    "VEHICULOS": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
-    "UNIDADES VEHICULARES": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
-    "TRANSPORTE DE DESECHOS": "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos",
-    "URBANISMOS": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
-    "URBANISMO": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
-    "EDIFICACIONES": "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones",
-    "AGUAS RESIDUALES": "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales",
-    "TRATAMIENTO DE AGUAS": "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales",
-    "POZO": "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado",
-    "PERFORADO": "Conformidad Sanitaria De Perforación De Pozos",
-    "PERFORACIÓN": "Conformidad Sanitaria De Perforación De Pozos",
-    "CISTERNA": "Conformidad Sanitaria Para Camiones Cisterna",
-    "CAMIONES CISTERNA": "Conformidad Sanitaria Para Camiones Cisterna",
-    "REVISION DE PROYECTOS": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
-    "REVISIÓN DE PROYECTOS": "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones",
-    "VARIABLES SANITARIAS": "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión",
-    "ATMOSFERICA": "Conformidad Sanitaria De Contaminación Atmosférica",
-    "ATMOSFÉRICA": "Conformidad Sanitaria De Contaminación Atmosférica",
-    "CONTAMINACION ATMOSFERICA": "Conformidad Sanitaria De Contaminación Atmosférica",
-    "PLAGUICIDAS": "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas",
-    "APLICADORA": "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas",
-    "DOTACION": "Conformidad Sanitaria De Ocupación Para Dotación",
-    "DOTACIÓN": "Conformidad Sanitaria De Ocupación Para Dotación",
-    "DENUNCIAS": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
-    "INSPECCIÓN": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias",
-    "EMPRESAS": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
-    "COLEGIOS": "Conformidad Sanitaria De Ocupación De Empresas, Colegios",
-    "INCINERACIÓN": "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud"
+    "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias": "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias"
 };
 
 // Función para determinar el tipo de CSO basado en el nombre de la plantilla del select
@@ -88,7 +54,7 @@ function determinarTipoCSO(nombrePlantilla) {
         }
     }
     
-    // 2. Buscar coincidencia por inclusión (para nombres que contengan la clave)
+    // 2. Buscar coincidencia por inclusión
     for (const [clave, valor] of Object.entries(mapeoNombresPlantilla)) {
         if (clave.length > 5 && nombreUpper.includes(clave.toUpperCase())) {
             console.log(`✅ Coincidencia por inclusión: "${nombrePlantilla}" contiene "${clave}" -> ${valor}`);
@@ -97,24 +63,27 @@ function determinarTipoCSO(nombrePlantilla) {
     }
     
     // 3. Buscar por palabras clave específicas
-    if (nombreUpper.includes("GRANJA") || nombreUpper.includes("EMPRESAS") || nombreUpper.includes("COLEGIOS")) return "Conformidad Sanitaria De Ocupación Para Granjas";
-    if (nombreUpper.includes("VEHICULO") || nombreUpper.includes("TRANSPORTE") || nombreUpper.includes("UNIDADES VEHICULARES")) return "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos";
+    if (nombreUpper.includes("GRANJA")) return "Conformidad Sanitaria De Ocupación Para Granjas";
+    if (nombreUpper.includes("VEHICULO") || nombreUpper.includes("TRANSPORTE")) return "Conformidad Sanitaria De Ocupación Para Unidades Vehiculares Que Transporten Desechos Generados En Establecimientos De Salud Y Desechos Cárnicos";
     if (nombreUpper.includes("URBANISMO") || nombreUpper.includes("EDIFICACION")) return "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones";
-    if (nombreUpper.includes("AGUA") || nombreUpper.includes("RESIDUAL") || nombreUpper.includes("TRATAMIENTO DE AGUAS")) return "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales";
-    if (nombreUpper.includes("POZO") || nombreUpper.includes("PERFORACIÓN") || nombreUpper.includes("PERFORADO")) return "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado";
+    if (nombreUpper.includes("AGUA") || nombreUpper.includes("RESIDUAL")) return "Conformidad Sanitaria De Permiso De Operación De Sistemas De Tratamiento De Aguas Residuales";
+    if (nombreUpper.includes("POZO") && nombreUpper.includes("USO")) return "Conformidad Sanitaria De Permiso Del Uso Del Agua Proveniente De Pozo Perforado";
+    if (nombreUpper.includes("PERFORACIÓN") || nombreUpper.includes("PERFORACION")) return "Conformidad Sanitaria De Perforación De Pozos";
     if (nombreUpper.includes("CISTERNA")) return "Conformidad Sanitaria Para Camiones Cisterna";
-    if (nombreUpper.includes("REVISION") || nombreUpper.includes("REVISIÓN") || nombreUpper.includes("PROYECTO") || nombreUpper.includes("INCINERACIÓN")) return "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones";
+    if (nombreUpper.includes("REVISION") || nombreUpper.includes("REVISIÓN")) return "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones";
     if (nombreUpper.includes("VARIABLE")) return "Conformidad Sanitaria Para Variable Sanitarias De Sistemas De Tratamiento De Aguas Residuales Revisión";
-    if (nombreUpper.includes("ATMOSFERA") || nombreUpper.includes("ATMOSFÉRICA")) return "Conformidad Sanitaria De Contaminación Atmosférica";
+    if (nombreUpper.includes("ATMOSFERICA") || nombreUpper.includes("ATMOSFÉRICA")) return "Conformidad Sanitaria De Contaminación Atmosférica";
     if (nombreUpper.includes("PLAGUICIDA")) return "Conformidad Sanitaria De Ocupación Para Aplicadora Expendio Y Deposito Plaguicidas";
     if (nombreUpper.includes("DOTACION") || nombreUpper.includes("DOTACIÓN")) return "Conformidad Sanitaria De Ocupación Para Dotación";
     if (nombreUpper.includes("DENUNCIA") || nombreUpper.includes("INSPECCIÓN")) return "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias";
+    if (nombreUpper.includes("EMPRESAS") || nombreUpper.includes("COLEGIOS")) return "Conformidad Sanitaria De Ocupación De Empresas, Colegios";
+    if (nombreUpper.includes("INCINERACIÓN") || nombreUpper.includes("INCINERACION")) return "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud";
     
-    console.warn(`⚠️ No se encontró mapeo para: "${nombrePlantilla}", usando tipo por defecto: Conformidad Sanitaria De Ocupación Para Granjas`);
-    return "Conformidad Sanitaria De Ocupación Para Granjas"; // Por defecto
+    console.warn(`⚠️ No se encontró mapeo para: "${nombrePlantilla}", usando tipo por defecto`);
+    return "Conformidad Sanitaria De Ocupación Para Granjas";
 }
 
-// ==================== RECAUDOS EXACTOS SEGÚN ACT.HTML ====================
+// ==================== RECAUDOS EXACTOS SEGÚN DOCUMENTOS WORD ====================
 const recaudosPorTipo = {
     "Conformidad Sanitaria De Ocupación Para Granjas": {
         titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE OCUPACIÓN PARA GRANJAS",
@@ -141,9 +110,9 @@ const recaudosPorTipo = {
             "Memoria descriptiva que contenga: descripción de la unidad vehicular referida a las especificaciones indicadas en el DECRETO Nº 2.218 del 23/04/92 publicado en Gaceta oficial Nª 4.418 de fecha 27/04/92., fotos de la unidad vehicular que abarque rotulados, placas, depósito de lixiviados, depósito de equipos de protección personal, termostato., describir el proceso de limpieza y desinfección del vehículo, donde lo realiza y productos utilizados, hoja de seguridad del transporte, hoja de seguimiento desde la recolección hasta la disposición final.",
             "Copia del convenios y/o contratos para la disposición final de los desechos transportados.",
             "Anexar el listado de las empresas a las cuales suministra el servicio de transporte.",
-            "Copia del permiso anterior en caso d ser Renovación.",
+            "Copia del permiso anterior en caso de ser Renovación.",
             "Para retirar, consignar (2) timbres fiscales de 1 U.T.",
-            "NOTA: La unidad vehicular deberá ser presentadas previa planificación con la autoridad sanitaria de esta dirección para realizar la correspondiente inspección."
+            "NOTA: La unidad vehicular deberá ser presentada previa planificación con la autoridad sanitaria de esta dirección para realizar la correspondiente inspección."
         ]
     },
     "Conformidad Sanitaria De Ocupación Para Urbanismos Y Edificaciones": {
@@ -152,7 +121,7 @@ const recaudosPorTipo = {
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con ganchos y separadores.",
             "Memoria descriptiva de la edificación o urbanismo.",
-            "Copia de planos: de planta de la edificación acotado y a escala a 1:50 (ò a escala legible).",
+            "Copia de planos: de planta de la edificación acotado y a escala a 1:50 (ó a escala legible).",
             "Consignar copia de variables urbanas fundamentales expedidas por la alcaldía correspondiente.",
             "Presentar copia de garantía de servicios: acueducto y cloacas, expedido por HIDROLARA.",
             "Copia de constancia de bomberos municipales.",
@@ -189,7 +158,7 @@ const recaudosPorTipo = {
             "Dibujo esquemático de la instalación del pozo, indicando la posición de rejillas o de las ranuras de la tubería de revestimiento, del equipo de bombeo y de las instalaciones adicionales requeridas escala conveniente, indicando las medidas de protección adoptada: placa de concreto, drenaje de pisos, pendiente, drenaje de los alrededores, caseta de protección, área de terreno para la ubicación del pozo, cerca, puerta de protección, acceso y otros.",
             "Planilla con los datos técnicos del pozo. Completada con la información indicada en los anexos 12 y 13.",
             "Copia de planos acotados indicando el sistema de bombeo y sus etapas respectivas.",
-            "Consignar los análisis bacteriológicos y físicos químicos correspondientes a muestras captadas en el pozo. Estos análisis deberán ser practicados por laboratorios de análisis de agua reconocidos y autorizados (articulo 63).",
+            "Consignar los análisis bacteriológicos y físicos químicos correspondientes a muestras captadas en el pozo. Estos análisis deberán ser practicados por laboratorios de análisis de agua reconocidos y autorizados (artículo 63).",
             "Copia de la autorización del Ministerio del poder popular para el Ambiente para la perforación del pozo y para el uso explotación del recurso hídrico.",
             "Copia de documento de propietario o contrato de arrendamiento de la edificación en la cual funciona la empresa o la cooperativa.",
             "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
@@ -200,13 +169,13 @@ const recaudosPorTipo = {
         lista: [
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con ganchos y separadores.",
-            "Copia del titulo de propiedad del camión cisterna. Si el propietario posee documento notariado deberá anexar la copia del mismo.",
-            "Si la unidad en su titulo de propiedad tiene una tipología diferente a: cisterna y/o tanque, deberá anexarse fotocopias de constancia emitida por el INTTT dando el cambio de tipología.",
+            "Copia del título de propiedad del camión cisterna. Si el propietario posee documento notariado deberá anexar la copia del mismo.",
+            "Si la unidad en su título de propiedad tiene una tipología diferente a: cisterna y/o tanque, deberá anexarse fotocopias de constancia emitida por el INTTT dando el cambio de tipología.",
             "Copia de cédula de identidad del propietario y conductor.",
             "Copia de certificado de salud del conductor y del propietario si este labora en el transporte del agua.",
             "Copia de la autorización sanitaria anterior en caso de ser Renovación.",
             "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro de la conformidad.",
-            "NOTA: La unidad vehicular deberá ser presentadas previa planificación con la autoridad sanitaria de esta dirección para realizar la correspondiente inspección."
+            "NOTA: La unidad vehicular deberá ser presentada previa planificación con la autoridad sanitaria de esta dirección para realizar la correspondiente inspección."
         ]
     },
     "Conformidad Sanitaria Para Revisión De Proyectos De Urbanismo Y Edificaciones": {
@@ -219,8 +188,8 @@ const recaudosPorTipo = {
             "Acreditación técnica del estudio de impacto ambiental.",
             "Solvencia del profesional responsable del proyecto.",
             "Garantía de servicio de HIDROLARA.",
-            "Juego de planos de los servicios del urbanismo: acueducto (planta, detalle de nodos y toma domiciliaria, detalles de hidrante), cloacas (planta y perfiles cloacales), drenaje (planta y en caso de tener sub-drenaje anexar plano de perfiles). Importante indicar una vez revisado y corregido por el servicio de ingeniería sanitaria se consignarán dos juegos iguales el revisado y aprobado.",
-            "Juego de planos de la vivienda o edificación: planos de arquitectura: planta de distribución, cortes, fachadas y planta techo; plano de instalaciones sanitarias aguas blancas y aguas negras, (planta, detalles e isometría), planos drenaje, importante indicar una vez revisado y corregido por el servicio de ingeniería sanitaria se consignarán dos juegos iguales al revisado y aprobado.",
+            "Juego de planos de los servicios del urbanismo: acueducto (planta, detalle de nodos y toma domiciliaria, detalles de hidrante), cloacas (planta y perfiles cloacales), drenaje (planta y en caso de tener sub-drenaje anexar plano de perfiles). Importante indicar una vez revisado y corregido por el servicio de ingeniería sanitaria se consignarán dos juegos iguales al revisado y aprobado.",
+            "Juego de planos de la vivienda o edificación: planos de arquitectura: planta de distribución, cortes, fachadas y planta techo; plano de instalaciones sanitarias aguas blancas y aguas negras, (planta, detalles e isometría), planos drenaje. Importante indicar una vez revisado y corregido por el servicio de ingeniería sanitaria se consignarán dos juegos iguales al revisado y aprobado.",
             "Memoria descriptiva arquitectónica que describa distribución de espacios, ventilación e iluminación de la edificación.",
             "Autorización de la descarga del drenaje del proyecto emitida por la autoridad competente.",
             "Consignar timbres fiscales por un valor de (0,5) U.T, al momento de retiro."
@@ -231,7 +200,7 @@ const recaudosPorTipo = {
         lista: [
             "Realizar la solicitud en papel simple con (1) timbres de 0,15 U.T dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con ganchos y separadores.",
-            "Consignar los requisitos estipulados en el capítulo XI: del tratamiento requerido y del sistema para el tratamiento de las aguas residuales de origen domestico e industrial estipulados en las normas sanitarias para el proyecto, construcción, ampliación, reforma y mantenimiento de las instalaciones sanitarias para desarrollo urbanísticos, G.O Nº 4.103 de fecha 02/06/1989.",
+            "Consignar los requisitos estipulados en el capítulo XI: del tratamiento requerido y del sistema para el tratamiento de las aguas residuales de origen doméstico e industrial estipulados en las normas sanitarias para el proyecto, construcción, ampliación, reforma y mantenimiento de las instalaciones sanitarias para desarrollo urbanísticos, G.O Nº 4.103 de fecha 02/06/1989.",
             "Autorización de la descarga del drenaje del proyecto emitida por la autoridad competente.",
             "Consignar timbres fiscales por un valor de (5) U.T, al momento de retiro."
         ]
@@ -240,15 +209,15 @@ const recaudosPorTipo = {
         titulo: "AUTORIZACIÓN SANITARIA DE LA CONTAMINACIÓN ATMOSFÉRICA",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
-            "Consignar todos los documentos debidamente foliados in carpeta marrón tipo oficio con gancho, separadores.",
-            "Copia de cedula de identidad del representante legal de la razón social.",
+            "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
+            "Copia de cédula de identidad del representante legal de la razón social.",
             "Copia del Rif de la empresa (Vigente).",
             "Copia del Registro mercantil de la empresa.",
             "Permiso vencido de año anterior (En caso de Renovación).",
             "Copia de la Certificación Urbanística expedida por la Alcaldía que corresponda (Vigente).",
-            "Memoria Descriptiva: a) Medidas de control implantada para el (los) contaminantes generados, describiendo: I. Criterio de selección de equipos de control. II. Especificaciones y funcionamiento de equipos de control. III. Plan de mantenimiento de equipos de control. IV. Descripción de procedimientos y/o acciones coadyuvantes dentro de las medidas de control, diferentes al uso de equipos. b) Cantidades esperadas de emisiones de contaminantes a generar. c) Especificaciones sobre el medio(s) a utilizar para la descarga de emisiones atmosféricas.",
+            "Memoria Descriptiva: a. Medidas de control implantada para el (los) contaminantes generados, describiendo: I. Criterio de selección de equipos de control. II. Especificaciones y funcionamiento de equipos de control. III. Plan de mantenimiento de equipos de control. IV. Descripción de procedimientos y/o acciones coadyuvantes dentro de las medidas de control, diferentes al uso de equipos. b. Cantidades esperadas de emisiones de contaminantes a generar. c. Especificaciones sobre el medio(s) a utilizar para la descarga de emisiones atmosféricas.",
             "Caracterización de las emisiones, cuya fecha de realización no sea mayor a 6 meses.",
-            "Previsiones de descarga de emisiones, conforme a los limites de calidad del aire establecidos en las leyes y normas regulatorias en la materia.",
+            "Previsiones de descarga de emisiones, conforme a los límites de calidad del aire establecidos en las leyes y normas regulatorias en la materia.",
             "Planos de situación y ubicación de las instalaciones donde se desarrolla la actividad generadora de emisiones contaminantes al aire, con respecto a comunidades circundantes.",
             "Planos de ubicación de maquinaria que integran el proceso generador de emisiones contaminantes del aire.",
             "Planos de ubicación de control.",
@@ -261,11 +230,11 @@ const recaudosPorTipo = {
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
-            "Copia de la cedula de identidad del representante legal de la razón social.",
+            "Copia de la cédula de identidad del representante legal de la razón social.",
             "Copia del Rif de la empresa (Vigente).",
-            "Certificado de Fumigación por empresa acreditada. (excepto aplicadoras).",
+            "Certificado de Fumigación por empresa acreditada (excepto aplicadoras).",
             "Copia del Registro mercantil de la empresa.",
-            "Memoria Descriptiva (Datos generales de la empresa, dirección de oficina y deposito, N° trabajadores por género y por área, horario, objeto de la empresa, descripción de áreas con que cuenta, proceso o actividad, medidas de prevención y seguridad para el personal, productos y equipos).",
+            "Memoria Descriptiva (Datos generales de la empresa, dirección de oficina y depósito, N° trabajadores por género y por área, horario, objeto de la empresa, descripción de áreas con que cuenta, proceso o actividad, medidas de prevención y seguridad para el personal, productos y equipos).",
             "Conformidad Sanitaria de Ocupación (CSO) vencido de año anterior (En caso de Renovación).",
             "Copia de la Certificación Urbanística expedida por la Alcaldía que corresponda (Vigente).",
             "El depósito deberá contar con las condiciones de ubicación establecidas.",
@@ -277,13 +246,14 @@ const recaudosPorTipo = {
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
-            "Copia de la cedula de identidad del representante legal de la razón social.",
+            "Copia de la cédula de identidad del representante legal de la razón social.",
             "Copia del documento de propiedad del terreno.",
             "Teléfono, dirección, correo electrónico.",
             "Copia de plano de planta (parcelamiento con cuadro de áreas, planta de la edificación acotado y a escala a 1:50 o a escala legible).",
             "Memoria descriptiva de arquitectura con cuadro de áreas (áreas verdes, áreas recreacionales, entre otros).",
             "Copia de los cálculos.",
-            "Consignar el impuesto en timbres fiscales según sea el caso, 10 U.T, por actividad para uso doméstico y comercial 20 U.T para uso industrial, al momento de retirar la dotación sanitaria."
+            "Consignar el impuesto en timbres fiscales según sea el caso, 10 U.T, por actividad para uso doméstico y comercial 20 U.T para uso industrial, al momento de retirar la dotación sanitaria.",
+            "NOTA: Cálculo basado en las normas sanitarias para proyecto, construcción, reparación, reforma y mantenimiento de edificaciones, G.O Nº 4.044 del 08/09/88."
         ]
     },
     "Conformidad Sanitaria De Ocupación De Empresas, Colegios": {
@@ -291,7 +261,7 @@ const recaudosPorTipo = {
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
-            "Copia de cedula de identidad del representante legal de la razón social.",
+            "Copia de cédula de identidad del representante legal de la razón social.",
             "Copia del Rif de la empresa (Vigente).",
             "Copia del Registro mercantil de la empresa o acta constitutiva.",
             "Copia de conformidad de uso expedida por la Alcaldía que corresponda.",
@@ -301,19 +271,17 @@ const recaudosPorTipo = {
         ]
     },
     "Conformidad Sanitaria De Perforación De Pozos": {
-        titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE PERFORACIÓN DE POZOS",
+        titulo: "REQUISITOS DE CONFORMIDAD SANITARIA DE PERFORACIÓN DE POZOS, REALIZACIÓN DE SONDEOS O DE PERFORACIONES DE PRUEBA",
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
-            "Copia de cedula de identidad del representante legal.",
-            "Copia del documento de propiedad del terreno donde se realizará la perforación.",
-            "Autorización del Ministerio del Poder Popular para el Ambiente para la perforación del pozo.",
-            "Estudio hidrogeológico de la zona.",
-            "Planos de ubicación y diseño del pozo.",
-            "Especificaciones técnicas del equipo de perforación.",
-            "Medidas de protección ambiental durante la perforación.",
-            "Plan de manejo de lodos y residuos generados.",
-            "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
+            "Memoria descriptiva que contenga: identificación previa de la ubicación del terreno donde se proyecta perforar el pozo: entidad federal, municipio, sector o vía de acceso, uso o destino que se pretende dar a las aguas.",
+            "Copia de la autorización del Ministerio del poder popular para el Ambiente para la perforación del pozo.",
+            "Constancia expedida por la empresa responsable del abastecimiento público de agua potable de que no se encuentran en condiciones de prestar dicho servicio o aval del consejo comunal.",
+            "Plano topográfico de situación, a escala conveniente, de los terrenos donde se ejecutará la perforación, donde se marcará el sitio escogido para la misma, señalándolo con toda precisión y exactitud en la hoja para plano de ubicación de un pozo.",
+            "Copia de documento de propietario o contrato de arrendamiento de la edificación en la cual funciona la empresa o cooperativa.",
+            "Consignar timbres fiscales por un valor de (3) U.T, al momento del retiro.",
+            "NOTA: Los requisitos se encuentran en las Normas Sanitarias para la ubicación, construcción, protección, operación y mantenimiento de pozos perforados destinados al abastecimiento de agua potable publicadas en Gaceta Oficial Nº 36.298 de fecha 24/09/97."
         ]
     },
     "Conformidad Sanitaria de Revisión De Proyectos (Variables Sanitarias) De Equipos De Incineración Para Desechos Generados En Establecimiento De Salud": {
@@ -321,16 +289,17 @@ const recaudosPorTipo = {
         lista: [
             "Realizar la solicitud en papel simple con (1) timbre de 0,15 U.T. dirigida a la Dra. Alexandra González. Directora de Salud Ambiental.",
             "Consignar todos los documentos debidamente foliados en carpeta marrón tipo oficio con gancho, separadores.",
-            "Copia de cedula de identidad del representante legal.",
+            "Copia de cédula de identidad del representante legal de la razón social.",
             "Copia del Rif de la empresa (Vigente).",
             "Copia del Registro mercantil de la empresa.",
-            "Memoria descriptiva del equipo de incineración, especificaciones técnicas y capacidad.",
-            "Planos de ubicación y distribución del equipo.",
-            "Caracterización de las emisiones atmosféricas generadas.",
-            "Medidas de control y monitoreo de emisiones.",
-            "Plan de mantenimiento del equipo de incineración.",
-            "Certificación del fabricante del equipo.",
-            "Protocolo de operación segura.",
+            "Memoria descriptiva del equipo de incineración, especificaciones técnicas y capacidad de procesamiento.",
+            "Caracterización de los desechos a incinerar (tipos, cantidades, frecuencia).",
+            "Planos de ubicación y distribución del equipo dentro del establecimiento.",
+            "Caracterización de las emisiones atmosféricas generadas (realizada por laboratorio acreditado, no mayor a 6 meses).",
+            "Medidas de control y monitoreo de emisiones, describiendo equipos de control instalados.",
+            "Plan de mantenimiento preventivo y correctivo del equipo de incineración.",
+            "Certificación del fabricante del equipo que garantice su operación segura.",
+            "Protocolo de operación segura y manejo de cenizas resultantes.",
             "Consignar timbres fiscales por un valor de (2) U.T, al momento de retiro."
         ]
     },
@@ -344,22 +313,19 @@ const recaudosPorTipo = {
             "Fotografías, videos o cualquier evidencia que soporte la denuncia (si aplica).",
             "Nombre y dirección del presunto infractor (si se conoce).",
             "Relación de posibles testigos con sus datos de contacto (si aplica).",
-            "Cualquier documento adicional que respalde la denuncia.",
-            "Consignar timbres fiscales por un valor de (0,15) U.T, al momento de la solicitud."
+            "Cualquier documento adicional que respalde la denuncia."
         ]
     }
 };
 
 // Función principal para generar el PDF del CSO
 function generarCSOPDF(datosFormulario, nombrePlantilla) {
-    // Determinar el tipo de CSO basado en el nombre de la plantilla seleccionada
     const claveCSO = determinarTipoCSO(nombrePlantilla);
     const data = recaudosPorTipo[claveCSO];
     
     if (!data) {
         console.error("Tipo de CSO no encontrado:", claveCSO);
         alert(`Error: No se encontraron los requisitos para "${nombrePlantilla}". Se generará con el formato por defecto.`);
-        // Usar formato por defecto (Granjas)
         const dataDefault = recaudosPorTipo["Conformidad Sanitaria De Ocupación Para Granjas"];
         generarPDFConDatos(datosFormulario, dataDefault, nombrePlantilla);
         return;
@@ -370,10 +336,8 @@ function generarCSOPDF(datosFormulario, nombrePlantilla) {
 
 // Función que genera el PDF con los datos específicos
 function generarPDFConDatos(datosFormulario, data, nombrePlantillaOriginal) {
-    // Crear el contenido HTML del documento
     const contenidoHTML = generarHTMLDocumento(datosFormulario, data);
     
-    // Abrir ventana de impresión para guardar como PDF
     const ventanaPDF = window.open('', '_blank');
     if (!ventanaPDF) {
         alert("Por favor, permita las ventanas emergentes para generar el PDF");
@@ -383,7 +347,6 @@ function generarPDFConDatos(datosFormulario, data, nombrePlantillaOriginal) {
     ventanaPDF.document.write(contenidoHTML);
     ventanaPDF.document.close();
     
-    // Esperar a que cargue el contenido y abrir diálogo de impresión
     ventanaPDF.onload = function() {
         setTimeout(function() {
             ventanaPDF.print();
@@ -401,7 +364,6 @@ function generarHTMLDocumento(datos, data) {
     const rif = datos.rif || "_________________________";
     const direccion = datos.direccion || "_________________________";
     
-    // Generar filas de la tabla de recaudos
     let filasTabla = '';
     data.lista.forEach(item => {
         filasTabla += `
@@ -417,95 +379,38 @@ function generarHTMLDocumento(datos, data) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSO Oficio - ${escapeHtml(data.titulo)}</title>
+    <title>CSO - ${escapeHtml(data.titulo)}</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #dbdfe3;
             display: flex;
             justify-content: center;
-            align-items: center;
             padding: 30px 20px;
             font-family: 'Calibri', 'Segoe UI', 'Times New Roman', serif;
             font-size: 8pt;
         }
-        
         .oficio-paper {
             max-width: 1000px;
             width: 100%;
             background: white;
             box-shadow: 0 12px 35px rgba(0,0,0,0.2);
             padding: 1.2cm 1.5cm;
-            border-radius: 2px;
-            margin: 0 auto;
-            font-size: 8pt;
         }
-        
         @media print {
             body { padding: 0; margin: 0; background: white; }
-            .oficio-paper { max-width: 100%; padding: 0.8cm 1.2cm; box-shadow: none; }
-            .recaudos-table, .signature-section { break-inside: avoid; }
+            .oficio-paper { padding: 0.8cm 1.2cm; box-shadow: none; }
         }
-        
-        .titulo-principal {
-            text-align: center;
-            font-weight: 700;
-            font-size: 11pt;
-            text-decoration: underline;
-            margin-bottom: 4px;
-        }
-        .subtitulo {
-            text-align: center;
-            font-size: 7.5pt;
-            margin-top: 2px;
-            margin-bottom: 18px;
-            color: #2c3e4e;
-        }
+        .titulo-principal { text-align: center; font-weight: 700; font-size: 11pt; text-decoration: underline; margin-bottom: 4px; }
+        .subtitulo { text-align: center; font-size: 7.5pt; margin-bottom: 18px; color: #2c3e4e; }
         .fecha-ciudad { text-align: right; margin-bottom: 16px; }
         .destinatario { margin-bottom: 14px; line-height: 1.35; }
-        
-        .datos-empresa-horizontal {
-            margin: 8px 0 12px 0;
-            line-height: 1.3;
-        }
-        .linea-dato { margin: 3px 0; white-space: normal; word-wrap: break-word; }
-        .linea-combinada { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 4px 0; }
-        .campo-horizontal { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 4px; }
-        .etiqueta { font-weight: normal; white-space: nowrap; }
+        .datos-empresa-horizontal { margin: 8px 0 12px 0; line-height: 1.3; }
+        .linea-dato { margin: 3px 0; }
         .linea-punteada { border-bottom: 1px dotted #000; display: inline-block; min-width: 80px; }
-        .campo-medio { min-width: 150px; }
-        .campo-rif { min-width: 80px; }
-        .campo-ci { min-width: 70px; }
-        .campo-ubicacion { min-width: 200px; flex: 1; }
-        .saludo-linea { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px; margin: 3px 0; }
-        
-        .recaudos-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0 12px;
-        }
-        .recaudos-table th, .recaudos-table td {
-            border: 1px solid #111;
-            padding: 5px 6px;
-            vertical-align: top;
-        }
-        .recaudos-table th {
-            background-color: #f0f2f5;
-            font-weight: 700;
-            text-align: center;
-        }
-        .recaudos-table td:first-child {
-            width: auto;
-            text-align: left;
-            font-size: 7.8pt;
-        }
-        
+        .recaudos-table { width: 100%; border-collapse: collapse; margin: 16px 0 12px; }
+        .recaudos-table th, .recaudos-table td { border: 1px solid #111; padding: 5px 6px; vertical-align: top; }
+        .recaudos-table th { background-color: #f0f2f5; font-weight: 700; }
         .declaracion-jurada {
             margin: 8px 0 6px;
             padding: 6px 8px;
@@ -513,37 +418,21 @@ function generarHTMLDocumento(datos, data) {
             border-left: 3px solid #8b5a2b;
             text-align: justify;
         }
-        .nota-adicional {
-            margin: 6px 0 4px;
-            padding: 5px 8px;
-            background-color: #f0f7ff;
-            border-left: 3px solid #2c6e9e;
-            text-align: justify;
-        }
+        .signature-section { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 10px 0 10px; gap: 12px; }
+        .sign-box { flex: 1; border: 1px solid #aaa; padding: 5px 4px; }
+        .sign-box p { margin: 2px 0; }
+        .small-line { border-bottom: 1px solid #000; margin: 3px 0 4px 0; width: 100%; }
         .observaciones-firma { margin: 30px 0 0px; display: flex; justify-content: center; }
         .firma-centrada { display: flex; justify-content: center; width: 100%; }
         .recuadro-firma { width: 65%; text-align: center; }
-        .firma-linea { font-size: 9pt; border-bottom: 1px solid #000; display: inline-block; width: 80%; margin-bottom: 3px; }
-        .firma-texto-pequeno { font-size: 7.5pt; color: #2d3e50; }
-        .signature-section { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 10px 0 10px; gap: 12px; }
-        .sign-box { flex: 1; border: 1px solid #aaa; padding: 5px 4px; background: #fefefe; }
-        .sign-box p { margin: 2px 0; }
-        .sign-box .label { font-weight: bold; border-bottom: 1px solid #ccc; display: inline-block; margin-bottom: 3px; }
-        .small-line { border-bottom: 1px solid #000; margin: 3px 0 4px 0; width: 100%; }
-        .pie-simple { margin-top: 16px; }
+        .firma-linea { border-bottom: 1px solid #000; display: inline-block; width: 80%; margin-bottom: 3px; }
         hr.dashed { border: none; border-top: 1px dashed #aaa; margin: 8px 0 4px; }
-        .text-center { text-align: center; font-size: 7.5pt; color: #4a627a; }
-        
-        @media screen and (max-width: 800px) {
-            .oficio-paper { padding: 0.8rem; }
-            .signature-section { flex-direction: column; }
-        }
+        .text-center { text-align: center; font-size: 7.5pt; }
     </style>
 </head>
 <body>
     <div class="oficio-paper">
         <div class="titulo-principal">${escapeHtml(data.titulo)}</div>
-        <div class="subtitulo">(Solicitud y Verificación de Recaudos - Formato CSO)</div>
         
         <div class="fecha-ciudad">Barquisimeto, ${fecha}</div>
         <div class="destinatario">
@@ -553,65 +442,46 @@ function generarHTMLDocumento(datos, data) {
         </div>
         
         <div class="datos-empresa-horizontal">
-            <div class="saludo-linea">
-                <span>Reciba un cordial saludo. La presente es para solicitar ante su despacho la</span>
-                <span class="linea-punteada" style="min-width: 60px;">${escapeHtml(solicitudTipo)}</span>
-                <span>de la Conformidad Sanitaria de Ocupación del establecimiento (CSO):</span>
-            </div>
+            <div>Reciba un cordial saludo. La presente es para solicitar ante su despacho la <span class="linea-punteada" style="min-width: 60px;">${escapeHtml(solicitudTipo)}</span> de la Conformidad Sanitaria de Ocupación del establecimiento (CSO):</div>
             <div class="linea-dato"><span class="linea-punteada" style="width:100%; display:inline-block;">${escapeHtml(empresa)}</span></div>
-            <div class="linea-dato"><span class="etiqueta">Cuyo RIF:</span> <span class="linea-punteada campo-rif">${escapeHtml(rif)}</span></div>
-            <div class="linea-combinada">
-                <div class="campo-horizontal"><span class="etiqueta">y su representante legal:</span> <span class="linea-punteada campo-medio">${escapeHtml(representante)}</span></div>
-                <div class="campo-horizontal"><span class="etiqueta">C.I.N°:</span> <span class="linea-punteada campo-ci">${escapeHtml(cedula)}</span></div>
-            </div>
-            <div class="linea-dato"><span class="etiqueta">Ubicado en:</span> <span class="linea-punteada campo-ubicacion">${escapeHtml(direccion)}</span></div>
+            <div class="linea-dato">RIF: <span class="linea-punteada">${escapeHtml(rif)}</span></div>
+            <div class="linea-dato">Representante legal: <span class="linea-punteada">${escapeHtml(representante)}</span> C.I.N°: <span class="linea-punteada">${escapeHtml(cedula)}</span></div>
+            <div class="linea-dato">Ubicado en: <span class="linea-punteada">${escapeHtml(direccion)}</span></div>
         </div>
         
         <table class="recaudos-table">
             <thead>
-                <tr><th>Recaudos (Documentos exigidos según el tipo de CSO - Texto original del Word)</th><th colspan="2">Verificado</th></tr>
-                <tr><th style="background:#e9ecef;">Requisitos específicos (texto íntegro)</th><th style="width:35px;">Sí</th><th style="width:35px;">No</th></tr>
+                <tr><th>Recaudos (Documentos exigidos)</th><th style="width:35px;">Sí</th><th style="width:35px;">No</th></tr>
             </thead>
-            <tbody>
-                ${filasTabla}
-            </tbody>
+            <tbody>${filasTabla}</tbody>
         </table>
         
         <div class="declaracion-jurada">
-            <strong>DECLARO BAJO JURAMENTO</strong> la veracidad de la información suministrada y que los documentos entregados en esta solicitud de CSO, son copia fiel y exacta de los originales, de probarse lo contrario, asumo la responsabilidad civil, penal y administrativa que corresponda. No me ha sido solicitado ningún pago o colaboración adicional a los timbres fiscales.
-        </div>
-        <div class="nota-adicional">
-            <strong>Nota:</strong> Los recaudos deben ser consignados por el representante legal, por una persona autorizada mediante poder notariado o, en su defecto, por un trabajador de la organización que presente los soportes que acrediten su vínculo laboral.
+            <strong>DECLARO BAJO JURAMENTO</strong> la veracidad de la información suministrada y que los documentos entregados en esta solicitud son copia fiel y exacta de los originales, de probarse lo contrario, asumo la responsabilidad civil, penal y administrativa que corresponda. No me ha sido solicitado ningún pago o colaboración adicional a los timbres fiscales.
         </div>
         
         <div class="observaciones-firma">
-            <div class="firma-centrada"><div class="recuadro-firma"><div class="firma-linea"></div><div class="firma-texto-pequeno">Firma y sello del solicitante / Representante legal</div></div></div>
+            <div class="firma-centrada"><div class="recuadro-firma"><div class="firma-linea"></div><div class="firma-texto-pequeno" style="font-size:7.5pt;">Firma y sello del solicitante / Representante legal</div></div></div>
         </div>
         
         <div class="signature-section">
-            <div class="sign-box"><p class="label"><strong>Taquilla Única DSA</strong></p><p><strong>Recibido/Verificado Por:</strong></p><div class="small-line"></div><p>Nombre: _________________________________</p><div class="small-line"></div><p>Fecha: _________________________________</p><div class="small-line"></div><p>Sello: __________________________________</p></div>
-            <div class="sign-box"><p class="label"><strong>Ingeniería Sanitaria</strong></p><p><strong>Recibido/Verificado Por:</strong></p><div class="small-line"></div><p>Nombre: _________________________________</p><div class="small-line"></div><p>Fecha: _________________________________</p><div class="small-line"></div><p>Sello: __________________________________</p></div>
-            <div class="sign-box"><p class="label"><strong>Dirección</strong></p><p><strong>Autorizado Por:</strong></p><div class="small-line"></div><p>Nombre: _________________________________</p><div class="small-line"></div><p>Fecha: _________________________________</p><div class="small-line"></div><p>Sello: __________________________________</p></div>
+            <div class="sign-box"><p><strong>Taquilla Única DSA</strong></p><p>Recibido/Verificado Por:</p><div class="small-line"></div><p>Fecha:</p><div class="small-line"></div><p>Sello:</p></div>
+            <div class="sign-box"><p><strong>Ingeniería Sanitaria</strong></p><p>Recibido/Verificado Por:</p><div class="small-line"></div><p>Fecha:</p><div class="small-line"></div><p>Sello:</p></div>
+            <div class="sign-box"><p><strong>Dirección</strong></p><p>Autorizado Por:</p><div class="small-line"></div><p>Fecha:</p><div class="small-line"></div><p>Sello:</p></div>
         </div>
-        <div class="pie-simple"><hr class="dashed"><div class="text-center">CSO - Conformidad Sanitaria de Ocupación | Formato oficial D.S.A. Lara</div></div>
+        
+        <hr class="dashed">
+        <div class="text-center">CSO - Conformidad Sanitaria de Ocupación | Formato oficial D.S.A. Lara</div>
     </div>
 </body>
 </html>`;
 }
 
-// Función para escapar caracteres HTML
 function escapeHtml(text) {
     if (!text) return "";
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-// Exponer la función globalmente
 window.generarCSOPDF = generarCSOPDF;
-
 console.log("✅ pdf-generator.js cargado correctamente");
 console.log("📋 Tipos de CSO disponibles:", Object.keys(recaudosPorTipo));
