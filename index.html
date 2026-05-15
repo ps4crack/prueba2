@@ -1,1030 +1,1385 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conformidad Sanitaria - Content Controls</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conformidad Sanitaria - DSA</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1e3a5f 0%, #0f2b3d 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+      }
+
+      .main-container {
+        max-width: 1400px;
+        width: 100%;
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .form-container {
+        flex: 1.2;
+        min-width: 450px;
+      }
+
+      .image-container {
+        flex: 0.8;
+        min-width: 350px;
+        position: sticky;
+        top: 20px;
+        align-self: flex-start;
+      }
+
+      .card {
+        background: white;
+        border-radius: 28px;
+        padding: 2rem;
+        width: 100%;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 28px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 15px;
+      }
+
+      .cintillo-img {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto 20px auto;
+        display: block;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background: white;
+        padding: 10px;
+      }
+
+      .cintillo-img img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+
+      .header h1 {
+        color: #1e3a5f;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+      }
+
+      .header p {
+        color: #2c5282;
+        font-size: 0.85rem;
+      }
+
+      .instrucciones-box {
+        background: #f0f7ff;
+        border-left: 6px solid #2c7da0;
+        border-radius: 20px;
+        padding: 1rem 1.2rem;
+        margin-bottom: 1.8rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s;
+      }
+
+      .instrucciones-box h4 {
+        color: #1e3a5f;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .instrucciones-box p {
+        color: #2d3748;
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 6px;
+      }
+
+      .instrucciones-box ul {
+        margin-left: 1.2rem;
+        margin-top: 6px;
+      }
+
+      .instrucciones-box li {
+        color: #2d3748;
+        font-size: 0.8rem;
+        margin: 4px 0;
+      }
+
+      .imagen-destacada {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-radius: 28px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 2px solid #cbd5e1;
+        transition: all 0.3s ease;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        position: sticky;
+        top: 20px;
+      }
+
+      .imagen-destacada h3 {
+        color: #1e3a5f;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: inline-block;
+        background: #1e3a5f20;
+        padding: 8px 20px;
+        border-radius: 30px;
+      }
+
+      .imagen-destacada .imagen-wrapper {
+        min-height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff50;
+        border-radius: 20px;
+        margin: 10px 0;
+        cursor: pointer;
+      }
+
+      .imagen-destacada img {
+        max-width: 100%;
+        max-height: 450px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        transition:
+          transform 0.3s ease,
+          opacity 0.2s ease;
+        cursor: pointer;
+      }
+
+      .imagen-destacada img:hover {
+        transform: scale(1.02);
+        opacity: 0.95;
+      }
+
+      .imagen-destacada .no-img {
+        padding: 80px 20px;
+        color: #64748b;
+        font-size: 1rem;
+        text-align: center;
+        cursor: default;
+      }
+
+      .imagen-destacada .no-img-icon {
+        font-size: 5rem;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .imagen-info {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #cbd5e1;
+        font-size: 0.75rem;
+        color: #64748b;
+        background: #ffffff80;
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(5px);
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.2s ease;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        max-width: 90%;
+        max-height: 90%;
+        position: relative;
+        animation: zoomIn 0.2s ease;
+      }
+
+      .modal-content img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.5);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        z-index: 10000;
+      }
+
+      .modal-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+
+      .modal-caption {
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: white;
+        font-size: 0.9rem;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 8px;
+        margin: 0 auto;
+        width: fit-content;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
 
-        body {
-            background: linear-gradient(135deg, #1e3a5f 0%, #0f2b3d 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.9);
+          opacity: 0;
         }
 
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .campo {
+        margin-bottom: 1.2rem;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #1e293b;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+        font-family: "Segoe UI", monospace;
+        background-color: white;
+      }
+
+      textarea {
+        font-family: monospace;
+        resize: vertical;
+      }
+
+      select {
+        cursor: pointer;
+        background-color: white;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #2c7da0;
+        box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.2);
+      }
+
+      input.empty-field,
+      textarea.empty-field {
+        border-color: #dc2626;
+        background-color: #fef2f2;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: #a0aec0;
+        font-style: italic;
+        font-size: 0.85rem;
+        opacity: 0.7;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      button {
+        flex: 1;
+        background: linear-gradient(98deg, #1e4a6b 0%, #0f3b55 100%);
+        color: white;
+        border: none;
+        padding: 14px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      button:hover:not(:disabled) {
+        transform: scale(1.02);
+        background: linear-gradient(98deg, #0f3b55 0%, #092c40 100%);
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: linear-gradient(98deg, #94a3b8 0%, #64748b 100%);
+      }
+
+      .btn-pdf {
+        background: linear-gradient(98deg, #c0392b 0%, #e74c3c 100%);
+      }
+
+      .btn-pdf:hover:not(:disabled) {
+        background: linear-gradient(98deg, #a93226 0%, #c0392b 100%);
+      }
+
+      .status {
+        margin-top: 16px;
+        font-size: 0.8rem;
+        text-align: center;
+        padding: 10px;
+        border-radius: 12px;
+      }
+
+      .status-success {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .status-error {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .status-loading {
+        background: #e0f2fe;
+        color: #075985;
+      }
+
+      .plantilla-selection {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #e2e8f0;
+      }
+
+      /* Estilos para contadores */
+      .char-counter {
+        text-align: right;
+        font-size: 0.7rem;
+        color: #64748b;
+        margin-top: 4px;
+        transition: color 0.2s ease;
+      }
+
+      .char-counter.warning {
+        color: #e67e22;
+      }
+
+      .char-counter.danger {
+        color: #dc2626;
+        font-weight: bold;
+      }
+
+      /* Ocultar contadores específicos */
+      .char-counter.hidden-counter {
+        display: none;
+      }
+
+      /* Estilo para campos deshabilitados en modo denuncia */
+      .campo.disabled-field {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .campo.disabled-field label {
+        color: #94a3b8;
+      }
+
+      /* Badge de modo denuncia */
+      .denuncia-badge {
+        display: inline-block;
+        background: #dc2626;
+        color: white;
+        font-size: 0.7rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-left: 10px;
+        vertical-align: middle;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      @media (max-width: 950px) {
         .main-container {
-            max-width: 1400px;
-            width: 100%;
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .form-container {
-            flex: 1.2;
-            min-width: 450px;
+          flex-direction: column;
         }
 
         .image-container {
-            flex: 0.8;
-            min-width: 350px;
-            position: sticky;
-            top: 20px;
-            align-self: flex-start;
-        }
-
-        .card {
-            background: white;
-            border-radius: 28px;
-            padding: 2rem;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 15px;
-        }
-        
-        .cintillo-img {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 20px auto;
-            display: block;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            background: white;
-            padding: 10px;
-        }
-        
-        .cintillo-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 8px;
-        }
-
-        .header h1 {
-            color: #1e3a5f;
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #2c5282;
-            font-size: 0.85rem;
-        }
-
-        .instrucciones-box {
-            background: #f0f7ff;
-            border-left: 6px solid #2c7da0;
-            border-radius: 20px;
-            padding: 1rem 1.2rem;
-            margin-bottom: 1.8rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s;
-        }
-
-        .instrucciones-box h4 {
-            color: #1e3a5f;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .instrucciones-box p {
-            color: #2d3748;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 6px;
-        }
-
-        .instrucciones-box ul {
-            margin-left: 1.2rem;
-            margin-top: 6px;
-        }
-
-        .instrucciones-box li {
-            color: #2d3748;
-            font-size: 0.8rem;
-            margin: 4px 0;
+          position: static;
         }
 
         .imagen-destacada {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            border-radius: 28px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 2px solid #cbd5e1;
-            transition: all 0.3s ease;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            position: sticky;
-            top: 20px;
+          position: static;
         }
 
-        .imagen-destacada h3 {
-            color: #1e3a5f;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: inline-block;
-            background: #1e3a5f20;
-            padding: 8px 20px;
-            border-radius: 30px;
+        .form-container {
+          min-width: auto;
         }
 
-        .imagen-destacada .imagen-wrapper {
-            min-height: 450px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff50;
-            border-radius: 20px;
-            margin: 10px 0;
-            cursor: pointer;
+        .button-group {
+          flex-direction: column;
         }
-
-        .imagen-destacada img {
-            max-width: 100%;
-            max-height: 450px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, opacity 0.2s ease;
-            cursor: pointer;
-        }
-
-        .imagen-destacada img:hover {
-            transform: scale(1.02);
-            opacity: 0.95;
-        }
-
-        .imagen-destacada .no-img {
-            padding: 80px 20px;
-            color: #64748b;
-            font-size: 1rem;
-            text-align: center;
-            cursor: default;
-        }
-
-        .imagen-destacada .no-img-icon {
-            font-size: 5rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .imagen-info {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #cbd5e1;
-            font-size: 0.75rem;
-            color: #64748b;
-            background: #ffffff80;
-            border-radius: 12px;
-            padding: 12px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(5px);
-            cursor: pointer;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.2s ease;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-            animation: zoomIn 0.2s ease;
-        }
-
-        .modal-content img {
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.5);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 10000;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        .modal-caption {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            color: white;
-            font-size: 0.9rem;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 8px;
-            margin: 0 auto;
-            width: fit-content;
-            border-radius: 20px;
-            backdrop-filter: blur(4px);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .campo {
-            margin-bottom: 1.2rem;
-        }
-
-        label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #1e293b;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            font-family: 'Segoe UI', monospace;
-            background-color: white;
-        }
-
-        textarea {
-            font-family: monospace;
-            resize: vertical;
-        }
-
-        select {
-            cursor: pointer;
-            background-color: white;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: #2c7da0;
-            box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.2);
-        }
-
-        input.empty-field,
-        textarea.empty-field {
-            border-color: #dc2626;
-            background-color: #fef2f2;
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: #a0aec0;
-            font-style: italic;
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        button {
-            width: 100%;
-            background: linear-gradient(98deg, #1e4a6b 0%, #0f3b55 100%);
-            color: white;
-            border: none;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 40px;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        button:hover:not(:disabled) {
-            transform: scale(1.02);
-            background: linear-gradient(98deg, #0f3b55 0%, #092c40 100%);
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: linear-gradient(98deg, #94a3b8 0%, #64748b 100%);
-        }
-
-        .status {
-            margin-top: 16px;
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 10px;
-            border-radius: 12px;
-        }
-
-        .status-success {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status-error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .status-loading {
-            background: #e0f2fe;
-            color: #075985;
-        }
-
-        .plantilla-selection {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .row-2cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .char-counter {
-            text-align: right;
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 4px;
-        }
-
-        @media (max-width: 950px) {
-            .main-container {
-                flex-direction: column;
-            }
-
-            .image-container {
-                position: static;
-            }
-
-            .imagen-destacada {
-                position: static;
-            }
-
-            .form-container {
-                min-width: auto;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="main-container">
-        <div class="form-container">
-            <div class="card">
-                <div class="header">
-                    <!-- CINTILLO DE LOGOS - IMAGEN ARRIBA DEL TÍTULO -->
-                    <div class="cintillo-img">
-                        <img src="assets/img/Cintillo de logos3.png" alt="Cintillo de logos - Gobierno del Estado Lara" onerror="this.onerror=null; this.parentElement.style.display='none'; console.warn('No se pudo cargar la imagen del cintillo')">
-                    </div>
-                    
-                    <h1>📄 Solicitud de Conformidad Sanitaria de la Direccion de Salud Ambiental del Estado Lara</h1>
-                </div>
-
-                <div class="instrucciones-box">
-                    <h4>📘 Instrucciones de uso</h4>
-                    <p>1. Seleccione la solicitud de conformidad deseada.</p>
-                    <p>2. Complete todos los campos obligatorios marcados con <span style="color:#dc2626;">*</span>.</p>
-                    <p>3. Puede visualizar los recaudos en la imagen (click para ampliar).</p>
-                    <p>4. Presione <strong>"GENERAR SOLICITUD"</strong> para descargar el documento con los datos
-                        ingresados y realize su impresion.</p>
-                    <p>⚠️ Asegúrese de ingresar correctamente los datos para evitar errores en el documento generado.
-                    </p>
-                </div>
-
-                <div class="plantilla-selection">
-                    <label>📁 SELECCIONAR CONFORMIDAD A SOLICITAR</label>
-                    <select id="plantillaSelect" disabled>
-                        <option value="">-- Cargando plantillas... --</option>
-                    </select>
-                </div>
-
-                <div class="campo">
-                    <label>📝 SOLICITUD / RENOVACION <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <input type="text" id="solicitud" maxlength="10" placeholder="Ej: RENOVACIÓN, SOLICITUD">
-                    </div>
-                </div>
-
-                <div class="campo">
-                    <label>🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <input type="text" id="representante" maxlength="50"
-                            placeholder="Nombre completo del representante legal">
-                    </div>
-                    <div class="char-counter" id="representanteCounter">0 / 50 caracteres</div>
-                </div>
-
-                <div class="campo">
-                    <label>🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <input type="text" id="cedula" maxlength="13" placeholder="Ej: V-12345678, E-123456789">
-                    </div>
-                </div>
-
-                <div class="row-2cols">
-                    <div>
-                        <label>🏢 EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
-                        <div class="input-wrapper">
-                            <textarea id="empresa" rows="2" maxlength="100"
-                                placeholder="Razón social completa de la empresa"></textarea>
-                        </div>
-                        <div class="char-counter" id="empresaCounter">0 / 100 caracteres</div>
-                    </div>
-                    <div>
-                        <label>📑 RIF <span class="required">*</span></label>
-                        <div class="input-wrapper">
-                            <input type="text" id="rif" maxlength="12" placeholder="Ej: J-12345678-9, V-12345678-9">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="campo">
-                    <label>📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <textarea id="direccion" rows="3" maxlength="250"
-                            placeholder="Ingrese la dirección completa del local comercial"></textarea>
-                    </div>
-                    <div class="char-counter" id="direccionCounter">0 / 250 caracteres</div>
-                </div>
-
-                <button id="generarBtn" disabled>
-                    🔄 GENERAR SOLICITUD
-                </button>
-
-                <div id="statusMsg" class="status status-loading">
-                    ⏳ Cargando librerías y lista de plantillas...
-                </div>
+      <div class="form-container">
+        <div class="card">
+          <div class="header">
+            <!-- CINTILLO DE LOGOS - IMAGEN ARRIBA DEL TÍTULO -->
+            <div class="cintillo-img">
+              <img
+                src="assets/img/Cintillo de logos3.png"
+                alt="Cintillo de logos - Gobierno del Estado Lara"
+                onerror="
+                  this.onerror = null;
+                  this.parentElement.style.display = 'none';
+                  console.warn('No se pudo cargar la imagen del cintillo');
+                "
+              />
             </div>
-        </div>
 
-        <div class="image-container">
-            <div class="imagen-destacada">
-                <h3>🖼️ RECAUDOS</h3>
-                <div class="imagen-wrapper" id="imgContainer">
-                    <div class="no-img">
-                        <span class="no-img-icon">📷</span>
-                        <br>Selecciona una plantilla<br>para ver su imagen
-                    </div>
-                </div>
+            <h1>
+              📄 Solicitud de Conformidad Sanitaria de la Dirección de Salud
+              Ambiental del Estado Lara
+            </h1>
+          </div>
+
+          <div class="instrucciones-box">
+            <h4>📘 Instrucciones de uso</h4>
+            <p>1. Seleccione la solicitud de conformidad deseada.</p>
+            <p>
+              2. Complete todos los campos obligatorios marcados con
+              <span style="color: #dc2626">*</span>.
+            </p>
+            <p>
+              3. Puede visualizar los recaudos en la imagen (click para
+              ampliar).
+            </p>
+            <p>
+              4. Presione <strong>"GENERAR SOLICITUD"</strong> para descargar el
+              documento con los datos ingresados y realize su impresion.
+            </p>
+            <p>
+              ⚠️ Asegúrese de ingresar correctamente los datos para evitar
+              errores en el documento generado.
+            </p>
+            <p>
+              ⚠️ Para denuncias, seleccione (DENUNCIAS..), y GENERAR SOLICITUD
+              para descargar el documento instructivo.
+            </p>
+          </div>
+
+          <div class="plantilla-selection">
+            <label>📁 SELECCIONAR CONFORMIDAD A SOLICITAR</label>
+            <select id="plantillaSelect" disabled>
+              <option value="">-- Cargando plantillas... --</option>
+            </select>
+          </div>
+
+          <div id="camposFormulario">
+            <div class="campo">
+              <label
+                >📝 SOLICITUD / RENOVACION
+                <span class="required">*</span></label
+              >
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="solicitud"
+                  maxlength="10"
+                  placeholder="Ej: RENOVACIÓN, SOLICITUD"
+                />
+              </div>
+              <div class="char-counter hidden-counter" id="solicitudCounter">
+                0 / 10 caracteres
+              </div>
             </div>
+
+            <div class="campo">
+              <label
+                >🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label
+              >
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="representante"
+                  maxlength="50"
+                  placeholder="Nombre completo del representante legal"
+                />
+              </div>
+              <div class="char-counter" id="representanteCounter">
+                0 / 50 caracteres
+              </div>
+            </div>
+
+            <div class="campo">
+              <label
+                >🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label
+              >
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="cedula"
+                  maxlength="13"
+                  placeholder="Ej: V-12345678, E-123456789"
+                />
+              </div>
+              <div class="char-counter hidden-counter" id="cedulaCounter">
+                0 / 13 caracteres
+              </div>
+            </div>
+
+            <div class="campo">
+              <label
+                >🏢 EMPRESA / RAZÓN SOCIAL
+                <span class="required">*</span></label
+              >
+              <div class="input-wrapper">
+                <textarea
+                  id="empresa"
+                  rows="2"
+                  maxlength="100"
+                  placeholder="Razón social completa de la empresa"
+                ></textarea>
+              </div>
+              <div class="char-counter" id="empresaCounter">
+                0 / 100 caracteres
+              </div>
+            </div>
+
+            <div class="campo">
+              <label>📑 RIF <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="rif"
+                  maxlength="12"
+                  placeholder="Ej: J-12345678-9, V-12345678-9"
+                />
+              </div>
+              <div class="char-counter hidden-counter" id="rifCounter">
+                0 / 12 caracteres
+              </div>
+            </div>
+
+            <div class="campo">
+              <label
+                >📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label
+              >
+              <div class="input-wrapper">
+                <textarea
+                  id="direccion"
+                  rows="3"
+                  maxlength="250"
+                  placeholder="Ingrese la dirección completa del local comercial"
+                ></textarea>
+              </div>
+              <div class="char-counter" id="direccionCounter">
+                0 / 250 caracteres
+              </div>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button id="generarBtn" disabled>🔄 GENERAR SOLICITUD</button>
+            <button id="generarPdfBtn" class="btn-pdf" disabled>📄 DESCARGAR COMO PDF</button>
+          </div>
+
+          <div id="statusMsg" class="status status-loading">
+            ⏳ Cargando librerías y lista de plantillas...
+          </div>
         </div>
+      </div>
+
+      <div class="image-container">
+        <div class="imagen-destacada">
+          <h3>🖼️ RECAUDOS</h3>
+          <div class="imagen-wrapper" id="imgContainer">
+            <div class="no-img">
+              <span class="no-img-icon">📷</span>
+              <br />Selecciona una plantilla<br />para ver su imagen
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="imageModal" class="modal" onclick="closeModal()">
-        <div class="modal-close" onclick="closeModal()">✕</div>
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <img id="modalImage" src="" alt="Vista ampliada">
-        </div>
-        <div class="modal-caption" id="modalCaption"></div>
+      <div class="modal-close" onclick="closeModal()">✕</div>
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="modalImage" src="" alt="Vista ampliada" />
+      </div>
+      <div class="modal-caption" id="modalCaption"></div>
     </div>
 
     <script src="assets/js/pizzip.min.js"></script>
     <script src="assets/js/FileSaver.min.js"></script>
+    <script src="assets/js/pdf-generator.js"></script>
 
     <script>
-        (function () {
-            const solicitudInput = document.getElementById('solicitud');
-            const repInput = document.getElementById('representante');
-            const cedInput = document.getElementById('cedula');
-            const empresaInput = document.getElementById('empresa');
-            const rifInput = document.getElementById('rif');
-            const direccionInput = document.getElementById('direccion');
-            const generarBtn = document.getElementById('generarBtn');
-            const statusDiv = document.getElementById('statusMsg');
-            const plantillaSelect = document.getElementById('plantillaSelect');
-            const imgContainer = document.getElementById('imgContainer');
-            const empresaCounter = document.getElementById('empresaCounter');
-            const representanteCounter = document.getElementById('representanteCounter');
-            const direccionCounter = document.getElementById('direccionCounter');
+      (function () {
+        const solicitudInput = document.getElementById("solicitud");
+        const repInput = document.getElementById("representante");
+        const cedInput = document.getElementById("cedula");
+        const empresaInput = document.getElementById("empresa");
+        const rifInput = document.getElementById("rif");
+        const direccionInput = document.getElementById("direccion");
+        const generarBtn = document.getElementById("generarBtn");
+        const generarPdfBtn = document.getElementById("generarPdfBtn");
+        const statusDiv = document.getElementById("statusMsg");
+        const plantillaSelect = document.getElementById("plantillaSelect");
+        const imgContainer = document.getElementById("imgContainer");
+        const camposFormulario = document.getElementById("camposFormulario");
 
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            const modalCaption = document.getElementById('modalCaption');
+        const modal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalCaption = document.getElementById("modalCaption");
 
-            const LIMITS = {
-                solicitud: 10,
-                representante: 50,
-                cedula: 13,
-                empresa: 100,
-                rif: 12,
-                direccion: 250
-            };
+        // Contadores (solo los que se mostrarán)
+        const empresaCounter = document.getElementById("empresaCounter");
+        const representanteCounter = document.getElementById("representanteCounter");
+        const direccionCounter = document.getElementById("direccionCounter");
 
-            let plantillasDisponibles = [];
-            let plantillaBuffer = null;
-            let plantillaCargada = false;
-            let imagenActual = null;
-            let currentImageUrl = null;
+        const DENUNCIA_NOMBRE =
+          "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias.docx";
 
-            window.openModal = function (imageUrl, plantillaNombre) {
-                if (!imageUrl) return;
-                modalImage.src = imageUrl;
-                modalCaption.textContent = plantillaNombre || 'Vista previa de plantilla';
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+        const LIMITS = {
+          solicitud: 10,
+          representante: 50,
+          cedula: 13,
+          empresa: 100,
+          rif: 12,
+          direccion: 250,
+        };
+
+        let plantillasDisponibles = [];
+        let plantillaBuffer = null;
+        let plantillaCargada = false;
+        let imagenActual = null;
+        let currentImageUrl = null;
+
+        window.openModal = function (imageUrl, plantillaNombre) {
+          if (!imageUrl) return;
+          modalImage.src = imageUrl;
+          modalCaption.textContent =
+            plantillaNombre || "Vista previa de plantilla";
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden";
+        };
+
+        window.closeModal = function () {
+          modal.classList.remove("active");
+          document.body.style.overflow = "";
+          modalImage.src = "";
+          modalCaption.textContent = "";
+        };
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && modal.classList.contains("active")) {
+            closeModal();
+          }
+        });
+
+        // Función para actualizar un contador individual con colores
+        function updateCounter(input, counterElement, limit) {
+          if (!counterElement) return;
+          
+          const len = input.value.length;
+          const remaining = limit - len;
+          
+          counterElement.textContent = `${len} / ${limit} caracteres`;
+          
+          // Cambiar color según la cantidad de caracteres restantes
+          counterElement.classList.remove("warning", "danger");
+          
+          if (remaining <= 0) {
+            counterElement.classList.add("danger");
+          } else if (remaining <= 5) {
+            counterElement.classList.add("warning");
+          }
+        }
+
+        // Función para actualizar SOLO los contadores visibles
+        function updateVisibleCounters() {
+          updateCounter(repInput, representanteCounter, LIMITS.representante);
+          updateCounter(empresaInput, empresaCounter, LIMITS.empresa);
+          updateCounter(direccionInput, direccionCounter, LIMITS.direccion);
+        }
+
+        function getDisplayNameFromFile(fileName) {
+          if (!fileName) return "";
+          return fileName.replace(/\.docx$/i, "");
+        }
+
+        function esPlantillaDenuncia() {
+          return plantillaSelect.value === DENUNCIA_NOMBRE;
+        }
+
+        function actualizarEstadoCamposDenuncia() {
+          const esDenuncia = esPlantillaDenuncia();
+
+          // Obtener todos los contenedores de campos
+          const campos =
+            camposFormulario.querySelectorAll(".campo");
+
+          campos.forEach((campo) => {
+            if (esDenuncia) {
+              campo.classList.add("disabled-field");
+            } else {
+              campo.classList.remove("disabled-field");
             }
+          });
 
-            window.closeModal = function () {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-                modalImage.src = '';
-                modalCaption.textContent = '';
-            }
-
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeModal();
-                }
+          // Limpiar validación de campos vacíos si es denuncia
+          if (esDenuncia) {
+            const allInputs =
+              camposFormulario.querySelectorAll("input, textarea");
+            allInputs.forEach((input) => {
+              input.classList.remove("empty-field");
             });
+          } else {
+            markEmptyFields();
+          }
+        }
 
-            function getDisplayNameFromFile(fileName) {
-                if (!fileName) return "";
-                return fileName.replace(/\.docx$/i, '');
-            }
+        async function cargarImagenPreview(nombrePlantillaCompleto) {
+          if (imagenActual === nombrePlantillaCompleto) return;
 
-            function updateEmpresaCounter() {
-                const len = empresaInput.value.length;
-                if (empresaCounter) {
-                    empresaCounter.textContent = `${len} / ${LIMITS.empresa} caracteres`;
-                    empresaCounter.style.color = len > LIMITS.empresa ? "#dc2626" : "#64748b";
-                }
-            }
-
-            function updateRepresentanteCounter() {
-                const len = repInput.value.length;
-                if (representanteCounter) {
-                    representanteCounter.textContent = `${len} / ${LIMITS.representante} caracteres`;
-                    representanteCounter.style.color = len > LIMITS.representante ? "#dc2626" : "#64748b";
-                }
-            }
-
-            function updateDireccionCounter() {
-                const len = direccionInput.value.length;
-                if (direccionCounter) {
-                    direccionCounter.textContent = `${len} / ${LIMITS.direccion} caracteres`;
-                    direccionCounter.style.color = len > LIMITS.direccion ? "#dc2626" : "#64748b";
-                }
-            }
-
-            async function cargarImagenPreview(nombrePlantillaCompleto) {
-                if (imagenActual === nombrePlantillaCompleto) return;
-
-                if (!nombrePlantillaCompleto) {
-                    imgContainer.innerHTML = `
+          if (!nombrePlantillaCompleto) {
+            imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
                         <br>Selecciona una plantilla<br>para ver su imagen
                     </div>
                 `;
-                    imagenActual = null;
-                    currentImageUrl = null;
-                    return;
-                }
+            imagenActual = null;
+            currentImageUrl = null;
+            return;
+          }
 
-                const nombreSinExtension = nombrePlantillaCompleto.replace(/\.docx$/i, '');
-                const extensiones = ['jpg', 'jpeg', 'JPG', 'JPEG'];
-                let imagenEncontrada = false;
+          const nombreSinExtension = nombrePlantillaCompleto.replace(
+            /\.docx$/i,
+            "",
+          );
+          const extensiones = ["jpg", "jpeg", "JPG", "JPEG"];
+          let imagenEncontrada = false;
 
-                for (const ext of extensiones) {
-                    const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
-                    try {
-                        const response = await fetch(urlImg, { method: 'HEAD' });
-                        if (response.ok) {
-                            currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
-                            imgContainer.innerHTML = `
+          for (const ext of extensiones) {
+            const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
+            try {
+              const response = await fetch(urlImg, { method: "HEAD" });
+              if (response.ok) {
+                currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
+                imgContainer.innerHTML = `
                             <img src="${urlImg}" alt="${nombreSinExtension}" 
                                  style="max-width:100%; max-height:450px; border-radius:16px; cursor:pointer;"
                                  onclick="openModal('${currentImageUrl}', '${nombreSinExtension}')"
                                  onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-img\'><span class=\'no-img-icon\'>❌</span><br>Error al cargar imagen</div>'">
                         `;
-                            imagenEncontrada = true;
-                            imagenActual = nombrePlantillaCompleto;
-                            break;
-                        }
-                    } catch (error) {
-                        // continue searching
-                    }
-                }
+                imagenEncontrada = true;
+                imagenActual = nombrePlantillaCompleto;
+                break;
+              }
+            } catch (error) {
+              // continue searching
+            }
+          }
 
-                if (!imagenEncontrada) {
-                    imgContainer.innerHTML = `
+          if (!imagenEncontrada) {
+            imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
                         <br>No se encontró imagen para:<br>
                         <strong>${nombreSinExtension}.jpg</strong>
                     </div>
                 `;
-                    imagenActual = nombrePlantillaCompleto;
-                    currentImageUrl = null;
-                }
+            imagenActual = nombrePlantillaCompleto;
+            currentImageUrl = null;
+          }
+        }
+
+        function validarCamposDenuncia() {
+          if (esPlantillaDenuncia()) {
+            return true;
+          }
+          return checkAllFieldsFilled();
+        }
+
+        function checkAllFieldsFilled() {
+          const solicitud = solicitudInput.value.trim();
+          const representante = repInput.value.trim();
+          const cedula = cedInput.value.trim();
+          const empresa = empresaInput.value.trim();
+          const rif = rifInput.value.trim();
+          const direccion = direccionInput.value.trim();
+
+          const allFilled =
+            solicitud !== "" &&
+            representante !== "" &&
+            cedula !== "" &&
+            empresa !== "" &&
+            rif !== "" &&
+            direccion !== "";
+
+          generarBtn.disabled = !(allFilled && plantillaCargada);
+          generarPdfBtn.disabled = !(allFilled && plantillaCargada);
+          markEmptyFields();
+          return allFilled;
+        }
+
+        function markEmptyFields() {
+          if (esPlantillaDenuncia()) {
+            return;
+          }
+
+          const fields = [
+            { element: solicitudInput, value: solicitudInput.value.trim() },
+            { element: repInput, value: repInput.value.trim() },
+            { element: cedInput, value: cedInput.value.trim() },
+            { element: empresaInput, value: empresaInput.value.trim() },
+            { element: rifInput, value: rifInput.value.trim() },
+            { element: direccionInput, value: direccionInput.value.trim() },
+          ];
+
+          fields.forEach((field) => {
+            if (field.value === "") {
+              field.element.classList.add("empty-field");
+            } else {
+              field.element.classList.remove("empty-field");
             }
+          });
+        }
 
-            function checkAllFieldsFilled() {
-                const solicitud = solicitudInput.value.trim();
-                const representante = repInput.value.trim();
-                const cedula = cedInput.value.trim();
-                const empresa = empresaInput.value.trim();
-                const rif = rifInput.value.trim();
-                const direccion = direccionInput.value.trim();
+        function enforceLimit(input, limit) {
+          if (input.value.length > limit) {
+            input.value = input.value.substring(0, limit);
+          }
+          // Actualizar solo los contadores visibles después de limitar
+          updateVisibleCounters();
+        }
 
-                const allFilled = solicitud !== '' &&
-                    representante !== '' &&
-                    cedula !== '' &&
-                    empresa !== '' &&
-                    rif !== '' &&
-                    direccion !== '';
+        function setupListeners() {
+          const inputs = [
+            { element: solicitudInput, limit: LIMITS.solicitud },
+            { element: repInput, limit: LIMITS.representante },
+            { element: cedInput, limit: LIMITS.cedula },
+            { element: empresaInput, limit: LIMITS.empresa },
+            { element: rifInput, limit: LIMITS.rif },
+            { element: direccionInput, limit: LIMITS.direccion },
+          ];
 
-                generarBtn.disabled = !(allFilled && plantillaCargada);
-                markEmptyFields();
-                return allFilled;
-            }
-
-            function markEmptyFields() {
-                const fields = [
-                    { element: solicitudInput, value: solicitudInput.value.trim() },
-                    { element: repInput, value: repInput.value.trim() },
-                    { element: cedInput, value: cedInput.value.trim() },
-                    { element: empresaInput, value: empresaInput.value.trim() },
-                    { element: rifInput, value: rifInput.value.trim() },
-                    { element: direccionInput, value: direccionInput.value.trim() }
-                ];
-
-                fields.forEach(field => {
-                    if (field.value === '') {
-                        field.element.classList.add('empty-field');
-                    } else {
-                        field.element.classList.remove('empty-field');
-                    }
-                });
-            }
-
-            function enforceLimit(input, limit, updateCounterFn) {
-                if (input.value.length > limit) {
-                    input.value = input.value.substring(0, limit);
-                    if (updateCounterFn) updateCounterFn();
-                }
-            }
-
-            function setupListeners() {
-                const inputs = [
-                    { element: solicitudInput, limit: LIMITS.solicitud, counter: null },
-                    { element: repInput, limit: LIMITS.representante, counter: updateRepresentanteCounter },
-                    { element: cedInput, limit: LIMITS.cedula, counter: null },
-                    { element: empresaInput, limit: LIMITS.empresa, counter: updateEmpresaCounter },
-                    { element: rifInput, limit: LIMITS.rif, counter: null },
-                    { element: direccionInput, limit: LIMITS.direccion, counter: updateDireccionCounter }
-                ];
-
-                inputs.forEach(input => {
-                    input.element.addEventListener('input', () => {
-                        enforceLimit(input.element, input.limit, input.counter);
-                        checkAllFieldsFilled();
-                    });
-                });
-
-                updateEmpresaCounter();
-                updateRepresentanteCounter();
-                updateDireccionCounter();
-            }
-
-            function setStatus(message, type) {
-                statusDiv.innerHTML = message;
-                statusDiv.className = 'status';
-                if (type === 'success') statusDiv.classList.add('status-success');
-                else if (type === 'error') statusDiv.classList.add('status-error');
-                else if (type === 'loading') statusDiv.classList.add('status-loading');
-            }
-
-            async function cargarListaPlantillas() {
-                try {
-                    const response = await fetch('assets/plantilla/lista.json');
-                    if (!response.ok) {
-                        plantillasDisponibles = ["PROBANDO1.docx"];
-                        return true;
-                    }
-                    const data = await response.json();
-                    if (data.plantillas && Array.isArray(data.plantillas)) {
-                        plantillasDisponibles = data.plantillas;
-                    } else {
-                        plantillasDisponibles = ["PROBANDO1.docx"];
-                    }
-                    return true;
-                } catch (error) {
-                    plantillasDisponibles = ["PROBANDO1.docx"];
-                    return true;
-                }
-            }
-
-            function actualizarSelect() {
-                plantillaSelect.innerHTML = '';
-                if (plantillasDisponibles.length === 0) {
-                    plantillaSelect.innerHTML = '<option value="">-- Sin plantillas --</option>';
-                    plantillaSelect.disabled = true;
-                    return;
-                }
-                for (const nombreCompleto of plantillasDisponibles) {
-                    const option = document.createElement('option');
-                    option.value = nombreCompleto;
-                    option.textContent = getDisplayNameFromFile(nombreCompleto);
-                    plantillaSelect.appendChild(option);
-                }
-                plantillaSelect.disabled = false;
-                plantillaSelect.selectedIndex = 0;
-
-                if (plantillasDisponibles.length > 0) {
-                    cargarImagenPreview(plantillasDisponibles[0]);
-                }
-            }
-
-            async function cargarPlantilla(nombreCompleto) {
-                if (!nombreCompleto) return false;
-                const url = `assets/plantilla/${nombreCompleto}`;
-                try {
-                    setStatus(`📂 Cargando plantilla "${getDisplayNameFromFile(nombreCompleto)}"...`, 'loading');
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const buffer = await response.arrayBuffer();
-                    if (!buffer || buffer.byteLength < 100) throw new Error('Archivo vacío');
-                    plantillaBuffer = buffer;
-                    plantillaCargada = true;
-                    setStatus(`✅ Plantilla "${getDisplayNameFromFile(nombreCompleto)}" cargada.`, 'success');
-                    checkAllFieldsFilled();
-                    return true;
-                } catch (error) {
-                    plantillaBuffer = null;
-                    plantillaCargada = false;
-                    setStatus(`❌ Error cargando "${getDisplayNameFromFile(nombreCompleto)}"`, 'error');
-                    generarBtn.disabled = true;
-                    return false;
-                }
-            }
-
-            function escapeXmlText(text) {
-                if (!text) return '';
-                return text
-                    .replace(/&/g, '&amp;')
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;')
-                    .replace(/"/g, '&quot;')
-                    .replace(/'/g, '&apos;');
-            }
-
-            async function reemplazarContentControls(buffer, replacements) {
-                const zip = new window.PizZip(buffer);
-                const documentXmlPath = 'word/document.xml';
-
-                if (!zip.files[documentXmlPath]) {
-                    throw new Error('No se encontró document.xml en la plantilla');
-                }
-
-                let documentXml = zip.files[documentXmlPath].asText();
-
-                for (const [controlName, newValue] of Object.entries(replacements)) {
-                    const escapedName = controlName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                    const escapedValue = escapeXmlText(newValue);
-
-                    const patterns = [
-                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '(?:\\s+w:autoTag[^>]*)?"/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
-                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
-                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi'),
-                        new RegExp('(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' + escapedName + '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)', 'gi')
-                    ];
-
-                    let replaced = false;
-
-                    for (const pattern of patterns) {
-                        if (pattern.test(documentXml)) {
-                            documentXml = documentXml.replace(pattern, (match, before, oldContent, after) => {
-                                replaced = true;
-                                return before + escapedValue + after;
-                            });
-                            if (replaced) break;
-                        }
-                    }
-
-                    if (!replaced) {
-                        console.warn(`⚠️ No se encontró Content Control: "${controlName}"`);
-                    }
-                }
-
-                zip.file(documentXmlPath, documentXml);
-
-                return zip.generate({
-                    type: "blob",
-                    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    compression: "DEFLATE"
-                });
-            }
-
-            async function generarWord() {
-                let solicitud = solicitudInput.value.trim();
-                let representante = repInput.value.trim();
-                let cedula = cedInput.value.trim();
-                let empresa = empresaInput.value.trim();
-                let rif = rifInput.value.trim();
-                let direccion = direccionInput.value.trim();
-
-                if (solicitud.length > LIMITS.solicitud) solicitud = solicitud.substring(0, LIMITS.solicitud);
-                if (representante.length > LIMITS.representante) representante = representante.substring(0, LIMITS.representante);
-                if (cedula.length > LIMITS.cedula) cedula = cedula.substring(0, LIMITS.cedula);
-                if (empresa.length > LIMITS.empresa) empresa = empresa.substring(0, LIMITS.empresa);
-                if (rif.length > LIMITS.rif) rif = rif.substring(0, LIMITS.rif);
-                if (direccion.length > LIMITS.direccion) direccion = direccion.substring(0, LIMITS.direccion);
-
-                if (!solicitud) solicitud = "SOLICITUD";
-                if (!representante) representante = "REPRESENTANTE";
-                if (!cedula) cedula = "V-00000000";
-                if (!empresa) empresa = "EMPRESA S.A";
-                if (!rif) rif = "J-00000000-0";
-                if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
-
-                const plantillaSeleccionadaCompleta = plantillaSelect.value;
-                if (!plantillaSeleccionadaCompleta) {
-                    setStatus('❌ Selecciona una plantilla', 'error');
-                    return;
-                }
-
-                if (!plantillaBuffer) {
-                    setStatus('❌ Plantilla no cargada', 'error');
-                    return;
-                }
-
-                setStatus('⚙️ Procesando Content Controls...', 'loading');
-                generarBtn.disabled = true;
-
-                try {
-                    const replacements = {
-                        'SOLICITUD': solicitud,
-                        'REPRESENTANTE LEGAL': representante,
-                        'CEDULA': cedula,
-                        'EMPRESA': empresa,
-                        'RIF': rif,
-                        'DIRECCION': direccion
-                    };
-
-                    const nuevoBlob = await reemplazarContentControls(plantillaBuffer, replacements);
-
-                    if (!nuevoBlob || nuevoBlob.size < 1000) {
-                        throw new Error('El archivo generado es demasiado pequeño');
-                    }
-
-                    const fecha = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
-                    const nombreBase = representante.replace(/\s+/g, '_').substring(0, 30);
-                    const nombrePlantillaDisplay = getDisplayNameFromFile(plantillaSeleccionadaCompleta);
-                    const nombreArchivo = `CONFORMIDAD_${nombrePlantillaDisplay}_${nombreBase}_${fecha}.docx`;
-
-                    window.saveAs(nuevoBlob, nombreArchivo);
-                    setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, 'success');
-
-                } catch (error) {
-                    console.error('❌ Error:', error);
-                    setStatus(`❌ Error: ${error.message}`, 'error');
-                } finally {
-                    generarBtn.disabled = false;
-                    checkAllFieldsFilled();
-                }
-            }
-
-            async function inicializar() {
-                const pizzipOk = typeof window.PizZip !== 'undefined';
-                const saveAsOk = typeof window.saveAs !== 'undefined';
-
-                if (!pizzipOk || !saveAsOk) {
-                    setStatus('❌ Error: Librerías no cargadas', 'error');
-                    generarBtn.disabled = true;
-                    return;
-                }
-
-                setupListeners();
-
-                setStatus('📋 Cargando lista de plantillas...', 'loading');
-                await cargarListaPlantillas();
-
-                if (plantillasDisponibles.length === 0) {
-                    setStatus('❌ No hay plantillas disponibles', 'error');
-                    generarBtn.disabled = true;
-                    return;
-                }
-
-                actualizarSelect();
-                const primeraPlantillaCompleta = plantillasDisponibles[0];
-                await cargarPlantilla(primeraPlantillaCompleta);
-
-                if (plantillaCargada) {
-                    checkAllFieldsFilled();
-                    setStatus('✅ Listo. Completa todos los campos.', 'success');
-                }
-            }
-
-            plantillaSelect.addEventListener('change', async function () {
-                const nombreCompleto = plantillaSelect.value;
-                if (!nombreCompleto) return;
-
-                await cargarImagenPreview(nombreCompleto);
-
-                generarBtn.disabled = true;
-                await cargarPlantilla(nombreCompleto);
-                if (plantillaCargada) {
-                    checkAllFieldsFilled();
-                }
+          inputs.forEach((input) => {
+            input.element.addEventListener("input", () => {
+              enforceLimit(input.element, input.limit);
+              if (!esPlantillaDenuncia()) {
+                checkAllFieldsFilled();
+              } else {
+                generarBtn.disabled = !plantillaCargada;
+                generarPdfBtn.disabled = !plantillaCargada;
+              }
             });
+            
+            // También escuchar el evento 'keyup' para asegurar que los contadores se actualicen
+            input.element.addEventListener("keyup", () => {
+              updateVisibleCounters();
+            });
+          });
 
-            generarBtn.addEventListener('click', generarWord);
-            inicializar();
-        })();
+          // Inicializar solo los contadores visibles
+          updateVisibleCounters();
+        }
+
+        function setStatus(message, type) {
+          statusDiv.innerHTML = message;
+          statusDiv.className = "status";
+          if (type === "success") statusDiv.classList.add("status-success");
+          else if (type === "error") statusDiv.classList.add("status-error");
+          else if (type === "loading")
+            statusDiv.classList.add("status-loading");
+        }
+
+        async function cargarListaPlantillas() {
+          try {
+            const response = await fetch("assets/plantilla/lista.json");
+            if (!response.ok) {
+              plantillasDisponibles = ["PROBANDO1.docx"];
+              return true;
+            }
+            const data = await response.json();
+            if (data.plantillas && Array.isArray(data.plantillas)) {
+              plantillasDisponibles = data.plantillas;
+            } else {
+              plantillasDisponibles = ["PROBANDO1.docx"];
+            }
+            return true;
+          } catch (error) {
+            plantillasDisponibles = ["PROBANDO1.docx"];
+            return true;
+          }
+        }
+
+        function actualizarSelect() {
+          plantillaSelect.innerHTML = "";
+          if (plantillasDisponibles.length === 0) {
+            plantillaSelect.innerHTML =
+              '<option value="">-- Sin plantillas --</option>';
+            plantillaSelect.disabled = true;
+            return;
+          }
+          for (const nombreCompleto of plantillasDisponibles) {
+            const option = document.createElement("option");
+            option.value = nombreCompleto;
+            option.textContent = getDisplayNameFromFile(nombreCompleto);
+            plantillaSelect.appendChild(option);
+          }
+          plantillaSelect.disabled = false;
+          plantillaSelect.selectedIndex = 0;
+
+          if (plantillasDisponibles.length > 0) {
+            cargarImagenPreview(plantillasDisponibles[0]);
+          }
+        }
+
+        async function cargarPlantilla(nombreCompleto) {
+          if (!nombreCompleto) return false;
+          const url = `assets/plantilla/${nombreCompleto}`;
+          try {
+            setStatus(
+              `📂 Cargando plantilla "${getDisplayNameFromFile(nombreCompleto)}"...`,
+              "loading",
+            );
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const buffer = await response.arrayBuffer();
+            if (!buffer || buffer.byteLength < 100)
+              throw new Error("Archivo vacío");
+            plantillaBuffer = buffer;
+            plantillaCargada = true;
+            setStatus(
+              `✅ Plantilla "${getDisplayNameFromFile(nombreCompleto)}" cargada.`,
+              "success",
+            );
+
+            if (esPlantillaDenuncia()) {
+              generarBtn.disabled = false;
+              generarPdfBtn.disabled = false;
+            } else {
+              checkAllFieldsFilled();
+            }
+            return true;
+          } catch (error) {
+            plantillaBuffer = null;
+            plantillaCargada = false;
+            setStatus(
+              `❌ Error cargando "${getDisplayNameFromFile(nombreCompleto)}"`,
+              "error",
+            );
+            generarBtn.disabled = true;
+            generarPdfBtn.disabled = true;
+            return false;
+          }
+        }
+
+        function escapeXmlText(text) {
+          if (!text) return "";
+          return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&apos;");
+        }
+
+        async function reemplazarContentControls(buffer, replacements) {
+          const zip = new window.PizZip(buffer);
+          const documentXmlPath = "word/document.xml";
+
+          if (!zip.files[documentXmlPath]) {
+            throw new Error("No se encontró document.xml en la plantilla");
+          }
+
+          let documentXml = zip.files[documentXmlPath].asText();
+
+          for (const [controlName, newValue] of Object.entries(replacements)) {
+            const escapedName = controlName.replace(
+              /[.*+?^${}()|[\]\\]/g,
+              "\\$&",
+            );
+            const escapedValue = escapeXmlText(newValue);
+
+            const patterns = [
+              new RegExp(
+                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' +
+                  escapedName +
+                  '(?:\\s+w:autoTag[^>]*)?"/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+                "gi",
+              ),
+              new RegExp(
+                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' +
+                  escapedName +
+                  '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+                "gi",
+              ),
+              new RegExp(
+                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' +
+                  escapedName +
+                  '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+                "gi",
+              ),
+              new RegExp(
+                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' +
+                  escapedName +
+                  '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+                "gi",
+              ),
+            ];
+
+            let replaced = false;
+
+            for (const pattern of patterns) {
+              if (pattern.test(documentXml)) {
+                documentXml = documentXml.replace(
+                  pattern,
+                  (match, before, oldContent, after) => {
+                    replaced = true;
+                    return before + escapedValue + after;
+                  },
+                );
+                if (replaced) break;
+              }
+            }
+
+            if (!replaced) {
+              console.warn(
+                `⚠️ No se encontró Content Control: "${controlName}"`,
+              );
+            }
+          }
+
+          zip.file(documentXmlPath, documentXml);
+
+          return zip.generate({
+            type: "blob",
+            mimeType:
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            compression: "DEFLATE",
+          });
+        }
+
+        async function generarWord() {
+          const esDenuncia = esPlantillaDenuncia();
+
+          if (!esDenuncia) {
+            let solicitud = solicitudInput.value.trim();
+            let representante = repInput.value.trim();
+            let cedula = cedInput.value.trim();
+            let empresa = empresaInput.value.trim();
+            let rif = rifInput.value.trim();
+            let direccion = direccionInput.value.trim();
+
+            if (solicitud.length > LIMITS.solicitud)
+              solicitud = solicitud.substring(0, LIMITS.solicitud);
+            if (representante.length > LIMITS.representante)
+              representante = representante.substring(0, LIMITS.representante);
+            if (cedula.length > LIMITS.cedula)
+              cedula = cedula.substring(0, LIMITS.cedula);
+            if (empresa.length > LIMITS.empresa)
+              empresa = empresa.substring(0, LIMITS.empresa);
+            if (rif.length > LIMITS.rif) rif = rif.substring(0, LIMITS.rif);
+            if (direccion.length > LIMITS.direccion)
+              direccion = direccion.substring(0, LIMITS.direccion);
+
+            if (!solicitud) solicitud = "SOLICITUD";
+            if (!representante) representante = "REPRESENTANTE";
+            if (!cedula) cedula = "V-00000000";
+            if (!empresa) empresa = "EMPRESA S.A";
+            if (!rif) rif = "J-00000000-0";
+            if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
+
+            if (
+              !solicitudInput.value.trim() ||
+              !repInput.value.trim() ||
+              !cedInput.value.trim() ||
+              !empresaInput.value.trim() ||
+              !rifInput.value.trim() ||
+              !direccionInput.value.trim()
+            ) {
+              setStatus("❌ Complete todos los campos obligatorios", "error");
+              return;
+            }
+
+            const plantillaSeleccionadaCompleta = plantillaSelect.value;
+            if (!plantillaSeleccionadaCompleta) {
+              setStatus("❌ Selecciona una plantilla", "error");
+              return;
+            }
+
+            if (!plantillaBuffer) {
+              setStatus("❌ Plantilla no cargada", "error");
+              return;
+            }
+
+            setStatus("⚙️ Procesando Content Controls...", "loading");
+            generarBtn.disabled = true;
+            generarPdfBtn.disabled = true;
+
+            try {
+              const replacements = {
+                SOLICITUD: solicitud,
+                "REPRESENTANTE LEGAL": representante,
+                CEDULA: cedula,
+                EMPRESA: empresa,
+                RIF: rif,
+                DIRECCION: direccion,
+              };
+
+              const nuevoBlob = await reemplazarContentControls(
+                plantillaBuffer,
+                replacements,
+              );
+
+              if (!nuevoBlob || nuevoBlob.size < 1000) {
+                throw new Error("El archivo generado es demasiado pequeño");
+              }
+
+              const fecha = new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace(/:/g, "-");
+              const nombreBase = representante
+                .replace(/\s+/g, "_")
+                .substring(0, 30);
+              const nombrePlantillaDisplay = getDisplayNameFromFile(
+                plantillaSeleccionadaCompleta,
+              );
+              const nombreArchivo = `CONFORMIDAD_${nombrePlantillaDisplay}_${nombreBase}_${fecha}.docx`;
+
+              window.saveAs(nuevoBlob, nombreArchivo);
+              setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, "success");
+            } catch (error) {
+              console.error("❌ Error:", error);
+              setStatus(`❌ Error: ${error.message}`, "error");
+            } finally {
+              generarBtn.disabled = false;
+              generarPdfBtn.disabled = false;
+              checkAllFieldsFilled();
+            }
+          } else {
+            const plantillaSeleccionadaCompleta = plantillaSelect.value;
+            if (!plantillaSeleccionadaCompleta) {
+              setStatus("❌ Selecciona una plantilla", "error");
+              return;
+            }
+
+            if (!plantillaBuffer) {
+              setStatus("❌ Plantilla no cargada", "error");
+              return;
+            }
+
+            setStatus("⚙️ Generando documento de DENUNCIA...", "loading");
+            generarBtn.disabled = true;
+            generarPdfBtn.disabled = true;
+
+            try {
+              const fecha = new Date()
+                .toISOString()
+                .slice(0, 19)
+                .replace(/:/g, "-");
+              const nombreArchivo = `DENUNCIA_Requisitos_Inspeccion_${fecha}.docx`;
+
+              const nuevoBlob = new Blob([plantillaBuffer], {
+                type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              });
+
+              window.saveAs(nuevoBlob, nombreArchivo);
+              setStatus(
+                `✅ DOCUMENTO DE DENUNCIA GENERADO EXITOSAMENTE.`,
+                "success",
+              );
+            } catch (error) {
+              console.error("❌ Error:", error);
+              setStatus(`❌ Error: ${error.message}`, "error");
+            } finally {
+              generarBtn.disabled = false;
+              generarPdfBtn.disabled = false;
+            }
+          }
+        }
+
+        async function inicializar() {
+          const pizzipOk = typeof window.PizZip !== "undefined";
+          const saveAsOk = typeof window.saveAs !== "undefined";
+
+          if (!pizzipOk || !saveAsOk) {
+            setStatus("❌ Error: Librerías no cargadas", "error");
+            generarBtn.disabled = true;
+            generarPdfBtn.disabled = true;
+            return;
+          }
+
+          setupListeners();
+
+          setStatus("📋 Cargando lista de plantillas...", "loading");
+          await cargarListaPlantillas();
+
+          if (plantillasDisponibles.length === 0) {
+            setStatus("❌ No hay plantillas disponibles", "error");
+            generarBtn.disabled = true;
+            generarPdfBtn.disabled = true;
+            return;
+          }
+
+          actualizarSelect();
+          const primeraPlantillaCompleta = plantillasDisponibles[0];
+          await cargarPlantilla(primeraPlantillaCompleta);
+
+          if (plantillaCargada) {
+            actualizarEstadoCamposDenuncia();
+            setStatus("✅ Listo. Completa todos los campos.", "success");
+          }
+        }
+
+        plantillaSelect.addEventListener("change", async function () {
+          const nombreCompleto = plantillaSelect.value;
+          if (!nombreCompleto) return;
+
+          await cargarImagenPreview(nombreCompleto);
+
+          generarBtn.disabled = true;
+          generarPdfBtn.disabled = true;
+          await cargarPlantilla(nombreCompleto);
+          if (plantillaCargada) {
+            actualizarEstadoCamposDenuncia();
+            if (esPlantillaDenuncia()) {
+              generarBtn.disabled = false;
+              generarPdfBtn.disabled = false;
+              setStatus(
+                "✅ Plantilla de DENUNCIA cargada. Puede generar el documento directamente.",
+                "success",
+              );
+            } else {
+              checkAllFieldsFilled();
+            }
+          }
+        });
+
+        generarBtn.addEventListener("click", generarWord);
+        
+        // Evento para el botón PDF - usa el nombre de la plantilla seleccionada
+        generarPdfBtn.addEventListener("click", function() {
+          if (typeof window.generarCSOPDF === 'function') {
+            // Obtener datos del formulario
+            const datosFormulario = {
+              solicitud: solicitudInput.value.trim(),
+              representante: repInput.value.trim(),
+              cedula: cedInput.value.trim(),
+              empresa: empresaInput.value.trim(),
+              rif: rifInput.value.trim(),
+              direccion: direccionInput.value.trim()
+            };
+            
+            // Obtener el nombre de la plantilla seleccionada (texto visible en el select)
+            const plantillaSeleccionada = plantillaSelect.options[plantillaSelect.selectedIndex]?.text || "";
+            
+            // Llamar a la función del PDF con el nombre de la plantilla
+            window.generarCSOPDF(datosFormulario, plantillaSeleccionada);
+          } else {
+            setStatus("❌ Error: Generador de PDF no disponible", "error");
+          }
+        });
+        
+        inicializar();
+      })();
     </script>
-</body>
-
+  </body>
 </html>
