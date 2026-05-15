@@ -549,6 +549,7 @@
               4. Presione <strong>"GENERAR SOLICITUD"</strong> para descargar el
               documento con los datos ingresados y realize su impresion.
             </p>
+            <p>5. Presione <strong>"DESCARGAR COMO PDF"</strong> para generar un PDF con el formato oficial (tamaño carta, márgenes 1.5cm).</p>
             <p>
               ⚠️ Asegúrese de ingresar correctamente los datos para evitar
               errores en el documento generado.
@@ -702,8 +703,15 @@
       <div class="modal-caption" id="modalCaption"></div>
     </div>
 
+    <!-- Dependencias para generar documentos -->
     <script src="assets/js/pizzip.min.js"></script>
     <script src="assets/js/FileSaver.min.js"></script>
+    
+    <!-- Dependencias para generar PDF (html2canvas + jsPDF) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Generador de PDF con recaudos específicos -->
     <script src="assets/js/pdf-generator.js"></script>
 
     <script>
@@ -1358,23 +1366,54 @@
         // Evento para el botón PDF - usa el nombre de la plantilla seleccionada
         generarPdfBtn.addEventListener("click", function() {
           if (typeof window.generarCSOPDF === 'function') {
+            // Verificar que los campos estén completos (si no es denuncia)
+            if (!esPlantillaDenuncia()) {
+              const solicitud = solicitudInput.value.trim();
+              const representante = repInput.value.trim();
+              const cedula = cedInput.value.trim();
+              const empresa = empresaInput.value.trim();
+              const rif = rifInput.value.trim();
+              const direccion = direccionInput.value.trim();
+              
+              if (!solicitud || !representante || !cedula || !empresa || !rif || !direccion) {
+                setStatus("❌ Complete todos los campos obligatorios antes de generar el PDF", "error");
+                return;
+              }
+            }
+            
             // Obtener datos del formulario
             const datosFormulario = {
-              solicitud: solicitudInput.value.trim(),
-              representante: repInput.value.trim(),
-              cedula: cedInput.value.trim(),
-              empresa: empresaInput.value.trim(),
-              rif: rifInput.value.trim(),
-              direccion: direccionInput.value.trim()
+              solicitud: solicitudInput.value.trim() || "SOLICITUD",
+              representante: repInput.value.trim() || "REPRESENTANTE LEGAL",
+              cedula: cedInput.value.trim() || "V-00000000",
+              empresa: empresaInput.value.trim() || "EMPRESA S.A.",
+              rif: rifInput.value.trim() || "J-00000000-0",
+              direccion: direccionInput.value.trim() || "DIRECCIÓN NO ESPECIFICADA"
             };
             
-            // Obtener el nombre de la plantilla seleccionada (texto visible en el select)
-            const plantillaSeleccionada = plantillaSelect.options[plantillaSelect.selectedIndex]?.text || "";
+            // Obtener el nombre completo de la plantilla (valor del select)
+            const plantillaSeleccionada = plantillaSelect.value;
             
-            // Llamar a la función del PDF con el nombre de la plantilla
+            if (!plantillaSeleccionada) {
+              setStatus("❌ Seleccione una plantilla primero", "error");
+              return;
+            }
+            
+            setStatus("📄 Generando PDF (tamaño carta, márgenes 1.5cm)...", "loading");
+            
+            // Llamar a la función del PDF con el nombre completo de la plantilla
             window.generarCSOPDF(datosFormulario, plantillaSeleccionada);
+            
+            // Restaurar mensaje después de un tiempo
+            setTimeout(() => {
+              if (!esPlantillaDenuncia()) {
+                setStatus("✅ Listo. Puede continuar.", "success");
+              } else {
+                setStatus("✅ Plantilla de DENUNCIA cargada.", "success");
+              }
+            }, 3000);
           } else {
-            setStatus("❌ Error: Generador de PDF no disponible", "error");
+            setStatus("❌ Error: Generador de PDF no disponible. Verifique que pdf-generator.js esté cargado correctamente.", "error");
           }
         });
         
