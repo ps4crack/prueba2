@@ -1,6 +1,6 @@
 // ==================== GENERADOR DE CSO EN PDF ====================
 // Tamaño: Hoja Carta (21.59cm x 27.94cm) | Márgenes: 1.5cm
-// Se ajusta el diseño para que TODO quepa en UNA sola página sin borrosidad
+// DISEÑO IDÉNTICO AL HTML CON LAS MISMAS SECCIONES
 // Dependencias necesarias en el HTML:
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 // <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -305,7 +305,7 @@ const recaudosPorTipo = {
   },
 };
 
-// ==================== GENERAR HTML DEL DOCUMENTO CON TAMAÑO AJUSTABLE ====================
+// ==================== GENERAR HTML DEL DOCUMENTO IDÉNTICO AL DISEÑO ORIGINAL ====================
 function generarHTMLDocumento(datos, data, modoCompacto = false) {
   const fecha = new Date().toLocaleDateString("es-ES");
   const solicitudTipo = datos.solicitud || "SOLICITUD";
@@ -315,28 +315,28 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
   const rif = datos.rif || "_________________________";
   const direccion = datos.direccion || "_________________________";
 
-  // Configurar tamaños según modo
-  let fontSize = 7.5;
-  let padding = "5px 6px";
-  let marginTop = 12;
-  let lineHeight = 1.25;
-  let titleSize = 11;
+  // Configurar tamaños según modo (mismo que el HTML)
+  let fontSize = 8;
+  let padding = "2px 4px";
+  let marginTop = 20;
+  let lineHeight = 1.5;
+  let titleSize = 8;
   
   if (modoCompacto) {
     fontSize = 6.5;
-    padding = "3px 4px";
-    marginTop = 8;
-    lineHeight = 1.15;
-    titleSize = 9.5;
+    padding = "2px 3px";
+    marginTop = 10;
+    lineHeight = 1.3;
+    titleSize = 7.5;
   }
 
   let filasTabla = "";
   data.lista.forEach((item) => {
     filasTabla += `
       <tr>
-        <td style="padding: ${padding}; border: 1px solid #111; font-size: ${fontSize}pt; line-height: ${lineHeight};">${escapeHtml(item)}</td>
-        <td style="padding: ${padding}; border: 1px solid #111; text-align: center; width: 30px; font-size: ${fontSize}pt;">☐</td>
-        <td style="padding: ${padding}; border: 1px solid #111; text-align: center; width: 30px; font-size: ${fontSize}pt;">☐</td>
+        <td style="padding: ${padding}; border: 1px solid #000; font-size: ${fontSize}pt; line-height: ${lineHeight};">${escapeHtml(item)}</td>
+        <td style="padding: ${padding}; border: 1px solid #000; text-align: center; width: 35px; font-size: ${fontSize}pt;">&nbsp;&nbsp;&nbsp;</td>
+        <td style="padding: ${padding}; border: 1px solid #000; text-align: center; width: 35px; font-size: ${fontSize}pt;">&nbsp;&nbsp;&nbsp;</td>
       </tr>
     `;
   });
@@ -349,87 +349,239 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Calibri', 'Segoe UI', 'Times New Roman', serif;
+      font-family: Arial, sans-serif;
       background: white;
       margin: 0;
       padding: 0;
+      font-size: 8pt;
     }
-    .oficio-paper {
-      width: 21.59cm;
-      background: white;
-      padding: 1.2cm;
+    .container {
+      max-width: 21.59cm;
       margin: 0 auto;
-      box-sizing: border-box;
+      background: white;
+      padding: 1.5cm;
     }
-    .titulo-principal { text-align: center; font-weight: 700; font-size: ${titleSize}pt; text-decoration: underline; margin-bottom: 8px; }
-    .fecha-ciudad { text-align: right; margin-bottom: 10px; font-size: 7.5pt; }
-    .destinatario { margin-bottom: 10px; line-height: 1.3; font-size: 7.5pt; }
-    .datos-empresa-horizontal { margin: 6px 0 10px 0; line-height: 1.3; font-size: 7.5pt; }
-    .linea-dato { margin: 2px 0; }
-    .linea-punteada { border-bottom: 1px dotted #000; display: inline-block; min-width: 70px; }
-    .recaudos-table { width: 100%; border-collapse: collapse; margin: ${marginTop}px 0 8px; }
-    .recaudos-table th, .recaudos-table td { border: 1px solid #111; vertical-align: top; }
-    .recaudos-table th { background-color: #f0f2f5; font-weight: 700; font-size: ${fontSize + 0.5}pt; text-align: center; padding: ${padding}; }
-    .declaracion-jurada {
-      margin: 6px 0 4px;
-      padding: 5px 7px;
-      background-color: #f9f6ef;
-      border-left: 3px solid #8b5a2b;
+    .center { text-align: center; }
+    .right { text-align: right; }
+    .justify { text-align: justify; }
+    
+    /* Líneas */
+    .line {
+      display: inline-block;
+      border-bottom: 1px solid #000;
+      min-width: 220px;
+      height: 18px;
+      vertical-align: bottom;
+    }
+    .line-small {
+      display: inline-block;
+      border-bottom: 1px solid #000;
+      min-width: 120px;
+      height: 18px;
+      vertical-align: bottom;
+    }
+    .line-print {
+      display: inline-block;
+      border-bottom: 1px solid #000;
+      min-width: 180px;
+      width: auto;
+    }
+    .campo-vacio {
+      display: inline-block;
+      border-bottom: 1px solid #000;
+      min-width: 120px;
+      font-weight: normal;
+    }
+    .linea-completa {
+      border-bottom: 1px solid #000;
+      width: 100%;
+      margin-top: 5px;
+    }
+    
+    /* Títulos de impresión */
+    .print-title {
+      font-size: ${titleSize}pt;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .fecha-line {
+      text-align: right;
+      font-size: 8pt;
+      margin-bottom: 15px;
+    }
+    .destinatario {
+      font-size: 8pt;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    .solicitud-texto {
+      font-size: 8pt;
       text-align: justify;
-      font-size: ${fontSize - 0.5}pt;
-      line-height: 1.2;
+      margin-bottom: 15px;
     }
-    .signature-section { display: flex; flex-wrap: wrap; justify-content: space-between; margin: 8px 0 8px; gap: 10px; }
-    .sign-box { flex: 1; border: 1px solid #aaa; padding: 4px 3px; }
-    .sign-box p { margin: 1px 0; font-size: 6.5pt; }
-    .small-line { border-bottom: 1px solid #000; margin: 2px 0 3px 0; width: 100%; }
-    .observaciones-firma { margin: 15px 0 0px; display: flex; justify-content: center; }
-    .firma-centrada { display: flex; justify-content: center; width: 100%; }
-    .recuadro-firma { width: 65%; text-align: center; }
-    .firma-linea { border-bottom: 1px solid #000; display: inline-block; width: 80%; margin-bottom: 2px; }
-    hr.dashed { border: none; border-top: 1px dashed #aaa; margin: 6px 0 3px; }
-    .text-center { text-align: center; font-size: 6.5pt; }
-    .nota { margin: 4px 0; font-size: 6.5pt; line-height: 1.15; }
+    
+    /* Tabla de recaudos */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: ${marginTop}px;
+      font-size: ${fontSize}pt;
+    }
+    th, td {
+      border: 1px solid #000;
+      vertical-align: top;
+    }
+    th, td {
+      padding: ${padding};
+    }
+    th {
+      background: #f2f2f2;
+      text-align: center;
+    }
+    
+    /* Declaración jurada */
+    .declaracion-jurada {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      font-size: 8pt;
+      text-align: justify;
+    }
+    
+    /* Nota adicional */
+    .nota-adicional {
+      border: 1px solid #000;
+      padding: 2px 4px;
+      margin-top: 10px;
+      font-size: 8pt;
+      text-align: justify;
+    }
+    
+    /* Firma */
+    .signature {
+      margin-top: 50px;
+      text-align: center;
+    }
+    .signature-line {
+      width: 250px;
+      border-top: 1px solid #000;
+      margin: 0 auto 10px auto;
+      padding-top: 5px;
+    }
+    
+    /* Tabla de pie */
+    .footer-table td {
+      height: 120px;
+      padding: 8px;
+    }
   </style>
 </head>
 <body>
-<div class="oficio-paper">
-  <div class="titulo-principal">${escapeHtml(data.titulo)}</div>
-  <div class="fecha-ciudad">Barquisimeto, ${fecha}</div>
+<div class="container">
+  <!-- ==================== SECCIÓN MEMBRETE ==================== -->
+  <div class="print-title">${escapeHtml(data.titulo)}</div>
+  
+  <div class="fecha-line">
+    Barquisimeto, <span class="line-print">_________________________</span>
+  </div>
+  
   <div class="destinatario">
     Dra. Alexandra González<br>
     Directora de Salud Ambiental del Estado Lara<br>
     Su despacho.
   </div>
-  <div class="datos-empresa-horizontal">
-    <div>Reciba un cordial saludo. La presente es para solicitar ante su despacho la <span class="linea-punteada" style="min-width: 55px;">${escapeHtml(solicitudTipo)}</span> de la Conformidad Sanitaria de Ocupación del establecimiento (CSO):</div>
-    <div class="linea-dato"><span class="linea-punteada" style="width:100%; display:inline-block;">${escapeHtml(empresa)}</span></div>
-    <div class="linea-dato">RIF: <span class="linea-punteada">${escapeHtml(rif)}</span></div>
-    <div class="linea-dato">Representante legal: <span class="linea-punteada">${escapeHtml(representante)}</span> C.I.N°: <span class="linea-punteada">${escapeHtml(cedula)}</span></div>
-    <div class="linea-dato">Ubicado en: <span class="linea-punteada">${escapeHtml(direccion)}</span></div>
+  
+  <div class="solicitud-texto">
+    <p class="justify">
+      Reciba un cordial saludo la presente es para solicitar ante su despacho la 
+      <strong class="campo-vacio">${escapeHtml(solicitudTipo)}</strong> 
+      de la Conformidad Sanitaria de Ocupación del establecimiento (CSO): 
+      <strong class="campo-vacio">${escapeHtml(empresa)}</strong><br>
+      cuyo Rif: 
+      <strong class="campo-vacio">${escapeHtml(rif)}</strong> 
+      y su representante legal: 
+      <strong class="campo-vacio">${escapeHtml(representante)}</strong><br>
+      C.I.N°: 
+      <strong class="campo-vacio">${escapeHtml(cedula)}</strong> 
+      ubicado en:
+    </p>
+    <div class="linea-completa">${escapeHtml(direccion)}</div>
   </div>
-  <table class="recaudos-table">
+  
+  <!-- ==================== SECCIÓN RECAUDO ==================== -->
+  <table>
     <thead>
-      <tr><th>Recaudos (Documentos exigidos)</th><th style="width:30px;">Sí</th><th style="width:30px;">No</th></tr>
+      <tr>
+        <th style="width:auto">Recaudos</th>
+        <th colspan="2" style="width:70px">Verificado</th>
+      </tr>
+      <tr>
+        <th style="width:auto"></th>
+        <th style="width:35px; text-align:center;">Sí</th>
+        <th style="width:35px; text-align:center;">No</th>
+      </tr>
     </thead>
-    <tbody>${filasTabla}</tbody>
+    <tbody>
+      ${filasTabla}
+      <tr>
+        <td colspan="3" style="padding: 4px 4px;">
+          <strong>NOTA:</strong> Cálculo basado en las normas sanitarias para proyecto,
+          construcción, reparación, reforma y mantenimiento de edificaciones,
+          G.O Nº 4.044 del 08/09/88.
+        </td>
+      </tr>
+    </tbody>
   </table>
+  
+  <!-- ==================== SECCIÓN JURAMENTO ==================== -->
   <div class="declaracion-jurada">
-    <strong>DECLARO BAJO JURAMENTO</strong> la veracidad de la información suministrada y que los documentos entregados en esta solicitud son copia fiel y exacta de los originales, de probarse lo contrario, asumo la responsabilidad civil, penal y administrativa que corresponda. No me ha sido solicitado ningún pago o colaboración adicional a los timbres fiscales.
+    DECLARO BAJO JURAMENTO la veracidad de la información suministrada
+    y que los documentos entregados en esta solicitud de CSO:
+    <span class="line"></span>
+    son copia fiel y exacta de los originales, de probarse lo contrario,
+    asumo la responsabilidad civil, penal y administrativa que corresponda.
+    No me ha sido solicitado ningún pago o colaboración adicional
+    a los timbres fiscales.
   </div>
-  <div class="nota">
-    <strong>NOTA:</strong> Los recaudos deben ser consignados por el representante legal, por una persona autorizada mediante poder notariado o, en su defecto, por un trabajador de la organización que presente los soportes que acrediten su vínculo laboral.
+  
+  <!-- ==================== SECCIÓN DECLARO ==================== -->
+  <div class="nota-adicional">
+    <strong>Nota:</strong> Los recaudos deben ser consignados por el representante legal, por una persona autorizada mediante poder notariado o, en su defecto, por un trabajador de la organización que presente los soportes que acrediten su vínculo laboral.
   </div>
-  <div class="observaciones-firma">
-    <div class="firma-centrada"><div class="recuadro-firma"><div class="firma-linea"></div><div class="firma-texto-pequeno" style="font-size:6.5pt;">Firma y sello del solicitante / Representante legal</div></div></div>
+  
+  <!-- ==================== SECCIÓN FIRMA FINAL ==================== -->
+  <div class="signature">
+    <div class="signature-line"></div>
+    Representante Legal
   </div>
-  <div class="signature-section">
-    <div class="sign-box"><p><strong>Taquilla Única DSA</strong></p><p>Recibido/Verificado Por:</p><div class="small-line"></div><p>Fecha:</p><div class="small-line"></div><p>Sello:</p></div>
-    <div class="sign-box"><p><strong>Ingeniería Sanitaria</strong></p><p>Recibido/Verificado Por:</p><div class="small-line"></div><p>Fecha:</p><div class="small-line"></div><p>Sello:</p></div>
-    <div class="sign-box"><p><strong>Dirección</strong></p><p>Autorizado Por:</p><div class="small-line"></div><p>Fecha:</p><div class="small-line"></div><p>Sello:</p></div>
-  </div>
-  <hr class="dashed">
-  <div class="text-center">CSO - Conformidad Sanitaria de Ocupación | Formato oficial D.S.A. Lara</div>
+  
+  <table class="footer-table">
+    <tr>
+      <th>Taquilla Única DSA</th>
+      <th>Ingeniería Sanitaria</th>
+      <th>Dirección</th>
+    </tr>
+    <tr>
+      <td>
+        Recibido/Verificado Por<br><br>
+        Nombre:<br>
+        Fecha:<br>
+        Sello:
+      </td>
+      <td>
+        Recibido/Verificado Por:<br><br>
+        Nombre:<br>
+        Fecha:<br>
+        Sello:
+      </td>
+      <td>
+        Autorizado Por:<br><br>
+        Nombre:<br>
+        Fecha:<br>
+        Sello:
+      </td>
+    </tr>
+  </table>
 </div>
 </body>
 </html>`;
@@ -462,16 +614,13 @@ async function generarCSOPDF(datosFormulario, nombrePlantilla) {
 }
 
 async function generarPDFConDatos(datosFormulario, data) {
-  // Determinar si es un CSO con muchos ítems (como incineración)
   const tieneMuchosItems = data.lista.length > 12;
   const modoCompacto = tieneMuchosItems;
   
   console.log(`📊 Tipo: ${data.titulo.substring(0, 50)}... | Items: ${data.lista.length} | Modo compacto: ${modoCompacto}`);
   
-  // Generar HTML con el modo apropiado
   const contenidoHTML = generarHTMLDocumento(datosFormulario, data, modoCompacto);
   
-  // Crear elemento temporal para renderizar
   const tempDiv = document.createElement("div");
   tempDiv.innerHTML = contenidoHTML;
   tempDiv.style.position = "absolute";
@@ -480,7 +629,6 @@ async function generarPDFConDatos(datosFormulario, data) {
   document.body.appendChild(tempDiv);
 
   try {
-    // Renderizar a canvas con ALTA CALIDAD
     const canvas = await html2canvas(tempDiv, {
       scale: 3,
       backgroundColor: "#ffffff",
@@ -491,27 +639,22 @@ async function generarPDFConDatos(datosFormulario, data) {
     const imgData = canvas.toDataURL("image/png");
     const { jsPDF } = window.jspdf;
 
-    // Configuración: hoja carta
     const pdf = new jsPDF({
       unit: "mm",
       format: "letter",
       orientation: "portrait",
     });
 
-    // Dimensiones de la página en mm
     const pageWidthMM = 215.9;
     const pageHeightMM = 279.4;
     
-    // Calcular dimensiones para que la imagen quepa exactamente en la página
     const imgWidthMM = pageWidthMM;
     const imgHeightMM = (canvas.height * imgWidthMM) / canvas.width;
     
-    // Si la imagen es más alta que la página, escalarla para que quepa
     let finalHeightMM = imgHeightMM;
     let yPositionMM = 0;
     
     if (imgHeightMM > pageHeightMM) {
-      // Escalar para que quepa
       const scale = pageHeightMM / imgHeightMM;
       finalHeightMM = imgHeightMM * scale;
       yPositionMM = 0;
@@ -520,14 +663,12 @@ async function generarPDFConDatos(datosFormulario, data) {
       yPositionMM = (pageHeightMM - imgHeightMM) / 2;
     }
     
-    // Agregar la imagen al PDF (si se escaló, usar las nuevas dimensiones)
     pdf.addImage(imgData, "PNG", 0, yPositionMM, imgWidthMM, finalHeightMM);
     
-    // Guardar PDF
     const nombreArchivo = `CSO_${datosFormulario.empresa?.replace(/[^a-z0-9]/gi, "_") || "solicitud"}.pdf`;
     pdf.save(nombreArchivo);
     
-    console.log(`✅ PDF generado - Modo compacto: ${modoCompacto} - Altura final: ${finalHeightMM.toFixed(1)}mm`);
+    console.log(`✅ PDF generado - Modo compacto: ${modoCompacto}`);
     
   } catch (error) {
     console.error("Error al generar PDF:", error);
@@ -539,5 +680,5 @@ async function generarPDFConDatos(datosFormulario, data) {
 
 // ==================== EXPORTAR FUNCIÓN GLOBAL ====================
 window.generarCSOPDF = generarCSOPDF;
-console.log("✅ pdf-generator.js cargado correctamente - AJUSTE POR TIPO DE CSO");
-console.log("📋 Tipos de CSO disponibles:", Object.keys(recaudosPorTipo));
+console.log("✅ pdf-generator.js cargado correctamente - DISEÑO IDÉNTICO AL HTML");
+console.log("📋 Secciones: MEMBRETE, RECAUDO, JURAMENTO, DECLARO, FIRMA FINAL");
