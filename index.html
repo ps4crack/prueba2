@@ -1,909 +1,1445 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Conformidad Sanitaria - DSA</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    REQUISITOS Y CARTA DE SOLICITUD DE CONFORMIDAD SANITARIA DE LA DIRECCIÓN
+    DE SALUD AMBIENTAL DEL ESTADO LARA
+  </title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0f2b3d 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+
+    .main-container {
+      max-width: 1400px;
+      width: 100%;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .form-container {
+      flex: 1.2;
+      min-width: 450px;
+    }
+
+    .image-container {
+      flex: 0.8;
+      min-width: 350px;
+      position: sticky;
+      top: 20px;
+      align-self: flex-start;
+    }
+
+    .card {
+      background: white;
+      border-radius: 28px;
+      padding: 2rem;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 15px;
+    }
+
+    .cintillo-img {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 20px auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: white;
+      padding: 10px;
+    }
+
+    .cintillo-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .header h1 {
+      color: #1e3a5f;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #2c5282;
+      font-size: 0.85rem;
+    }
+
+    .instrucciones-box {
+      background: #f0f7ff;
+      border-left: 6px solid #2c7da0;
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
+    }
+
+    .instrucciones-box h4 {
+      color: #1e3a5f;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .instrucciones-box p {
+      color: #2d3748;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 6px;
+    }
+
+    .instrucciones-box ul {
+      margin-left: 1.2rem;
+      margin-top: 6px;
+    }
+
+    .instrucciones-box li {
+      color: #2d3748;
+      font-size: 0.8rem;
+      margin: 4px 0;
+    }
+
+    .imagen-destacada {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border-radius: 28px;
+      padding: 1.5rem;
+      text-align: center;
+      border: 2px solid #cbd5e1;
+      transition: all 0.3s ease;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: sticky;
+      top: 20px;
+    }
+
+    .imagen-destacada h3 {
+      color: #1e3a5f;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: inline-block;
+      background: #1e3a5f20;
+      padding: 8px 20px;
+      border-radius: 30px;
+    }
+
+    .imagen-destacada .imagen-wrapper {
+      min-height: 450px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff50;
+      border-radius: 20px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    .imagen-destacada img {
+      max-width: 100%;
+      max-height: 450px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+      transition:
+        transform 0.3s ease,
+        opacity 0.2s ease;
+      cursor: pointer;
+    }
+
+    .imagen-destacada img:hover {
+      transform: scale(1.02);
+      opacity: 0.95;
+    }
+
+    .imagen-destacada .no-img {
+      padding: 80px 20px;
+      color: #64748b;
+      font-size: 1rem;
+      text-align: center;
+      cursor: default;
+    }
+
+    .imagen-destacada .no-img-icon {
+      font-size: 5rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .imagen-info {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid #cbd5e1;
+      font-size: 0.75rem;
+      color: #64748b;
+      background: #ffffff80;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+      animation: zoomIn 0.2s ease;
+    }
+
+    .modal-content img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10000;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+
+    .modal-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 0.9rem;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8px;
+      margin: 0 auto;
+      width: fit-content;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
       }
 
-      body {
-        background: linear-gradient(135deg, #1e3a5f 0%, #0f2b3d 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        padding: 20px;
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
       }
 
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .campo {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1e293b;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 2;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+    }
+
+    .input-wrapper textarea~.input-icon {
+      top: 16px;
+      transform: none;
+    }
+
+    .input-wrapper .input-icon img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      display: block;
+      transition: none;
+      filter: none;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 16px 12px 46px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      font-family: "Segoe UI", monospace;
+      background-color: white;
+    }
+
+    textarea {
+      font-family: monospace;
+      resize: vertical;
+      padding-left: 46px;
+    }
+
+    /* Estilos específicos para el select con icono */
+    .plantilla-selection select {
+      padding-left: 46px;
+      padding-right: 16px;
+      cursor: pointer;
+      background-color: white;
+      appearance: auto;
+      -webkit-appearance: auto;
+      -moz-appearance: auto;
+    }
+
+    /* Ajuste para que el texto del select no se superponga al icono */
+    .plantilla-selection .input-wrapper {
+      position: relative;
+    }
+
+    .plantilla-selection .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+    }
+
+    .plantilla-selection .input-icon img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+      display: block;
+      filter: none;
+    }
+
+    /* Asegurar que el select tenga padding suficiente */
+    .plantilla-selection select {
+      padding-left: 50px;
+      width: 100%;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      background-color: white;
+      height: 48px;
+      line-height: 1.4;
+    }
+
+    select option.salud-radiologica-option {
+      background-color: #e5e7eb !important;
+      color: #1f2937;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #2c7da0;
+      box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.2);
+    }
+
+    input.empty-field,
+    textarea.empty-field {
+      border-color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    input.empty-field~.input-icon,
+    textarea.empty-field~.input-icon {
+      color: #dc2626;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a0aec0;
+      font-style: italic;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    button {
+      flex: 1;
+      background: linear-gradient(98deg, #1e4a6b 0%, #0f3b55 100%);
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button:hover:not(:disabled) {
+      transform: scale(1.02);
+      background: linear-gradient(98deg, #0f3b55 0%, #092c40 100%);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: linear-gradient(98deg, #94a3b8 0%, #64748b 100%);
+    }
+
+    .status {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .status-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-loading {
+      background: #e0f2fe;
+      color: #075985;
+    }
+
+    .plantilla-selection {
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .plantilla-selection label {
+      padding-left: 0;
+    }
+
+    .char-counter {
+      text-align: right;
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .char-counter.warning {
+      color: #e67e22;
+    }
+
+    .char-counter.danger {
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    .char-counter.hidden-counter {
+      display: none;
+    }
+
+    .campo.disabled-field {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .campo.disabled-field label {
+      color: #94a3b8;
+    }
+
+    .campo.disabled-field input,
+    .campo.disabled-field textarea {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .special-badge {
+      display: inline-block;
+      background: #dc2626;
+      color: white;
+      font-size: 0.7rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-left: 10px;
+      vertical-align: middle;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .special-badge.radiologica {
+      background: #2c7da0;
+    }
+
+    /* ==================== TOAST DE NOTIFICACIÓN ==================== */
+    .toast-notificacion {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background: linear-gradient(98deg, #166534 0%, #15803d 100%);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 99999;
+      opacity: 0;
+      transform: translateX(120%);
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      max-width: 380px;
+      pointer-events: none;
+    }
+
+    .toast-notificacion.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .toast-notificacion .toast-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .toast-notificacion .toast-texto {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .toast-notificacion .toast-titulo {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .toast-notificacion .toast-mensaje {
+      font-size: 0.78rem;
+      font-weight: 400;
+      opacity: 0.95;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 600px) {
+      .toast-notificacion {
+        top: 15px;
+        right: 15px;
+        left: 15px;
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 950px) {
       .main-container {
-        max-width: 1400px;
-        width: 100%;
-        display: flex;
-        gap: 2rem;
-        flex-wrap: wrap;
-      }
-
-      .form-container {
-        flex: 1.2;
-        min-width: 450px;
+        flex-direction: column;
       }
 
       .image-container {
-        flex: 0.8;
-        min-width: 350px;
-        position: sticky;
-        top: 20px;
-        align-self: flex-start;
-      }
-
-      .card {
-        background: white;
-        border-radius: 28px;
-        padding: 2rem;
-        width: 100%;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-      }
-
-      .header {
-        text-align: center;
-        margin-bottom: 28px;
-        border-bottom: 2px solid #e2e8f0;
-        padding-bottom: 15px;
-      }
-
-      .cintillo-img {
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto 20px auto;
-        display: block;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        background: white;
-        padding: 10px;
-      }
-
-      .cintillo-img img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 8px;
-      }
-
-      .header h1 {
-        color: #1e3a5f;
-        font-size: 1.8rem;
-        margin-bottom: 8px;
-      }
-
-      .header p {
-        color: #2c5282;
-        font-size: 0.85rem;
-      }
-
-      .instrucciones-box {
-        background: #f0f7ff;
-        border-left: 6px solid #2c7da0;
-        border-radius: 20px;
-        padding: 1rem 1.2rem;
-        margin-bottom: 1.8rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        transition: all 0.2s;
-      }
-
-      .instrucciones-box h4 {
-        color: #1e3a5f;
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .instrucciones-box p {
-        color: #2d3748;
-        font-size: 0.85rem;
-        line-height: 1.4;
-        margin-bottom: 6px;
-      }
-
-      .instrucciones-box ul {
-        margin-left: 1.2rem;
-        margin-top: 6px;
-      }
-
-      .instrucciones-box li {
-        color: #2d3748;
-        font-size: 0.8rem;
-        margin: 4px 0;
+        position: static;
       }
 
       .imagen-destacada {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        border-radius: 28px;
-        padding: 1.5rem;
-        text-align: center;
-        border: 2px solid #cbd5e1;
-        transition: all 0.3s ease;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        position: sticky;
-        top: 20px;
+        position: static;
       }
 
-      .imagen-destacada h3 {
-        color: #1e3a5f;
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        display: inline-block;
-        background: #1e3a5f20;
-        padding: 8px 20px;
-        border-radius: 30px;
-      }
-
-      .imagen-destacada .imagen-wrapper {
-        min-height: 450px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #ffffff50;
-        border-radius: 20px;
-        margin: 10px 0;
-        cursor: pointer;
-      }
-
-      .imagen-destacada img {
-        max-width: 100%;
-        max-height: 450px;
-        width: auto;
-        height: auto;
-        object-fit: contain;
-        border-radius: 16px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-        transition:
-          transform 0.3s ease,
-          opacity 0.2s ease;
-        cursor: pointer;
-      }
-
-      .imagen-destacada img:hover {
-        transform: scale(1.02);
-        opacity: 0.95;
-      }
-
-      .imagen-destacada .no-img {
-        padding: 80px 20px;
-        color: #64748b;
-        font-size: 1rem;
-        text-align: center;
-        cursor: default;
-      }
-
-      .imagen-destacada .no-img-icon {
-        font-size: 5rem;
-        margin-bottom: 15px;
-        display: block;
-      }
-
-      .imagen-info {
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px solid #cbd5e1;
-        font-size: 0.75rem;
-        color: #64748b;
-        background: #ffffff80;
-        border-radius: 12px;
-        padding: 12px;
-      }
-
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(5px);
-        cursor: pointer;
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 0.2s ease;
-      }
-
-      .modal.active {
-        display: flex;
-      }
-
-      .modal-content {
-        max-width: 90%;
-        max-height: 90%;
-        position: relative;
-        animation: zoomIn 0.2s ease;
-      }
-
-      .modal-content img {
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 90vh;
-        object-fit: contain;
-        border-radius: 12px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      }
-
-      .modal-close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        color: white;
-        font-size: 40px;
-        font-weight: bold;
-        cursor: pointer;
-        background: rgba(0, 0, 0, 0.5);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-        z-index: 10000;
-      }
-
-      .modal-close:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.1);
-      }
-
-      .modal-caption {
-        position: absolute;
-        bottom: 20px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        color: white;
-        font-size: 0.9rem;
-        background: rgba(0, 0, 0, 0.6);
-        padding: 8px;
-        margin: 0 auto;
-        width: fit-content;
-        border-radius: 20px;
-        backdrop-filter: blur(4px);
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes zoomIn {
-        from {
-          transform: scale(0.9);
-          opacity: 0;
-        }
-
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      .campo {
-        margin-bottom: 1.2rem;
-      }
-
-      label {
-        display: block;
-        font-weight: 700;
-        margin-bottom: 6px;
-        color: #1e293b;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .input-wrapper {
-        position: relative;
-      }
-
-      input,
-      textarea,
-      select {
-        width: 100%;
-        padding: 12px 16px;
-        border: 2px solid #e2e8f0;
-        border-radius: 16px;
-        font-size: 0.9rem;
-        transition: all 0.2s;
-        font-family: "Segoe UI", monospace;
-        background-color: white;
-      }
-
-      textarea {
-        font-family: monospace;
-        resize: vertical;
-      }
-
-      select {
-        cursor: pointer;
-        background-color: white;
-      }
-
-      input:focus,
-      textarea:focus,
-      select:focus {
-        outline: none;
-        border-color: #2c7da0;
-        box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.2);
-      }
-
-      input.empty-field,
-      textarea.empty-field {
-        border-color: #dc2626;
-        background-color: #fef2f2;
-      }
-
-      input::placeholder,
-      textarea::placeholder {
-        color: #a0aec0;
-        font-style: italic;
-        font-size: 0.85rem;
-        opacity: 0.7;
+      .form-container {
+        min-width: auto;
       }
 
       .button-group {
-        display: flex;
-        gap: 12px;
-        margin-top: 10px;
+        flex-direction: column;
       }
+    }
+  </style>
+</head>
 
-      button {
-        flex: 1;
-        background: linear-gradient(98deg, #1e4a6b 0%, #0f3b55 100%);
-        color: white;
-        border: none;
-        padding: 14px;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 40px;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      button:hover:not(:disabled) {
-        transform: scale(1.02);
-        background: linear-gradient(98deg, #0f3b55 0%, #092c40 100%);
-      }
-
-      button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        background: linear-gradient(98deg, #94a3b8 0%, #64748b 100%);
-      }
-
-      .btn-pdf {
-        background: linear-gradient(98deg, #c0392b 0%, #e74c3c 100%);
-      }
-
-      .btn-pdf:hover:not(:disabled) {
-        background: linear-gradient(98deg, #a93226 0%, #c0392b 100%);
-      }
-
-      .status {
-        margin-top: 16px;
-        font-size: 0.8rem;
-        text-align: center;
-        padding: 10px;
-        border-radius: 12px;
-      }
-
-      .status-success {
-        background: #dcfce7;
-        color: #166534;
-      }
-
-      .status-error {
-        background: #fee2e2;
-        color: #991b1b;
-      }
-
-      .status-loading {
-        background: #e0f2fe;
-        color: #075985;
-      }
-
-      .plantilla-selection {
-        background: #f8fafc;
-        padding: 12px;
-        border-radius: 16px;
-        margin-bottom: 20px;
-        border: 1px solid #e2e8f0;
-      }
-
-      /* Estilos para contadores */
-      .char-counter {
-        text-align: right;
-        font-size: 0.7rem;
-        color: #64748b;
-        margin-top: 4px;
-        transition: color 0.2s ease;
-      }
-
-      .char-counter.warning {
-        color: #e67e22;
-      }
-
-      .char-counter.danger {
-        color: #dc2626;
-        font-weight: bold;
-      }
-
-      /* Ocultar contadores específicos */
-      .char-counter.hidden-counter {
-        display: none;
-      }
-
-      /* Estilo para campos deshabilitados en modo denuncia */
-      .campo.disabled-field {
-        opacity: 0.5;
-        pointer-events: none;
-      }
-
-      .campo.disabled-field label {
-        color: #94a3b8;
-      }
-
-      /* Badge de modo denuncia */
-      .denuncia-badge {
-        display: inline-block;
-        background: #dc2626;
-        color: white;
-        font-size: 0.7rem;
-        padding: 4px 12px;
-        border-radius: 20px;
-        margin-left: 10px;
-        vertical-align: middle;
-        letter-spacing: 0;
-        text-transform: none;
-      }
-
-      @media (max-width: 950px) {
-        .main-container {
-          flex-direction: column;
-        }
-
-        .image-container {
-          position: static;
-        }
-
-        .imagen-destacada {
-          position: static;
-        }
-
-        .form-container {
-          min-width: auto;
-        }
-
-        .button-group {
-          flex-direction: column;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="main-container">
-      <div class="form-container">
-        <div class="card">
-          <div class="header">
-            <!-- CINTILLO DE LOGOS - IMAGEN ARRIBA DEL TÍTULO -->
-            <div class="cintillo-img">
-              <img
-                src="assets/img/Cintillo de logos3.png"
-                alt="Cintillo de logos - Gobierno del Estado Lara"
-                onerror="
+<body>
+  <div class="main-container">
+    <div class="form-container">
+      <div class="card">
+        <div class="header">
+          <div class="cintillo-img">
+            <img src="assets/img/Cintillo de logos3.png" alt="Cintillo de logos - Gobierno del Estado Lara" onerror="
                   this.onerror = null;
                   this.parentElement.style.display = 'none';
                   console.warn('No se pudo cargar la imagen del cintillo');
-                "
-              />
-            </div>
-
-            <h1>
-              📄 Solicitud de Conformidad Sanitaria de la Dirección de Salud
-              Ambiental del Estado Lara
-            </h1>
+                " />
           </div>
 
-          <div class="instrucciones-box">
-            <h4>📘 Instrucciones de uso</h4>
-            <p>1. Seleccione la solicitud de conformidad deseada.</p>
-            <p>
-              2. Complete todos los campos obligatorios marcados con
-              <span style="color: #dc2626">*</span>.
-            </p>
-            <p>
-              3. Puede visualizar los recaudos en la imagen (click para
-              ampliar).
-            </p>
-            <p>
-              4. Presione <strong>"GENERAR SOLICITUD"</strong> para descargar el
-              documento con los datos ingresados y realize su impresion.
-            </p>
-            <p>5. Presione <strong>"DESCARGAR COMO PDF"</strong> para generar un PDF con el formato oficial (tamaño carta, márgenes 1.5cm).</p>
-            <p>
-              ⚠️ Asegúrese de ingresar correctamente los datos para evitar
-              errores en el documento generado.
-            </p>
-            <p>
-              ⚠️ Para denuncias, seleccione (DENUNCIAS..), y GENERAR SOLICITUD
-              para descargar el documento instructivo.
-            </p>
-          </div>
+          <h1 style="font-size: 1.6rem">
+            📄 <strong>REQUISITOS Y CARTA</strong> DE SOLICITUD DE CONFORMIDAD
+            SANITARIA DE LA DIRECCIÓN DE SALUD AMBIENTAL DEL ESTADO LARA
+          </h1>
+        </div>
 
-          <div class="plantilla-selection">
-            <label>📁 SELECCIONAR CONFORMIDAD A SOLICITAR</label>
+        <div class="instrucciones-box">
+          <h4>📘 Instrucciones de uso</h4>
+          <p>1. Seleccione la solicitud de conformidad deseada.</p>
+          <p>
+            2. Complete todos los campos obligatorios, si son requeridos
+            marcados con
+            <span style="color: #dc2626">*</span>.
+          </p>
+          <p>
+            3. Puede visualizar los recaudos en la imagen (clic para ampliar).
+          </p>
+          <p>
+            4. Presione <strong>"GENERAR SOLICITUD"</strong> para descargar el
+            documento con los datos ingresados y realice su impresión.
+          </p>
+
+          <p>
+            ⚠️ Asegúrese de ingresar correctamente los datos para evitar
+            errores en el documento generado.
+          </p>
+          <p>
+            ⚠️ Para DENUNCIAS, seleccione (DENUNCIAS) y use el botón GENERAR
+            SOLICITUD para descargar el documento instructivo (sin necesidad
+            de llenar campos).
+          </p>
+        </div>
+
+        <div class="plantilla-selection">
+          <label>SELECCIONAR CONFORMIDAD A SOLICITAR</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <img src="assets/img/icon-plantilla.png" alt="Plantilla" />
+            </span>
             <select id="plantillaSelect" disabled>
-              <option value="">-- Cargando plantillas... --</option>
+              <option value="">-- Cargando plantillas --</option>
             </select>
           </div>
+        </div>
 
-          <div id="camposFormulario">
-            <div class="campo">
-              <label
-                >📝 SOLICITUD / RENOVACION
-                <span class="required">*</span></label
-              >
-              <div class="input-wrapper">
-                <input
-                  type="text"
-                  id="solicitud"
-                  maxlength="10"
-                  placeholder="Ej: RENOVACIÓN, SOLICITUD"
-                />
-              </div>
-              <div class="char-counter hidden-counter" id="solicitudCounter">
-                0 / 10 caracteres
-              </div>
+        <div id="camposFormulario">
+          <div class="campo">
+            <label>SOLICITUD o RENOVACIÓN <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <img src="assets/img/icon-solicitud.png" alt="Solicitud" />
+              </span>
+              <input type="text" id="solicitud" maxlength="10" placeholder="Ej: RENOVACIÓN, SOLICITUD" />
             </div>
-
-            <div class="campo">
-              <label
-                >🧑‍⚖️ REPRESENTANTE LEGAL <span class="required">*</span></label
-              >
-              <div class="input-wrapper">
-                <input
-                  type="text"
-                  id="representante"
-                  maxlength="50"
-                  placeholder="Nombre completo del representante legal"
-                />
-              </div>
-              <div class="char-counter" id="representanteCounter">
-                0 / 50 caracteres
-              </div>
-            </div>
-
-            <div class="campo">
-              <label
-                >🆔 CÉDULA DE IDENTIDAD <span class="required">*</span></label
-              >
-              <div class="input-wrapper">
-                <input
-                  type="text"
-                  id="cedula"
-                  maxlength="13"
-                  placeholder="Ej: V-12345678, E-123456789"
-                />
-              </div>
-              <div class="char-counter hidden-counter" id="cedulaCounter">
-                0 / 13 caracteres
-              </div>
-            </div>
-
-            <div class="campo">
-              <label
-                >🏢 EMPRESA / RAZÓN SOCIAL
-                <span class="required">*</span></label
-              >
-              <div class="input-wrapper">
-                <textarea
-                  id="empresa"
-                  rows="2"
-                  maxlength="100"
-                  placeholder="Razón social completa de la empresa"
-                ></textarea>
-              </div>
-              <div class="char-counter" id="empresaCounter">
-                0 / 100 caracteres
-              </div>
-            </div>
-
-            <div class="campo">
-              <label>📑 RIF <span class="required">*</span></label>
-              <div class="input-wrapper">
-                <input
-                  type="text"
-                  id="rif"
-                  maxlength="12"
-                  placeholder="Ej: J-12345678-9, V-12345678-9"
-                />
-              </div>
-              <div class="char-counter hidden-counter" id="rifCounter">
-                0 / 12 caracteres
-              </div>
-            </div>
-
-            <div class="campo">
-              <label
-                >📍 DIRECCIÓN DEL LOCAL <span class="required">*</span></label
-              >
-              <div class="input-wrapper">
-                <textarea
-                  id="direccion"
-                  rows="3"
-                  maxlength="250"
-                  placeholder="Ingrese la dirección completa del local comercial"
-                ></textarea>
-              </div>
-              <div class="char-counter" id="direccionCounter">
-                0 / 250 caracteres
-              </div>
+            <div class="char-counter hidden-counter" id="solicitudCounter">
+              0 / 10 caracteres
             </div>
           </div>
 
-          <div class="button-group">
-            <button id="generarBtn" disabled>🔄 GENERAR SOLICITUD</button>
-            <button id="generarPdfBtn" class="btn-pdf" disabled>📄 DESCARGAR COMO PDF</button>
+          <div class="campo">
+            <label>REPRESENTANTE LEGAL <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <img src="assets/img/icon-representante.png" alt="Representante legal" />
+              </span>
+              <input type="text" id="representante" maxlength="50"
+                placeholder="Nombre completo del representante legal" />
+            </div>
+            <div class="char-counter" id="representanteCounter">
+              0 / 50 caracteres
+            </div>
           </div>
 
-          <div id="statusMsg" class="status status-loading">
-            ⏳ Cargando librerías y lista de plantillas...
+          <div class="campo">
+            <label>CÉDULA DE IDENTIDAD <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <img src="assets/img/icon-cedula.png" alt="Cédula de identidad" />
+              </span>
+              <input type="text" id="cedula" maxlength="13" placeholder="Ej: V-12345678, E-123456789" />
+            </div>
+            <div class="char-counter hidden-counter" id="cedulaCounter">
+              0 / 13 caracteres
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>EMPRESA / RAZÓN SOCIAL <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <img src="assets/img/icon-empresa.png" alt="Empresa" />
+              </span>
+              <textarea id="empresa" rows="2" maxlength="100"
+                placeholder="Razón social completa de la empresa"></textarea>
+            </div>
+            <div class="char-counter" id="empresaCounter">
+              0 / 100 caracteres
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>RIF <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <img src="assets/img/icon-rif.png" alt="RIF" />
+              </span>
+              <input type="text" id="rif" maxlength="12" placeholder="Ej: J-12345678-9, V-12345678-9" />
+            </div>
+            <div class="char-counter hidden-counter" id="rifCounter">
+              0 / 12 caracteres
+            </div>
+          </div>
+
+          <div class="campo">
+            <label>DIRECCIÓN DEL LOCAL <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <span class="input-icon">
+                <img src="assets/img/icon-direccion.png" alt="Dirección" />
+              </span>
+              <textarea id="direccion" rows="3" maxlength="250"
+                placeholder="Ingrese la dirección completa del local comercial"></textarea>
+            </div>
+            <div class="char-counter" id="direccionCounter">
+              0 / 250 caracteres
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="image-container">
-        <div class="imagen-destacada">
-          <h3>🖼️ RECAUDOS</h3>
-          <div class="imagen-wrapper" id="imgContainer">
-            <div class="no-img">
-              <span class="no-img-icon">📷</span>
-              <br />Selecciona una plantilla<br />para ver su imagen
-            </div>
-          </div>
+        <div class="button-group">
+          <button id="generarBtn" disabled>🔄 GENERAR SOLICITUD</button>
+        </div>
+
+        <div id="statusMsg" class="status status-loading">
+          ⏳ Cargando librerías y lista de plantillas...
         </div>
       </div>
     </div>
 
-    <div id="imageModal" class="modal" onclick="closeModal()">
-      <div class="modal-close" onclick="closeModal()">✕</div>
-      <div class="modal-content" onclick="event.stopPropagation()">
-        <img id="modalImage" src="" alt="Vista ampliada" />
+    <div class="image-container">
+      <div class="imagen-destacada">
+        <h3>RECAUDOS</h3>
+        <div class="imagen-wrapper" id="imgContainer">
+          <div class="no-img">
+            <span class="no-img-icon">📷</span>
+            <br />Selecciona una plantilla<br />para ver su imagen
+          </div>
+        </div>
       </div>
-      <div class="modal-caption" id="modalCaption"></div>
     </div>
+  </div>
 
-    <!-- Dependencias para generar documentos -->
-    <script src="assets/js/pizzip.min.js"></script>
-    <script src="assets/js/FileSaver.min.js"></script>
-    
-    <!-- Dependencias para generar PDF (html2canvas + jsPDF) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <!-- Generador de PDF con recaudos específicos -->
-    <script src="assets/js/pdf-generator.js"></script>
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <img id="modalImage" src="" alt="Vista ampliada" />
+    </div>
+    <div class="modal-caption" id="modalCaption"></div>
+  </div>
 
-    <script>
-      (function () {
-        const solicitudInput = document.getElementById("solicitud");
-        const repInput = document.getElementById("representante");
-        const cedInput = document.getElementById("cedula");
-        const empresaInput = document.getElementById("empresa");
-        const rifInput = document.getElementById("rif");
-        const direccionInput = document.getElementById("direccion");
-        const generarBtn = document.getElementById("generarBtn");
-        const generarPdfBtn = document.getElementById("generarPdfBtn");
-        const statusDiv = document.getElementById("statusMsg");
-        const plantillaSelect = document.getElementById("plantillaSelect");
-        const imgContainer = document.getElementById("imgContainer");
-        const camposFormulario = document.getElementById("camposFormulario");
+  <!-- ==================== TOAST DE NOTIFICACIÓN ==================== -->
+  <div id="toastNotificacion" class="toast-notificacion">
+    <span class="toast-icon">✅</span>
+    <div class="toast-texto">
+      <span class="toast-titulo">Descarga Completada</span>
+      <span class="toast-mensaje" id="toastMensaje">Busque el archivo en su Directorio de Descarga.</span>
+    </div>
+  </div>
 
-        const modal = document.getElementById("imageModal");
-        const modalImage = document.getElementById("modalImage");
-        const modalCaption = document.getElementById("modalCaption");
+  <script src="assets/js/pizzip.min.js"></script>
+  <script src="assets/js/FileSaver.min.js"></script>
 
-        // Contadores (solo los que se mostrarán)
-        const empresaCounter = document.getElementById("empresaCounter");
-        const representanteCounter = document.getElementById("representanteCounter");
-        const direccionCounter = document.getElementById("direccionCounter");
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        const DENUNCIA_NOMBRE =
-          "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias.docx";
+  <script src="assets/js/pdf-generator.js"></script>
 
-        const LIMITS = {
-          solicitud: 10,
-          representante: 50,
-          cedula: 13,
-          empresa: 100,
-          rif: 12,
-          direccion: 250,
-        };
+  <script>
+    (function () {
+      const solicitudInput = document.getElementById("solicitud");
+      const repInput = document.getElementById("representante");
+      const cedInput = document.getElementById("cedula");
+      const empresaInput = document.getElementById("empresa");
+      const rifInput = document.getElementById("rif");
+      const direccionInput = document.getElementById("direccion");
+      const generarBtn = document.getElementById("generarBtn");
+      const statusDiv = document.getElementById("statusMsg");
+      const plantillaSelect = document.getElementById("plantillaSelect");
+      const imgContainer = document.getElementById("imgContainer");
+      const camposFormulario = document.getElementById("camposFormulario");
 
-        let plantillasDisponibles = [];
-        let plantillaBuffer = null;
-        let plantillaCargada = false;
-        let imagenActual = null;
-        let currentImageUrl = null;
+      const modal = document.getElementById("imageModal");
+      const modalImage = document.getElementById("modalImage");
+      const modalCaption = document.getElementById("modalCaption");
 
-        window.openModal = function (imageUrl, plantillaNombre) {
-          if (!imageUrl) return;
-          modalImage.src = imageUrl;
-          modalCaption.textContent =
-            plantillaNombre || "Vista previa de plantilla";
-          modal.classList.add("active");
-          document.body.style.overflow = "hidden";
-        };
+      const empresaCounter = document.getElementById("empresaCounter");
+      const representanteCounter = document.getElementById(
+        "representanteCounter",
+      );
+      const direccionCounter = document.getElementById("direccionCounter");
 
-        window.closeModal = function () {
-          modal.classList.remove("active");
-          document.body.style.overflow = "";
-          modalImage.src = "";
-          modalCaption.textContent = "";
-        };
+      const PLANTILLAS_SIN_CAMPOS = [
+        "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias.docx",
+      ];
 
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && modal.classList.contains("active")) {
-            closeModal();
-          }
-        });
+      const PLANTILLAS_SALUD_RADIOLOGICA = [
+        "Requisitos Salud Radiologica (Conformidad Sanitaria De Ambiente Radiologico).docx",
+        "Requisitos Salud Radiologica (Conformidad Sanitaria De Funcionamiento Radiologico).docx",
+        "Requisitos Salud Radiologica (Rimfri).docx",
+      ];
 
-        // Función para actualizar un contador individual con colores
-        function updateCounter(input, counterElement, limit) {
-          if (!counterElement) return;
-          
-          const len = input.value.length;
-          const remaining = limit - len;
-          
-          counterElement.textContent = `${len} / ${limit} caracteres`;
-          
-          // Cambiar color según la cantidad de caracteres restantes
-          counterElement.classList.remove("warning", "danger");
-          
-          if (remaining <= 0) {
-            counterElement.classList.add("danger");
-          } else if (remaining <= 5) {
-            counterElement.classList.add("warning");
-          }
+      const LIMITS = {
+        solicitud: 10,
+        representante: 50,
+        cedula: 13,
+        empresa: 100,
+        rif: 12,
+        direccion: 250,
+      };
+
+      let plantillasDisponibles = [];
+      let plantillaBuffer = null;
+      let plantillaCargada = false;
+      let imagenActual = null;
+      let currentImageUrl = null;
+
+      // ==================== TOAST DE NOTIFICACIÓN (sin permisos) ====================
+      let toastTimeoutId = null;
+
+      function mostrarToast(mensaje) {
+        const toast = document.getElementById("toastNotificacion");
+        const toastMensaje = document.getElementById("toastMensaje");
+        if (!toast) return;
+
+        if (toastMensaje) {
+          toastMensaje.textContent =
+            mensaje || "Busque el archivo en su Directorio de Descarga.";
         }
 
-        // Función para actualizar SOLO los contadores visibles
-        function updateVisibleCounters() {
-          updateCounter(repInput, representanteCounter, LIMITS.representante);
-          updateCounter(empresaInput, empresaCounter, LIMITS.empresa);
-          updateCounter(direccionInput, direccionCounter, LIMITS.direccion);
+        // Mostrar el toast
+        toast.classList.add("visible");
+
+        // Limpiar timeout anterior si existe
+        if (toastTimeoutId) {
+          clearTimeout(toastTimeoutId);
         }
 
-        function getDisplayNameFromFile(fileName) {
-          if (!fileName) return "";
-          return fileName.replace(/\.docx$/i, "");
+        // Ocultar después de 5 segundos
+        toastTimeoutId = setTimeout(() => {
+          toast.classList.remove("visible");
+        }, 5000);
+      }
+
+      window.openModal = function (imageUrl, plantillaNombre) {
+        if (!imageUrl) return;
+        modalImage.src = imageUrl;
+        modalCaption.textContent =
+          plantillaNombre || "Vista previa de plantilla";
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      };
+
+      window.closeModal = function () {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+        modalImage.src = "";
+        modalCaption.textContent = "";
+      };
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("active")) {
+          closeModal();
         }
+      });
 
-        function esPlantillaDenuncia() {
-          return plantillaSelect.value === DENUNCIA_NOMBRE;
+      function updateCounter(input, counterElement, limit) {
+        if (!counterElement) return;
+
+        const len = input.value.length;
+        const remaining = limit - len;
+
+        counterElement.textContent = `${len} / ${limit} caracteres`;
+
+        counterElement.classList.remove("warning", "danger");
+
+        if (remaining <= 0) {
+          counterElement.classList.add("danger");
+        } else if (remaining <= 5) {
+          counterElement.classList.add("warning");
         }
+      }
 
-        function actualizarEstadoCamposDenuncia() {
-          const esDenuncia = esPlantillaDenuncia();
+      function updateVisibleCounters() {
+        updateCounter(repInput, representanteCounter, LIMITS.representante);
+        updateCounter(empresaInput, empresaCounter, LIMITS.empresa);
+        updateCounter(direccionInput, direccionCounter, LIMITS.direccion);
+      }
 
-          // Obtener todos los contenedores de campos
-          const campos =
-            camposFormulario.querySelectorAll(".campo");
+      function getDisplayNameFromFile(fileName) {
+        if (!fileName) return "";
+        return fileName.replace(/\.docx$/i, "");
+      }
 
-          campos.forEach((campo) => {
-            if (esDenuncia) {
-              campo.classList.add("disabled-field");
-            } else {
-              campo.classList.remove("disabled-field");
-            }
-          });
+      function esPlantillaSinCampos() {
+        return PLANTILLAS_SIN_CAMPOS.includes(plantillaSelect.value);
+      }
 
-          // Limpiar validación de campos vacíos si es denuncia
-          if (esDenuncia) {
-            const allInputs =
-              camposFormulario.querySelectorAll("input, textarea");
-            allInputs.forEach((input) => {
+      function esPlantillaSaludRadiologica() {
+        return PLANTILLAS_SALUD_RADIOLOGICA.includes(plantillaSelect.value);
+      }
+
+      function esPlantillaGenerableWord() {
+        const valor = plantillaSelect.value;
+        return PLANTILLAS_SIN_CAMPOS.includes(valor);
+      }
+
+      function actualizarEstadoCamposEspeciales() {
+        const esSinCampos = esPlantillaSinCampos();
+
+        const campos = camposFormulario.querySelectorAll(".campo");
+
+        campos.forEach((campo) => {
+          if (esSinCampos) {
+            campo.classList.add("disabled-field");
+            const inputs = campo.querySelectorAll("input, textarea");
+            inputs.forEach((input) => {
+              input.value = "";
               input.classList.remove("empty-field");
             });
           } else {
-            markEmptyFields();
+            campo.classList.remove("disabled-field");
           }
+        });
+
+        if (esSinCampos) {
+          const allInputs =
+            camposFormulario.querySelectorAll("input, textarea");
+          allInputs.forEach((input) => {
+            input.classList.remove("empty-field");
+          });
+        } else {
+          markEmptyFields();
         }
+      }
 
-        async function cargarImagenPreview(nombrePlantillaCompleto) {
-          if (imagenActual === nombrePlantillaCompleto) return;
+      function obtenerTipoMensajeEspecial() {
+        const valor = plantillaSelect.value;
+        if (
+          valor ===
+          "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias.docx"
+        ) {
+          return "DENUNCIA";
+        }
+        if (PLANTILLAS_SALUD_RADIOLOGICA.includes(valor)) {
+          return "SALUD RADIOLÓGICA";
+        }
+        return null;
+      }
 
-          if (!nombrePlantillaCompleto) {
-            imgContainer.innerHTML = `
+      async function cargarImagenPreview(nombrePlantillaCompleto) {
+        if (imagenActual === nombrePlantillaCompleto) return;
+
+        if (!nombrePlantillaCompleto) {
+          imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
                         <br>Selecciona una plantilla<br>para ver su imagen
                     </div>
                 `;
-            imagenActual = null;
-            currentImageUrl = null;
-            return;
-          }
+          imagenActual = null;
+          currentImageUrl = null;
+          return;
+        }
 
-          const nombreSinExtension = nombrePlantillaCompleto.replace(
-            /\.docx$/i,
-            "",
-          );
-          const extensiones = ["jpg", "jpeg", "JPG", "JPEG"];
-          let imagenEncontrada = false;
+        const nombreSinExtension = nombrePlantillaCompleto.replace(
+          /\.docx$/i,
+          "",
+        );
+        const extensiones = ["jpg", "jpeg", "JPG", "JPEG"];
+        let imagenEncontrada = false;
 
-          for (const ext of extensiones) {
-            const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
-            try {
-              const response = await fetch(urlImg, { method: "HEAD" });
-              if (response.ok) {
-                currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
-                imgContainer.innerHTML = `
+        for (const ext of extensiones) {
+          const urlImg = `assets/img/${nombreSinExtension}.${ext}?t=${Date.now()}`;
+          try {
+            const response = await fetch(urlImg, {method: "HEAD"});
+            if (response.ok) {
+              currentImageUrl = `assets/img/${nombreSinExtension}.${ext}`;
+              imgContainer.innerHTML = `
                             <img src="${urlImg}" alt="${nombreSinExtension}" 
                                  style="max-width:100%; max-height:450px; border-radius:16px; cursor:pointer;"
                                  onclick="openModal('${currentImageUrl}', '${nombreSinExtension}')"
-                                 onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-img\'><span class=\'no-img-icon\'>❌</span><br>Error al cargar imagen</div>'">
+                                 onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'no-img\\'><span class=\\'no-img-icon\\'>❌</span><br>Error al cargar imagen</div>'">
                         `;
-                imagenEncontrada = true;
-                imagenActual = nombrePlantillaCompleto;
-                break;
-              }
-            } catch (error) {
-              // continue searching
+              imagenEncontrada = true;
+              imagenActual = nombrePlantillaCompleto;
+              break;
             }
+          } catch (error) {
+            // continue searching
           }
+        }
 
-          if (!imagenEncontrada) {
-            imgContainer.innerHTML = `
+        if (!imagenEncontrada) {
+          imgContainer.innerHTML = `
                     <div class="no-img">
                         <span class="no-img-icon">📷</span>
                         <br>No se encontró imagen para:<br>
                         <strong>${nombreSinExtension}.jpg</strong>
                     </div>
                 `;
-            imagenActual = nombrePlantillaCompleto;
-            currentImageUrl = null;
-          }
+          imagenActual = nombrePlantillaCompleto;
+          currentImageUrl = null;
+        }
+      }
+
+      function validarCampos() {
+        if (esPlantillaSinCampos()) {
+          return true;
+        }
+        return checkAllFieldsFilled();
+      }
+
+      function checkAllFieldsFilled() {
+        const solicitud = solicitudInput.value.trim();
+        const representante = repInput.value.trim();
+        const cedula = cedInput.value.trim();
+        const empresa = empresaInput.value.trim();
+        const rif = rifInput.value.trim();
+        const direccion = direccionInput.value.trim();
+
+        const allFilled =
+          solicitud !== "" &&
+          representante !== "" &&
+          cedula !== "" &&
+          empresa !== "" &&
+          rif !== "" &&
+          direccion !== "";
+
+        const esSinCampos = esPlantillaSinCampos();
+
+        generarBtn.disabled = !(plantillaCargada && (esSinCampos || allFilled));
+
+        markEmptyFields();
+        return allFilled;
+      }
+
+      function markEmptyFields() {
+        if (esPlantillaSinCampos()) {
+          return;
         }
 
-        function validarCamposDenuncia() {
-          if (esPlantillaDenuncia()) {
+        const fields = [
+          {element: solicitudInput, value: solicitudInput.value.trim()},
+          {element: repInput, value: repInput.value.trim()},
+          {element: cedInput, value: cedInput.value.trim()},
+          {element: empresaInput, value: empresaInput.value.trim()},
+          {element: rifInput, value: rifInput.value.trim()},
+          {element: direccionInput, value: direccionInput.value.trim()},
+        ];
+
+        fields.forEach((field) => {
+          if (field.value === "") {
+            field.element.classList.add("empty-field");
+          } else {
+            field.element.classList.remove("empty-field");
+          }
+        });
+      }
+
+      function enforceLimit(input, limit) {
+        if (input.value.length > limit) {
+          input.value = input.value.substring(0, limit);
+        }
+        updateVisibleCounters();
+      }
+
+      function setupListeners() {
+        const inputs = [
+          {element: solicitudInput, limit: LIMITS.solicitud},
+          {element: repInput, limit: LIMITS.representante},
+          {element: cedInput, limit: LIMITS.cedula},
+          {element: empresaInput, limit: LIMITS.empresa},
+          {element: rifInput, limit: LIMITS.rif},
+          {element: direccionInput, limit: LIMITS.direccion},
+        ];
+
+        inputs.forEach((input) => {
+          input.element.addEventListener("input", () => {
+            enforceLimit(input.element, input.limit);
+            checkAllFieldsFilled();
+          });
+
+          input.element.addEventListener("keyup", () => {
+            updateVisibleCounters();
+          });
+        });
+
+        updateVisibleCounters();
+      }
+
+      function setStatus(message, type) {
+        statusDiv.innerHTML = message;
+        statusDiv.className = "status";
+        if (type === "success") statusDiv.classList.add("status-success");
+        else if (type === "error") statusDiv.classList.add("status-error");
+        else if (type === "loading")
+          statusDiv.classList.add("status-loading");
+      }
+
+      async function cargarListaPlantillas() {
+        try {
+          const response = await fetch("assets/plantilla/lista.json");
+          if (!response.ok) {
+            plantillasDisponibles = ["PROBANDO1.docx"];
             return true;
           }
-          return checkAllFieldsFilled();
+          const data = await response.json();
+          if (data.plantillas && Array.isArray(data.plantillas)) {
+            plantillasDisponibles = data.plantillas;
+          } else {
+            plantillasDisponibles = ["PROBANDO1.docx"];
+          }
+          return true;
+        } catch (error) {
+          plantillasDisponibles = ["PROBANDO1.docx"];
+          return true;
+        }
+      }
+
+      function actualizarSelect() {
+        plantillaSelect.innerHTML = "";
+        if (plantillasDisponibles.length === 0) {
+          plantillaSelect.innerHTML =
+            '<option value="">-- Sin plantillas --</option>';
+          plantillaSelect.disabled = true;
+          return;
+        }
+        for (const nombreCompleto of plantillasDisponibles) {
+          const option = document.createElement("option");
+          option.value = nombreCompleto;
+          let displayText = getDisplayNameFromFile(nombreCompleto);
+
+          if (
+            nombreCompleto ===
+            "(DENUNCIAS) Requisitos Para Solicitud De Inspección Por Denuncias.docx"
+          ) {
+            displayText += " ⚠️ DENUNCIA";
+          } else if (PLANTILLAS_SALUD_RADIOLOGICA.includes(nombreCompleto)) {
+            displayText += " ☢️ SALUD RADIOLÓGICA";
+            option.className = "salud-radiologica-option";
+          }
+          option.textContent = displayText;
+          plantillaSelect.appendChild(option);
+        }
+        plantillaSelect.disabled = false;
+        plantillaSelect.selectedIndex = 0;
+
+        if (plantillasDisponibles.length > 0) {
+          cargarImagenPreview(plantillasDisponibles[0]);
+        }
+      }
+
+      async function cargarPlantilla(nombreCompleto) {
+        if (!nombreCompleto) return false;
+        const url = `assets/plantilla/${nombreCompleto}`;
+        try {
+          setStatus(
+            `📂 Cargando plantilla "${getDisplayNameFromFile(nombreCompleto)}"...`,
+            "loading",
+          );
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const buffer = await response.arrayBuffer();
+          if (!buffer || buffer.byteLength < 100)
+            throw new Error("Archivo vacío");
+          plantillaBuffer = buffer;
+          plantillaCargada = true;
+
+          const tipoEspecial = obtenerTipoMensajeEspecial();
+          if (tipoEspecial === "DENUNCIA") {
+            setStatus(
+              `✅ Plantilla de DENUNCIA cargada. Los campos han sido deshabilitados. Puede generar el documento directamente usando el botón GENERAR SOLICITUD.`,
+              "success",
+            );
+          } else if (tipoEspecial === "SALUD RADIOLÓGICA") {
+            setStatus(
+              `✅ Plantilla de SALUD RADIOLÓGICA cargada. Complete los campos y presione GENERAR SOLICITUD.`,
+              "success",
+            );
+          } else {
+            setStatus(
+              `✅ Plantilla "${getDisplayNameFromFile(nombreCompleto)}" cargada. Complete los campos para generar PDF.`,
+              "success",
+            );
+          }
+
+          actualizarEstadoCamposEspeciales();
+          checkAllFieldsFilled();
+          return true;
+        } catch (error) {
+          plantillaBuffer = null;
+          plantillaCargada = false;
+          setStatus(
+            `❌ Error cargando "${getDisplayNameFromFile(nombreCompleto)}"`,
+            "error",
+          );
+          generarBtn.disabled = true;
+          return false;
+        }
+      }
+
+      function escapeXmlText(text) {
+        if (!text) return "";
+        return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&apos;");
+      }
+
+      async function reemplazarContentControls(buffer, replacements) {
+        const zip = new window.PizZip(buffer);
+        const documentXmlPath = "word/document.xml";
+
+        if (!zip.files[documentXmlPath]) {
+          throw new Error("No se encontró document.xml en la plantilla");
         }
 
-        function checkAllFieldsFilled() {
+        let documentXml = zip.files[documentXmlPath].asText();
+
+        for (const [controlName, newValue] of Object.entries(replacements)) {
+          const escapedName = controlName.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&",
+          );
+          const escapedValue = escapeXmlText(newValue);
+
+          const patterns = [
+            new RegExp(
+              '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' +
+              escapedName +
+              '(?:\\s+w:autoTag[^>]*)?"/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+              "gi",
+            ),
+            new RegExp(
+              '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' +
+              escapedName +
+              '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+              "gi",
+            ),
+            new RegExp(
+              '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' +
+              escapedName +
+              '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+              "gi",
+            ),
+            new RegExp(
+              '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' +
+              escapedName +
+              '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
+              "gi",
+            ),
+          ];
+
+          let replaced = false;
+
+          for (const pattern of patterns) {
+            if (pattern.test(documentXml)) {
+              documentXml = documentXml.replace(
+                pattern,
+                (match, before, oldContent, after) => {
+                  replaced = true;
+                  return before + escapedValue + after;
+                },
+              );
+              if (replaced) break;
+            }
+          }
+
+          if (!replaced) {
+            console.warn(
+              `⚠️ No se encontró Content Control: "${controlName}"`,
+            );
+          }
+        }
+
+        zip.file(documentXmlPath, documentXml);
+
+        return zip.generate({
+          type: "blob",
+          mimeType:
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          compression: "DEFLATE",
+        });
+      }
+
+      async function generarWord() {
+        const esSinCampos = esPlantillaSinCampos();
+
+        if (!esSinCampos) {
+          setStatus(
+            "❌ Esta función solo está disponible para plantillas de DENUNCIAS.",
+            "error",
+          );
+          return;
+        }
+
+        const plantillaSeleccionadaCompleta = plantillaSelect.value;
+        if (!plantillaSeleccionadaCompleta) {
+          setStatus("❌ Selecciona una plantilla", "error");
+          return;
+        }
+
+        if (!plantillaBuffer) {
+          setStatus("❌ Plantilla no cargada", "error");
+          return;
+        }
+
+        setStatus(`⚙️ Generando documento de DENUNCIA...`, "loading");
+        generarBtn.disabled = true;
+
+        try {
+          const fecha = new Date()
+            .toISOString()
+            .slice(0, 19)
+            .replace(/:/g, "-");
+
+          const nombreArchivo = `DENUNCIA_Requisitos_Inspeccion_${fecha}.docx`;
+
+          const nuevoBlob = new Blob([plantillaBuffer], {
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          });
+          window.saveAs(nuevoBlob, nombreArchivo);
+
+          setStatus(
+            `✅ Descarga Completada, Busque en su Directorio de Descarga.`,
+            "success",
+          );
+          mostrarToast(
+            "El documento de DENUNCIA ha sido descargado correctamente.",
+          );
+        } catch (error) {
+          console.error("❌ Error:", error);
+          setStatus(`❌ Error: ${error.message}`, "error");
+        } finally {
+          if (esSinCampos) {
+            generarBtn.disabled = false;
+          }
+          checkAllFieldsFilled();
+        }
+      }
+
+      async function generarPdf() {
+        const esSinCampos = esPlantillaSinCampos();
+
+        if (esSinCampos) {
+          setStatus(
+            "❌ La generación de PDF no está disponible para DENUNCIAS. Use el botón GENERAR SOLICITUD para descargar el documento Word.",
+            "error",
+          );
+          return;
+        }
+
+        if (typeof window.generarCSOPDF === "function") {
           const solicitud = solicitudInput.value.trim();
           const representante = repInput.value.trim();
           const cedula = cedInput.value.trim();
@@ -911,514 +1447,130 @@
           const rif = rifInput.value.trim();
           const direccion = direccionInput.value.trim();
 
-          const allFilled =
-            solicitud !== "" &&
-            representante !== "" &&
-            cedula !== "" &&
-            empresa !== "" &&
-            rif !== "" &&
-            direccion !== "";
-
-          generarBtn.disabled = !(allFilled && plantillaCargada);
-          generarPdfBtn.disabled = !(allFilled && plantillaCargada);
-          markEmptyFields();
-          return allFilled;
-        }
-
-        function markEmptyFields() {
-          if (esPlantillaDenuncia()) {
-            return;
-          }
-
-          const fields = [
-            { element: solicitudInput, value: solicitudInput.value.trim() },
-            { element: repInput, value: repInput.value.trim() },
-            { element: cedInput, value: cedInput.value.trim() },
-            { element: empresaInput, value: empresaInput.value.trim() },
-            { element: rifInput, value: rifInput.value.trim() },
-            { element: direccionInput, value: direccionInput.value.trim() },
-          ];
-
-          fields.forEach((field) => {
-            if (field.value === "") {
-              field.element.classList.add("empty-field");
-            } else {
-              field.element.classList.remove("empty-field");
-            }
-          });
-        }
-
-        function enforceLimit(input, limit) {
-          if (input.value.length > limit) {
-            input.value = input.value.substring(0, limit);
-          }
-          // Actualizar solo los contadores visibles después de limitar
-          updateVisibleCounters();
-        }
-
-        function setupListeners() {
-          const inputs = [
-            { element: solicitudInput, limit: LIMITS.solicitud },
-            { element: repInput, limit: LIMITS.representante },
-            { element: cedInput, limit: LIMITS.cedula },
-            { element: empresaInput, limit: LIMITS.empresa },
-            { element: rifInput, limit: LIMITS.rif },
-            { element: direccionInput, limit: LIMITS.direccion },
-          ];
-
-          inputs.forEach((input) => {
-            input.element.addEventListener("input", () => {
-              enforceLimit(input.element, input.limit);
-              if (!esPlantillaDenuncia()) {
-                checkAllFieldsFilled();
-              } else {
-                generarBtn.disabled = !plantillaCargada;
-                generarPdfBtn.disabled = !plantillaCargada;
-              }
-            });
-            
-            // También escuchar el evento 'keyup' para asegurar que los contadores se actualicen
-            input.element.addEventListener("keyup", () => {
-              updateVisibleCounters();
-            });
-          });
-
-          // Inicializar solo los contadores visibles
-          updateVisibleCounters();
-        }
-
-        function setStatus(message, type) {
-          statusDiv.innerHTML = message;
-          statusDiv.className = "status";
-          if (type === "success") statusDiv.classList.add("status-success");
-          else if (type === "error") statusDiv.classList.add("status-error");
-          else if (type === "loading")
-            statusDiv.classList.add("status-loading");
-        }
-
-        async function cargarListaPlantillas() {
-          try {
-            const response = await fetch("assets/plantilla/lista.json");
-            if (!response.ok) {
-              plantillasDisponibles = ["PROBANDO1.docx"];
-              return true;
-            }
-            const data = await response.json();
-            if (data.plantillas && Array.isArray(data.plantillas)) {
-              plantillasDisponibles = data.plantillas;
-            } else {
-              plantillasDisponibles = ["PROBANDO1.docx"];
-            }
-            return true;
-          } catch (error) {
-            plantillasDisponibles = ["PROBANDO1.docx"];
-            return true;
-          }
-        }
-
-        function actualizarSelect() {
-          plantillaSelect.innerHTML = "";
-          if (plantillasDisponibles.length === 0) {
-            plantillaSelect.innerHTML =
-              '<option value="">-- Sin plantillas --</option>';
-            plantillaSelect.disabled = true;
-            return;
-          }
-          for (const nombreCompleto of plantillasDisponibles) {
-            const option = document.createElement("option");
-            option.value = nombreCompleto;
-            option.textContent = getDisplayNameFromFile(nombreCompleto);
-            plantillaSelect.appendChild(option);
-          }
-          plantillaSelect.disabled = false;
-          plantillaSelect.selectedIndex = 0;
-
-          if (plantillasDisponibles.length > 0) {
-            cargarImagenPreview(plantillasDisponibles[0]);
-          }
-        }
-
-        async function cargarPlantilla(nombreCompleto) {
-          if (!nombreCompleto) return false;
-          const url = `assets/plantilla/${nombreCompleto}`;
-          try {
+          if (
+            !solicitud ||
+            !representante ||
+            !cedula ||
+            !empresa ||
+            !rif ||
+            !direccion
+          ) {
             setStatus(
-              `📂 Cargando plantilla "${getDisplayNameFromFile(nombreCompleto)}"...`,
-              "loading",
-            );
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const buffer = await response.arrayBuffer();
-            if (!buffer || buffer.byteLength < 100)
-              throw new Error("Archivo vacío");
-            plantillaBuffer = buffer;
-            plantillaCargada = true;
-            setStatus(
-              `✅ Plantilla "${getDisplayNameFromFile(nombreCompleto)}" cargada.`,
-              "success",
-            );
-
-            if (esPlantillaDenuncia()) {
-              generarBtn.disabled = false;
-              generarPdfBtn.disabled = false;
-            } else {
-              checkAllFieldsFilled();
-            }
-            return true;
-          } catch (error) {
-            plantillaBuffer = null;
-            plantillaCargada = false;
-            setStatus(
-              `❌ Error cargando "${getDisplayNameFromFile(nombreCompleto)}"`,
+              "❌ Complete todos los campos obligatorios antes de generar el PDF",
               "error",
             );
-            generarBtn.disabled = true;
-            generarPdfBtn.disabled = true;
-            return false;
-          }
-        }
-
-        function escapeXmlText(text) {
-          if (!text) return "";
-          return text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&apos;");
-        }
-
-        async function reemplazarContentControls(buffer, replacements) {
-          const zip = new window.PizZip(buffer);
-          const documentXmlPath = "word/document.xml";
-
-          if (!zip.files[documentXmlPath]) {
-            throw new Error("No se encontró document.xml en la plantilla");
+            return;
           }
 
-          let documentXml = zip.files[documentXmlPath].asText();
+          const datosFormulario = {
+            solicitud: solicitudInput.value.trim() || "SOLICITUD",
+            representante: repInput.value.trim() || "REPRESENTANTE LEGAL",
+            cedula: cedInput.value.trim() || "V-00000000",
+            empresa: empresaInput.value.trim() || "EMPRESA S.A.",
+            rif: rifInput.value.trim() || "J-00000000-0",
+            direccion:
+              direccionInput.value.trim() || "DIRECCIÓN NO ESPECIFICADA",
+          };
 
-          for (const [controlName, newValue] of Object.entries(replacements)) {
-            const escapedName = controlName.replace(
-              /[.*+?^${}()|[\]\\]/g,
-              "\\$&",
+          const plantillaSeleccionada = plantillaSelect.value;
+
+          if (!plantillaSeleccionada) {
+            setStatus("❌ Seleccione una plantilla primero", "error");
+            return;
+          }
+
+          setStatus(
+            "📄 Generando PDF (tamaño carta, márgenes 1.5cm)...",
+            "loading",
+          );
+
+          window.generarCSOPDF(datosFormulario, plantillaSeleccionada);
+
+          setTimeout(() => {
+            setStatus(
+              "✅ Descarga Completada, Busque en su Directorio de Descarga.",
+              "success",
             );
-            const escapedValue = escapeXmlText(newValue);
-
-            const patterns = [
-              new RegExp(
-                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' +
-                  escapedName +
-                  '(?:\\s+w:autoTag[^>]*)?"/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
-                "gi",
-              ),
-              new RegExp(
-                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' +
-                  escapedName +
-                  '"[^>]*/>[\\s\\S]*?<w:text[^>]*>(?:[\\s\\S]*?)<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
-                "gi",
-              ),
-              new RegExp(
-                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:alias\\s+w:val="' +
-                  escapedName +
-                  '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
-                "gi",
-              ),
-              new RegExp(
-                '(<w:sdt[^>]*>(?:[\\s\\S]*?)<w:tag\\s+w:val="' +
-                  escapedName +
-                  '"[^>]*/>[\\s\\S]*?<w:t[^>]*>)([\\s\\S]*?)(</w:t>)',
-                "gi",
-              ),
-            ];
-
-            let replaced = false;
-
-            for (const pattern of patterns) {
-              if (pattern.test(documentXml)) {
-                documentXml = documentXml.replace(
-                  pattern,
-                  (match, before, oldContent, after) => {
-                    replaced = true;
-                    return before + escapedValue + after;
-                  },
-                );
-                if (replaced) break;
-              }
-            }
-
-            if (!replaced) {
-              console.warn(
-                `⚠️ No se encontró Content Control: "${controlName}"`,
-              );
-            }
-          }
-
-          zip.file(documentXmlPath, documentXml);
-
-          return zip.generate({
-            type: "blob",
-            mimeType:
-              "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            compression: "DEFLATE",
-          });
+            mostrarToast("El PDF ha sido descargado correctamente.");
+          }, 3000);
+        } else {
+          setStatus(
+            "❌ Error: Generador de PDF no disponible. Verifique que pdf-generator.js esté cargado correctamente.",
+            "error",
+          );
         }
+      }
 
-        async function generarWord() {
-          const esDenuncia = esPlantillaDenuncia();
+      async function inicializar() {
+        const pizzipOk = typeof window.PizZip !== "undefined";
+        const saveAsOk = typeof window.saveAs !== "undefined";
 
-          if (!esDenuncia) {
-            let solicitud = solicitudInput.value.trim();
-            let representante = repInput.value.trim();
-            let cedula = cedInput.value.trim();
-            let empresa = empresaInput.value.trim();
-            let rif = rifInput.value.trim();
-            let direccion = direccionInput.value.trim();
-
-            if (solicitud.length > LIMITS.solicitud)
-              solicitud = solicitud.substring(0, LIMITS.solicitud);
-            if (representante.length > LIMITS.representante)
-              representante = representante.substring(0, LIMITS.representante);
-            if (cedula.length > LIMITS.cedula)
-              cedula = cedula.substring(0, LIMITS.cedula);
-            if (empresa.length > LIMITS.empresa)
-              empresa = empresa.substring(0, LIMITS.empresa);
-            if (rif.length > LIMITS.rif) rif = rif.substring(0, LIMITS.rif);
-            if (direccion.length > LIMITS.direccion)
-              direccion = direccion.substring(0, LIMITS.direccion);
-
-            if (!solicitud) solicitud = "SOLICITUD";
-            if (!representante) representante = "REPRESENTANTE";
-            if (!cedula) cedula = "V-00000000";
-            if (!empresa) empresa = "EMPRESA S.A";
-            if (!rif) rif = "J-00000000-0";
-            if (!direccion) direccion = "DIRECCIÓN NO ESPECIFICADA";
-
-            if (
-              !solicitudInput.value.trim() ||
-              !repInput.value.trim() ||
-              !cedInput.value.trim() ||
-              !empresaInput.value.trim() ||
-              !rifInput.value.trim() ||
-              !direccionInput.value.trim()
-            ) {
-              setStatus("❌ Complete todos los campos obligatorios", "error");
-              return;
-            }
-
-            const plantillaSeleccionadaCompleta = plantillaSelect.value;
-            if (!plantillaSeleccionadaCompleta) {
-              setStatus("❌ Selecciona una plantilla", "error");
-              return;
-            }
-
-            if (!plantillaBuffer) {
-              setStatus("❌ Plantilla no cargada", "error");
-              return;
-            }
-
-            setStatus("⚙️ Procesando Content Controls...", "loading");
-            generarBtn.disabled = true;
-            generarPdfBtn.disabled = true;
-
-            try {
-              const replacements = {
-                SOLICITUD: solicitud,
-                "REPRESENTANTE LEGAL": representante,
-                CEDULA: cedula,
-                EMPRESA: empresa,
-                RIF: rif,
-                DIRECCION: direccion,
-              };
-
-              const nuevoBlob = await reemplazarContentControls(
-                plantillaBuffer,
-                replacements,
-              );
-
-              if (!nuevoBlob || nuevoBlob.size < 1000) {
-                throw new Error("El archivo generado es demasiado pequeño");
-              }
-
-              const fecha = new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace(/:/g, "-");
-              const nombreBase = representante
-                .replace(/\s+/g, "_")
-                .substring(0, 30);
-              const nombrePlantillaDisplay = getDisplayNameFromFile(
-                plantillaSeleccionadaCompleta,
-              );
-              const nombreArchivo = `CONFORMIDAD_${nombrePlantillaDisplay}_${nombreBase}_${fecha}.docx`;
-
-              window.saveAs(nuevoBlob, nombreArchivo);
-              setStatus(`✅ DOCUMENTO GENERADO EXITOSAMENTE.`, "success");
-            } catch (error) {
-              console.error("❌ Error:", error);
-              setStatus(`❌ Error: ${error.message}`, "error");
-            } finally {
-              generarBtn.disabled = false;
-              generarPdfBtn.disabled = false;
-              checkAllFieldsFilled();
-            }
-          } else {
-            const plantillaSeleccionadaCompleta = plantillaSelect.value;
-            if (!plantillaSeleccionadaCompleta) {
-              setStatus("❌ Selecciona una plantilla", "error");
-              return;
-            }
-
-            if (!plantillaBuffer) {
-              setStatus("❌ Plantilla no cargada", "error");
-              return;
-            }
-
-            setStatus("⚙️ Generando documento de DENUNCIA...", "loading");
-            generarBtn.disabled = true;
-            generarPdfBtn.disabled = true;
-
-            try {
-              const fecha = new Date()
-                .toISOString()
-                .slice(0, 19)
-                .replace(/:/g, "-");
-              const nombreArchivo = `DENUNCIA_Requisitos_Inspeccion_${fecha}.docx`;
-
-              const nuevoBlob = new Blob([plantillaBuffer], {
-                type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-              });
-
-              window.saveAs(nuevoBlob, nombreArchivo);
-              setStatus(
-                `✅ DOCUMENTO DE DENUNCIA GENERADO EXITOSAMENTE.`,
-                "success",
-              );
-            } catch (error) {
-              console.error("❌ Error:", error);
-              setStatus(`❌ Error: ${error.message}`, "error");
-            } finally {
-              generarBtn.disabled = false;
-              generarPdfBtn.disabled = false;
-            }
-          }
-        }
-
-        async function inicializar() {
-          const pizzipOk = typeof window.PizZip !== "undefined";
-          const saveAsOk = typeof window.saveAs !== "undefined";
-
-          if (!pizzipOk || !saveAsOk) {
-            setStatus("❌ Error: Librerías no cargadas", "error");
-            generarBtn.disabled = true;
-            generarPdfBtn.disabled = true;
-            return;
-          }
-
-          setupListeners();
-
-          setStatus("📋 Cargando lista de plantillas...", "loading");
-          await cargarListaPlantillas();
-
-          if (plantillasDisponibles.length === 0) {
-            setStatus("❌ No hay plantillas disponibles", "error");
-            generarBtn.disabled = true;
-            generarPdfBtn.disabled = true;
-            return;
-          }
-
-          actualizarSelect();
-          const primeraPlantillaCompleta = plantillasDisponibles[0];
-          await cargarPlantilla(primeraPlantillaCompleta);
-
-          if (plantillaCargada) {
-            actualizarEstadoCamposDenuncia();
-            setStatus("✅ Listo. Completa todos los campos.", "success");
-          }
-        }
-
-        plantillaSelect.addEventListener("change", async function () {
-          const nombreCompleto = plantillaSelect.value;
-          if (!nombreCompleto) return;
-
-          await cargarImagenPreview(nombreCompleto);
-
+        if (!pizzipOk || !saveAsOk) {
+          setStatus("❌ Error: Librerías no cargadas", "error");
           generarBtn.disabled = true;
-          generarPdfBtn.disabled = true;
-          await cargarPlantilla(nombreCompleto);
-          if (plantillaCargada) {
-            actualizarEstadoCamposDenuncia();
-            if (esPlantillaDenuncia()) {
-              generarBtn.disabled = false;
-              generarPdfBtn.disabled = false;
-              setStatus(
-                "✅ Plantilla de DENUNCIA cargada. Puede generar el documento directamente.",
-                "success",
-              );
-            } else {
-              checkAllFieldsFilled();
-            }
-          }
-        });
+          return;
+        }
 
-        generarBtn.addEventListener("click", generarWord);
-        
-        // Evento para el botón PDF - usa el nombre de la plantilla seleccionada
-        generarPdfBtn.addEventListener("click", function() {
-          if (typeof window.generarCSOPDF === 'function') {
-            // Verificar que los campos estén completos (si no es denuncia)
-            if (!esPlantillaDenuncia()) {
-              const solicitud = solicitudInput.value.trim();
-              const representante = repInput.value.trim();
-              const cedula = cedInput.value.trim();
-              const empresa = empresaInput.value.trim();
-              const rif = rifInput.value.trim();
-              const direccion = direccionInput.value.trim();
-              
-              if (!solicitud || !representante || !cedula || !empresa || !rif || !direccion) {
-                setStatus("❌ Complete todos los campos obligatorios antes de generar el PDF", "error");
-                return;
-              }
-            }
-            
-            // Obtener datos del formulario
-            const datosFormulario = {
-              solicitud: solicitudInput.value.trim() || "SOLICITUD",
-              representante: repInput.value.trim() || "REPRESENTANTE LEGAL",
-              cedula: cedInput.value.trim() || "V-00000000",
-              empresa: empresaInput.value.trim() || "EMPRESA S.A.",
-              rif: rifInput.value.trim() || "J-00000000-0",
-              direccion: direccionInput.value.trim() || "DIRECCIÓN NO ESPECIFICADA"
-            };
-            
-            // Obtener el nombre completo de la plantilla (valor del select)
-            const plantillaSeleccionada = plantillaSelect.value;
-            
-            if (!plantillaSeleccionada) {
-              setStatus("❌ Seleccione una plantilla primero", "error");
-              return;
-            }
-            
-            setStatus("📄 Generando PDF (tamaño carta, márgenes 1.5cm)...", "loading");
-            
-            // Llamar a la función del PDF con el nombre completo de la plantilla
-            window.generarCSOPDF(datosFormulario, plantillaSeleccionada);
-            
-            // Restaurar mensaje después de un tiempo
-            setTimeout(() => {
-              if (!esPlantillaDenuncia()) {
-                setStatus("✅ Listo. Puede continuar.", "success");
-              } else {
-                setStatus("✅ Plantilla de DENUNCIA cargada.", "success");
-              }
-            }, 3000);
+        setupListeners();
+
+        setStatus("📋 Cargando lista de plantillas...", "loading");
+        await cargarListaPlantillas();
+
+        if (plantillasDisponibles.length === 0) {
+          setStatus("❌ No hay plantillas disponibles", "error");
+          generarBtn.disabled = true;
+          return;
+        }
+
+        actualizarSelect();
+        const primeraPlantillaCompleta = plantillasDisponibles[0];
+        await cargarPlantilla(primeraPlantillaCompleta);
+
+        if (plantillaCargada) {
+          actualizarEstadoCamposEspeciales();
+          setStatus("✅ Listo. Completa todos los campos.", "success");
+        }
+      }
+
+      plantillaSelect.addEventListener("change", async function () {
+        const nombreCompleto = plantillaSelect.value;
+        if (!nombreCompleto) return;
+
+        await cargarImagenPreview(nombreCompleto);
+
+        generarBtn.disabled = true;
+        await cargarPlantilla(nombreCompleto);
+        if (plantillaCargada) {
+          actualizarEstadoCamposEspeciales();
+          if (esPlantillaSinCampos()) {
+            generarBtn.disabled = false;
+            setStatus(
+              `✅ Plantilla de DENUNCIA cargada. Los campos han sido deshabilitados. Puede generar el documento directamente usando el botón GENERAR SOLICITUD.`,
+              "success",
+            );
+          } else if (esPlantillaSaludRadiologica()) {
+            setStatus(
+              `✅ Plantilla de SALUD RADIOLÓGICA cargada. Complete los campos para generar el PDF.`,
+              "success",
+            );
+            checkAllFieldsFilled();
           } else {
-            setStatus("❌ Error: Generador de PDF no disponible. Verifique que pdf-generator.js esté cargado correctamente.", "error");
+            checkAllFieldsFilled();
           }
-        });
-        
-        inicializar();
-      })();
-    </script>
-  </body>
+        }
+      });
+
+      generarBtn.addEventListener("click", function () {
+        if (esPlantillaSinCampos()) {
+          generarWord();
+        } else {
+          generarPdf();
+        }
+      });
+
+      inicializar();
+    })();
+  </script>
+</body>
+
 </html>
