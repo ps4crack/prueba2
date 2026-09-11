@@ -353,7 +353,6 @@ const recaudosPorTipo = {
   // ==================== NUEVOS: SALUD RADIOLÓGICA ====================
   "Conformidad Sanitaria De Ambiente Radiologico": {
     titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE AMBIENTE RADIOLÓGICO",
-    // Usamos el mismo título para la tabla de recaudos
     tituloTabla: "REQUISITOS PARA CONFORMIDAD SANITARIA DE AMBIENTE RADIOLÓGICO",
     lista: [
       "Ordenar 2 carpetas con separadores debidamente identificados.",
@@ -376,7 +375,6 @@ const recaudosPorTipo = {
   },
   "Conformidad Sanitaria De Funcionamiento Radiologico": {
     titulo: "REQUISITOS PARA CONFORMIDAD SANITARIA DE FUNCIONAMIENTO RADIOLÓGICO",
-    // Usamos el mismo título para la tabla de recaudos
     tituloTabla: "REQUISITOS PARA CONFORMIDAD SANITARIA DE FUNCIONAMIENTO RADIOLÓGICO",
     lista: [
       "Ordenar 2 carpetas con separadores debidamente identificados. Ambas carpetas deben contener:",
@@ -395,7 +393,6 @@ const recaudosPorTipo = {
   },
   "Requisitos Para La Solicitud De RIMFRI": {
     titulo: "REQUISITOS PARA LA SOLICITUD DE RIMFRI",
-    // Usamos el mismo título para la tabla de recaudos
     tituloTabla: "REQUISITOS PARA LA SOLICITUD DE RIMFRI",
     lista: [
       "Conformidad sanitaria de ocupación empresas.",
@@ -442,11 +439,9 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
   const esDotacion = data.titulo === "REQUISITOS PARA SOLICITUD DOTACIÓN SANITARIA";
 
   // ==================== DETERMINAR EL TEXTO DEL PERMISO PARA SALUD RADIOLÓGICA ====================
-  // Obtener el tipo de CSO a partir del título de la tabla (data.titulo)
   const tituloTabla = data.titulo || data.tituloTabla || "";
   let textoPermiso = "de la Conformidad Sanitaria de Ocupación del establecimiento (CSO):";
   
-  // Detectar si es Salud Radiológica y cambiar el texto según corresponda
   if (tituloTabla.includes("AMBIENTE RADIOLÓGICO") || tituloTabla.includes("AMBIENTE RADIOLOGICO")) {
     textoPermiso = "de la Conformidad Sanitaria de Ambiente Radiologico:";
   } else if (tituloTabla.includes("FUNCIONAMIENTO RADIOLÓGICO") || tituloTabla.includes("FUNCIONAMIENTO RADIOLOGICO")) {
@@ -504,7 +499,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
     .right { text-align: right; }
     .justify { text-align: justify; }
     
-    /* Líneas */
     .line {
       display: inline-block;
       border-bottom: 1px solid #000;
@@ -537,7 +531,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
       margin-top: 5px;
     }
     
-    /* Títulos de impresión */
     .print-title {
       font-size: ${titleSize}pt;
       font-weight: bold;
@@ -560,7 +553,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
       margin-bottom: 15px;
     }
     
-    /* Tabla de recaudos */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -579,7 +571,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
       text-align: center;
     }
     
-    /* Declaración jurada */
     .declaracion-jurada {
       margin-top: 2px;
       margin-bottom: 2px;
@@ -587,7 +578,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
       text-align: justify;
     }
     
-    /* Nota adicional */
     .nota-adicional {
       border: 1px solid #000;
       padding: 2px 4px;
@@ -596,7 +586,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
       text-align: justify;
     }
     
-    /* Firma */
     .signature {
       margin-top: 50px;
       text-align: center;
@@ -608,7 +597,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
       padding-top: 5px;
     }
     
-    /* Tabla de pie */
     .footer-table td {
       height: 120px;
       padding: 8px;
@@ -617,7 +605,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
 </head>
 <body>
 <div class="container">
-  <!-- ==================== SECCIÓN MEMBRETE ==================== -->
   <div class="print-title">${escapeHtml(data.titulo)}</div>
   
   <div class="fecha-line">
@@ -647,7 +634,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
     <div class="linea-completa">${escapeHtml(direccion)}</div>
   </div>
   
-  <!-- ==================== SECCIÓN RECAUDO ==================== -->
   <table>
     <thead>
       <tr>
@@ -666,7 +652,6 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
     </tbody>
   </table>
   
-  <!-- ==================== SECCIÓN JURAMENTO ==================== -->
   <div class="declaracion-jurada">
     DECLARO BAJO JURAMENTO la veracidad de la información suministrada
     y que los documentos entregados en esta solicitud de Permiso
@@ -677,12 +662,10 @@ function generarHTMLDocumento(datos, data, modoCompacto = false) {
     a los timbres fiscales.
   </div>
   
-  <!-- ==================== NOTA ADICIONAL ==================== -->
   <div class="nota-adicional">
     <strong>Nota:</strong> Los recaudos deben ser consignados por el representante legal, por una persona autorizada mediante poder notariado o, en su defecto, por un trabajador de la organización que presente los soportes que acrediten su vínculo laboral.
   </div>
   
-  <!-- ==================== SECCIÓN FIRMA FINAL ==================== -->
   <div class="signature">
     <div class="signature-line"></div>
     Representante Legal
@@ -730,7 +713,7 @@ function escapeHtml(text) {
     .replace(/'/g, "&#39;");
 }
 
-// ==================== FUNCIÓN PRINCIPAL PARA GENERAR PDF ====================
+// ==================== FUNCIÓN PRINCIPAL PARA GENERAR PDF (ASYNC) ====================
 async function generarCSOPDF(datosFormulario, nombrePlantilla) {
   const claveCSO = determinarTipoCSO(nombrePlantilla);
   const data = recaudosPorTipo[claveCSO];
@@ -739,11 +722,10 @@ async function generarCSOPDF(datosFormulario, nombrePlantilla) {
     console.error("Tipo de CSO no encontrado:", claveCSO);
     alert(`Error: No se encontraron los requisitos para "${nombrePlantilla}". Se generará con el formato por defecto.`);
     const dataDefault = recaudosPorTipo["Conformidad Sanitaria De Ocupación Para Granjas"];
-    await generarPDFConDatos(datosFormulario, dataDefault);
-    return;
+    return await generarPDFConDatos(datosFormulario, dataDefault);
   }
 
-  await generarPDFConDatos(datosFormulario, data);
+  return await generarPDFConDatos(datosFormulario, data);
 }
 
 async function generarPDFConDatos(datosFormulario, data) {
@@ -803,9 +785,12 @@ async function generarPDFConDatos(datosFormulario, data) {
     
     console.log(`✅ PDF generado - Modo compacto: ${modoCompacto}`);
     
+    return true;  // ✅ DEVOLVEMOS true CUANDO TERMINA BIEN
+    
   } catch (error) {
     console.error("Error al generar PDF:", error);
     alert("Error al generar el PDF. Verifique la consola para más detalles.");
+    return false; // ❌ DEVOLVEMOS false SI HAY ERROR
   } finally {
     document.body.removeChild(tempDiv);
   }
